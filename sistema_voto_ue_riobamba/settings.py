@@ -40,6 +40,8 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # <-- AÑADIR AQUÍ
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -165,4 +167,7 @@ DEFAULT_FROM_EMAIL = 'Sistema de Votación UE DEL MILENIO 11 DE NOVIEMBRE <cloud
 #SITE_URL = 'https://escuelariobamba.com'
 
 # Configuración de seguridad para HTTPS en producción
+# Comprimir y cachear estáticos
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
 

@@ -15,4 +15,6 @@ urlpatterns = [
 
     #Descargar backup
     path('descargar_backup/', descargar_backup_sqlite, name='descargar_backup'),
+
+    
 ]
