@@ -1,0 +1,396 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<style>
+/* Estilo de prueba */
+body {
+    background-color: red !important;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- Sección de docentes -->
+<section class="docentes">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section-heading">
+                    <h1>Nuestro Cuerpo Docente</h1>
+                    <p>Conoce a nuestro equipo de docentes altamente calificados</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filtros por área -->
+        <div class="row">
+            <div class="col-12 text-center">
+                <h5 class="mb-3">Filtrar por área:</h5>
+                <div class="docentes-carousel">
+                    <div class="owl-nav">
+                        <button type="button" class="owl-prev">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button type="button" class="owl-next">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div class="filtro-docentes">
+                        <button class="btn btn-outline-primary active" data-area="todos">Todos</button>
+                        <button class="btn btn-outline-primary" data-area="matematicas">Matemáticas</button>
+                        <button class="btn btn-outline-primary" data-area="lenguaje">Lenguaje</button>
+                        <button class="btn btn-outline-primary" data-area="ciencias">Ciencias</button>
+                        <button class="btn btn-outline-primary" data-area="sociales">Sociales</button>
+                        <button class="btn btn-outline-primary" data-area="idiomas">Idiomas</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Listado de docentes -->
+        <div class="row" id="contenedor-docentes">
+            <!-- Docente 1 -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" data-areas="matematicas">
+                <div class="docente-card" data-bs-toggle="modal" data-bs-target="#docenteModal1">
+                    <div class="docente-header">
+                        <div class="docente-avatar">
+                            <div class="docente-avatar-iniciales">MG</div>
+                        </div>
+                        <span class="docente-specialty">Matemáticas</span>
+                    </div>
+                    <div class="docente-body">
+                        <h3 class="docente-name">Martín García</h3>
+                        <p class="docente-title">Profesor de Matemáticas</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Docente 2 -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" data-areas="lenguaje">
+                <div class="docente-card" data-bs-toggle="modal" data-bs-target="#docenteModal2">
+                    <div class="docente-header">
+                        <div class="docente-avatar">
+                            <div class="docente-avatar-iniciales">ML</div>
+                        </div>
+                        <span class="docente-specialty">Lenguaje</span>
+                    </div>
+                    <div class="docente-body">
+                        <h3 class="docente-name">María López</h3>
+                        <p class="docente-title">Profesora de Lengua</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Docente 3 -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" data-areas="ciencias">
+                <div class="docente-card" data-bs-toggle="modal" data-bs-target="#docenteModal3">
+                    <div class="docente-header">
+                        <div class="docente-avatar">
+                            <div class="docente-avatar-iniciales">CP</div>
+                        </div>
+                        <span class="docente-specialty">Ciencias</span>
+                    </div>
+                    <div class="docente-body">
+                        <h3 class="docente-name">Carlos Pérez</h3>
+                        <p class="docente-title">Profesor de Física</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Docente 4 -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" data-areas="matematicas">
+                <div class="docente-card" data-bs-toggle="modal" data-bs-target="#docenteModal4">
+                    <div class="docente-header">
+                        <div class="docente-avatar">
+                            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Ana Martínez">
+                        </div>
+                        <span class="docente-specialty">Matemáticas</span>
+                    </div>
+                    <div class="docente-body">
+                        <h3 class="docente-name">Ana Martínez</h3>
+                        <p class="docente-title">Profesora de Matemáticas Avanzadas</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Docente 5 -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" data-areas="sociales">
+                <div class="docente-card" data-bs-toggle="modal" data-bs-target="#docenteModal5">
+                    <div class="docente-header">
+                        <div class="docente-avatar">
+                            <div class="docente-avatar-iniciales">JP</div>
+                        </div>
+                        <span class="docente-specialty">Sociales</span>
+                    </div>
+                    <div class="docente-body">
+                        <h3 class="docente-name">Juan Pérez</h3>
+                        <p class="docente-title">Profesor de Historia</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Docente 6 -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" data-areas="idiomas">
+                <div class="docente-card" data-bs-toggle="modal" data-bs-target="#docenteModal6">
+                    <div class="docente-header">
+                        <div class="docente-avatar">
+                            <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Laura Sánchez">
+                        </div>
+                        <span class="docente-specialty">Idiomas</span>
+                    </div>
+                    <div class="docente-body">
+                        <h3 class="docente-name">Laura Sánchez</h3>
+                        <p class="docente-title">Profesora de Inglés</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- Cierre del container py-5 -->
+</section> <!-- Cierre de la sección docentes-bg -->
+
+<!-- Modales de Docentes -->
+<!-- Modal Docente 1 - Martín García -->
+<div class="modal fade" id="docenteModal1" tabindex="-1" aria-labelledby="docenteModal1Label" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="docenteModal1Label">Perfil Docente</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4 text-center">
+                        <div class="docente-iniciales bg-primary mb-3">
+                            MG
+                        </div>
+                        <h4>Martín García</h4>
+                        <p class="text-muted">Docente de Matemáticas</p>
+                        <div class="mb-3">
+                            <span class="badge bg-primary">Matemáticas</span>
+                            <span class="badge bg-secondary">Cálculo</span>
+                        </div>
+                        <div class="social-links">
+                            <a href="#" class="text-primary me-2"><i class="fab fa-linkedin fa-lg"></i></a>
+                            <a href="#" class="text-success me-2"><i class="fab fa-whatsapp fa-lg"></i></a>
+                            <a href="#" class="text-info"><i class="fas fa-envelope fa-lg"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="mb-4">
+                            <h5><i class="fas fa-graduation-cap text-primary me-2"></i>Formación Académica</h5>
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Máster en Educación Matemática - Universidad de Cuenca</li>
+                                <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Ingeniero en Estadística - ESPOCH</li>
+                                <li><i class="fas fa-check-circle text-success me-2"></i>Diplomado en Docencia Universitaria</li>
+                            </ul>
+                        </div>
+                        <div class="mb-4">
+                            <h5><i class="fas fa-briefcase text-primary me-2"></i>Experiencia</h5>
+                            <p>Más de 15 años de experiencia docente en instituciones educativas de nivel medio y superior, especializado en la enseñanza de matemáticas avanzadas y resolución de problemas.</p>
+                        </div>
+                        <div>
+                            <h5><i class="fas fa-book text-primary me-2"></i>Asignaturas que imparte</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2"><i class="fas fa-calculator text-info me-2"></i>Matemáticas Básicas</li>
+                                        <li class="mb-2"><i class="fas fa-calculator text-info me-2"></i>Cálculo Diferencial</li>
+                                        <li><i class="fas fa-calculator text-info me-2"></i>Álgebra Lineal</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2"><i class="fas fa-calculator text-info me-2"></i>Estadística Descriptiva</li>
+                                        <li><i class="fas fa-calculator text-info me-2"></i>Probabilidades</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <a href="#" class="btn btn-primary"><i class="fas fa-envelope me-2"></i>Contactar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Docente 2 - María López -->
+<div class="modal fade" id="docenteModal2" tabindex="-1" aria-labelledby="docenteModal2Label" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title" id="docenteModal2Label">Perfil Docente</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4 text-center">
+                        <div class="docente-iniciales bg-success mb-3">
+                            ML
+                        </div>
+                        <h4>María López</h4>
+                        <p class="text-muted">Docente de Lengua y Literatura</p>
+                        <div class="mb-3">
+                            <span class="badge bg-success">Literatura</span>
+                            <span class="badge bg-secondary">Lingüística</span>
+                        </div>
+                        <div class="social-links">
+                            <a href="#" class="text-primary me-2"><i class="fab fa-linkedin fa-lg"></i></a>
+                            <a href="#" class="text-success me-2"><i class="fab fa-whatsapp fa-lg"></i></a>
+                            <a href="#" class="text-info"><i class="fas fa-envelope fa-lg"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="mb-4">
+                            <h5><i class="fas fa-graduation-cap text-success me-2"></i>Formación Académica</h5>
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Máster en Literatura Hispanoamericana - Universidad de Cuenca</li>
+                                <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Licenciada en Lengua y Literatura - UTPL</li>
+                                <li><i class="fas fa-check-circle text-success me-2"></i>Diplomado en Enseñanza de la Lectura</li>
+                            </ul>
+                        </div>
+                        <div class="mb-4">
+                            <h5><i class="fas fa-briefcase text-success me-2"></i>Experiencia</h5>
+                            <p>12 años de experiencia en la enseñanza de lengua y literatura, con énfasis en la promoción de la lectura y la escritura creativa. Autora de varios ensayos literarios publicados.</p>
+                        </div>
+                        <div>
+                            <h5><i class="fas fa-book text-success me-2"></i>Asignaturas que imparte</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2"><i class="fas fa-book text-info me-2"></i>Literatura Universal</li>
+                                        <li class="mb-2"><i class="fas fa-book text-info me-2"></i>Literatura Hispanoamericana</li>
+                                        <li><i class="fas fa-book text-info me-2"></i>Taller de Lectura y Escritura</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2"><i class="fas fa-book text-info me-2"></i>Análisis Literario</li>
+                                        <li><i class="fas fa-book text-info me-2"></i>Redacción Académica</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <a href="#" class="btn btn-success"><i class="fas fa-envelope me-2"></i>Contactar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Docente 3 - Carlos Pérez -->
+<div class="modal fade" id="docenteModal3" tabindex="-1" aria-labelledby="docenteModal3Label" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-warning text-white">
+                <h5 class="modal-title" id="docenteModal3Label">Perfil Docente</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4 text-center">
+                        <div class="docente-iniciales bg-warning mb-3">
+                            CP
+                        </div>
+                        <h4>Carlos Pérez</h4>
+                        <p class="text-muted">Docente de Física</p>
+                        <div class="mb-3">
+                            <span class="badge bg-warning text-dark">Física</span>
+                            <span class="badge bg-secondary">Matemáticas</span>
+                        </div>
+                        <div class="social-links">
+                            <a href="#" class="text-primary me-2"><i class="fab fa-linkedin fa-lg"></i></a>
+                            <a href="#" class="text-success me-2"><i class="fab fa-whatsapp fa-lg"></i></a>
+                            <a href="#" class="text-info"><i class="fas fa-envelope fa-lg"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="mb-4">
+                            <h5><i class="fas fa-graduation-cap text-warning me-2"></i>Formación Académica</h5>
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>PhD en Física Teórica - Universidad Central</li>
+                                <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Máster en Enseñanza de las Ciencias - UNAM</li>
+                                <li><i class="fas fa-check-circle text-success me-2"></i>Ingeniero Físico - ESPE</li>
+                            </ul>
+                        </div>
+                        <div class="mb-4">
+                            <h5><i class="fas fa-briefcase text-warning me-2"></i>Experiencia</h5>
+                            <p>15 años de experiencia docente en física y matemáticas, con énfasis en la enseñanza mediante métodos experimentales y resolución de problemas. Investigador en el área de física de partículas.</p>
+                        </div>
+                        <div>
+                            <h5><i class="fas fa-book text-warning me-2"></i>Asignaturas que imparte</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2"><i class="fas fa-atom text-info me-2"></i>Física General</li>
+                                        <li class="mb-2"><i class="fas fa-atom text-info me-2"></i>Mecánica Clásica</li>
+                                        <li><i class="fas fa-atom text-info me-2"></i>Electromagnetismo</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2"><i class="fas fa-atom text-info me-2"></i>Termodinámica</li>
+                                        <li><i class="fas fa-atom text-info me-2"></i>Física Cuántica</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <a href="#" class="btn btn-warning"><i class="fas fa-envelope me-2"></i>Contactar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Filtrado de docentes por área
+    const filtros = document.querySelectorAll('.filtro-docentes .btn');
+    const docentes = document.querySelectorAll('.docente-item');
+    
+    // Agregar evento de clic a cada botón de filtro
+    filtros.forEach(boton => {
+        boton.addEventListener('click', function() {
+            // Remover la clase active de todos los botones
+            filtros.forEach(btn => btn.classList.remove('active'));
+            // Agregar la clase active al botón clickeado
+            this.classList.add('active');
+            
+            // Obtener el área a filtrar
+            const area = this.getAttribute('data-area');
+            
+            // Mostrar u ocultar docentes según el área seleccionada
+            docentes.forEach(docente => {
+                if (area === 'todos' || docente.getAttribute('data-areas').includes(area)) {
+                    docente.style.display = 'block';
+                } else {
+                    docente.style.display = 'none';
+                }
+            });
+        });
+    });
+    
+    // Inicializar tooltips de Bootstrap
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+});
+</script>
+{% endblock %}
+
+{% endblock %}

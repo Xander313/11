@@ -1,0 +1,241 @@
+{% extends 'plantilla.html' %}
+{% load static %}
+
+
+
+{% block contenido %}
+{% csrf_token %}
+<div class="container mt-3">
+    <div class="card mb-3">
+        <div class="card-body bg-light text-center">
+            <h5 class="card-title mb-3"><strong>Gestión Electoral</strong></h5>
+            <p class="card-text mb-4">
+                Administración de listas y cargos para elecciones estudiantiles.
+            </p>
+        </div>
+        <nav class="navbar navbar-light bg-light border rounded shadow-sm">
+            <div class="container-fluid justify-content-around">
+                <a href="{% url 'listar_listas' %}" class="text-decoration-none text-center">
+                    <i class="la la-list-ol text-muted fs-2 d-block"></i>
+                    <div>
+                        <strong class="d-block">Listas</strong>
+                        <small class="text-muted">Gestionar listas</small>
+                    </div>
+                </a>
+                <a href="{% url 'listar_cargos' %}" class="text-decoration-none text-center">
+                    <i class="la la-briefcase text-muted fs-2 d-block"></i>
+                    <div>
+                        <strong class="d-block">Cargos</strong>
+                        <small class="text-muted">Gestionar cargos</small>
+                    </div>
+                </a>
+                <a href="{% url 'listar_candidatos' %}" class="text-decoration-none text-center position-relative">
+                    <div>
+                        <i class="la la-users text-primary fs-2 d-block"></i>
+                        <span class="position-absolute" style="top: -15px; right: 70%; z-index: 1000;">
+                            <i class="fas fa-hand-point-left" style="font-size: 2rem; transform: scaleX(1) rotate(-30deg); color: #1cbed3e6;"></i>
+                        </span>
+                        <div>
+                            <strong class="d-block">Candidatos</strong>
+                            <small class="text-muted">Gestionar candidatos</small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Sección principal con estilo de padrón -->
+    <section id="listar-candidatos" class="row match-height">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+                    <h4 class="card-title mb-2 mb-md-0">Listado de Candidatos</h4>
+                    <div class="d-flex flex-column flex-md-row align-items-stretch justify-content-md-end">
+                        <a href="{% url 'agregar_candidato' %}" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Agregar Candidato
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card-content">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="candidatosTable" class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Imagen</th>
+                                        <th>Nombre</th>
+                                        <th>Lista</th>
+                                        <th>Cargo</th>
+                                        <th>Tipo</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+            <tbody>
+                {% for candidato in candidatos %}
+                <tr>
+                    <td>
+                        {% if candidato.imagen %}
+                            <img src="{{ candidato.imagen.url }}" alt="{{ candidato.nombre_candidato }}" class="img-thumbnail" style="width: 50px;">
+                        {% else %}
+                            <div class="text-center">
+                                <i class="fas fa-user-circle fa-2x text-secondary"></i>
+                            </div>
+                        {% endif %}
+                    </td>
+                    <td>{{ candidato.nombre_candidato }}</td>
+                    <td>{{ candidato.lista.nombre_lista }}</td>
+                    <td>{{ candidato.cargo.nombre_cargo }}</td>
+                    <td>{{ candidato.get_tipo_candidato_display }}</td>
+                    <td class="text-center" style="white-space: nowrap;">
+                        <a href="{% url 'editar_candidato' candidato.id %}" 
+                           class="btn btn-sm btn-outline-primary mx-1" 
+                           title="Editar"
+                           data-toggle-tooltip="tooltip"
+                           data-placement="top">
+                            <i class="la la-edit"></i>
+                        </a>
+                        <button type="button" 
+                                class="btn btn-sm btn-outline-danger mx-1 btn-delete-candidato"
+                                data-candidato-id="{{ candidato.id }}"
+                                data-candidato-nombre="{{ candidato.nombre_candidato }}"
+                                title="Eliminar"
+                                data-toggle-tooltip="tooltip"
+                                data-placement="top">
+                            <i class="la la-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="text-center">No hay candidatos registrados</td>
+                </tr>
+                {% endfor %}
+                            </tbody>
+                        </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock contenido %}
+
+{% block scripts %}
+<script>
+    // Función para inicializar DataTables de manera segura
+    function initDataTables() {
+        jQuery(function($) {
+            var $table = $('#candidatosTable');
+            
+            if (!$.fn.DataTable) {
+                console.error('DataTables no está cargado');
+                return;
+            }
+            
+            // Verificar si ya está inicializado y destruirlo si es necesario
+            if ($.fn.DataTable.isDataTable($table)) {
+                $table.DataTable().destroy();
+            }
+            
+            // Inicializar DataTable con configuración
+            var dataTable = $table.DataTable({
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                },
+                responsive: true,
+                pageLength: 10,
+                lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, 'Todos']],
+                order: [[1, 'asc']], // Ordenar por nombre
+                columnDefs: [
+                    {
+                        targets: [0, 5], // Imagen y Acciones
+                        orderable: false,
+                        searchable: false
+                    }
+                ],
+                scrollX: true,
+                drawCallback: function() {
+                    // Reinicializar tooltips después de cada redibujado
+                    $('[data-toggle="tooltip"]').tooltip();
+                    // Reinicializar eventos
+                    initEvents();
+                }
+            });
+            
+            // Inicializar eventos
+            function initEvents() {
+                // Manejar el clic en el botón eliminar candidato
+                $('.btn-delete-candidato').off('click').on('click', function(e) {
+                    e.preventDefault();
+                    const candidatoId = $(this).data('candidato-id');
+                    const candidatoNombre = $(this).data('candidato-nombre');
+                    
+                    // Mostrar SweetAlert2 elegante
+                    Swal.fire({
+                        title: '¿Eliminar Candidato?',
+                        text: `¿Desea eliminar al candidato "${candidatoNombre}"?`,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#6c757d',
+                        confirmButtonText: 'Sí, eliminar',
+                        cancelButtonText: 'Cancelar',
+                        customClass: {
+                            confirmButton: 'btn btn-danger me-2',
+                            cancelButton: 'btn btn-secondary'
+                        },
+                        buttonsStyling: false
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Crear formulario dinámico
+                            const form = document.createElement('form');
+                            form.method = 'POST';
+                            form.action = `{% url 'eliminar_candidato' 0 %}`.replace('0', candidatoId);
+                            
+                            // Agregar token CSRF
+                            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                            const csrfInput = document.createElement('input');
+                            csrfInput.type = 'hidden';
+                            csrfInput.name = 'csrfmiddlewaretoken';
+                            csrfInput.value = csrfToken;
+                            form.appendChild(csrfInput);
+                            
+                            // Agregar al DOM y enviar
+                            document.body.appendChild(form);
+                            form.submit();
+                        }
+                    });
+                });
+            }
+            
+            // Inicializar eventos por primera vez
+            initEvents();
+            
+            console.log('DataTable de candidatos inicializada correctamente');
+        });
+    }
+
+    // Inicializar cuando el DOM esté listo
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initDataTables);
+    } else {
+        initDataTables();
+    }
+
+    // También inicializar cuando jQuery esté listo (doble seguridad)
+    $(document).ready(function() {
+        // Inicializar tooltips
+        $('[data-toggle="tooltip"]').tooltip();
+        
+        // Verificar si DataTables está disponible
+        if (typeof $.fn.DataTable === 'function') {
+            initDataTables();
+        } else {
+            console.error('DataTables no está cargado correctamente');
+        }
+    });
+</script>
+{% endblock %}

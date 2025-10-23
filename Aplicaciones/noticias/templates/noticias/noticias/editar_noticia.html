@@ -1,0 +1,181 @@
+{% extends 'plantilla.html' %}
+{% load static %}
+
+{% block contenido %}
+<div class="container-fluid">
+    <!-- Incluir barra de navegación -->
+    {% include 'noticias/partials/_navegacion_noticias.html' %}
+    
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title mb-0">Editar Noticia: {{ noticia.titulo|truncatechars:50 }}</h4>
+                </div>
+                <div class="card-body">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    
+                    <form method="post" enctype="multipart/form-data" id="form-noticia">
+                        {% csrf_token %}
+                        
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label for="titulo">Título <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="titulo" name="titulo" 
+                                           value="{{ noticia.titulo }}" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="contenido">Contenido <span class="text-danger">*</span></label>
+                                    <textarea class="form-control" id="contenido" name="contenido" rows="10" required>{{ noticia.contenido }}</textarea>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="resumen">Resumen <span class="text-danger">*</span></label>
+                                    <textarea class="form-control" id="resumen" name="resumen" rows="3" maxlength="500" required>{{ noticia.resumen }}</textarea>
+                                    <small class="form-text text-muted">Máximo 500 caracteres. <span id="contador">{{ noticia.resumen|length }}/500</span></small>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="estado">Estado <span class="text-danger">*</span></label>
+                                    <select class="form-control" id="estado" name="estado" required>
+                                        <option value="borrador" {% if noticia.estado == 'borrador' %}selected{% endif %}>Borrador</option>
+                                        <option value="publicado" {% if noticia.estado == 'publicado' %}selected{% endif %}>Publicado</option>
+                                        <option value="archivado" {% if noticia.estado == 'archivado' %}selected{% endif %}>Archivado</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="categoria">Categoría</label>
+                                    <select class="form-control" id="categoria" name="categoria">
+                                        <option value="">Sin categoría</option>
+                                        {% for categoria in categorias %}
+                                            <option value="{{ categoria.id }}" 
+                                                {% if noticia.categoria and noticia.categoria.id == categoria.id %}selected{% endif %}>
+                                                {{ categoria.nombre }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="imagen">Imagen de la noticia</label>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="imagen" name="imagen" accept="image/*">
+                                        <label class="custom-file-label" for="imagen">Cambiar imagen</label>
+                                    </div>
+                                    <small class="form-text text-muted">Tamaño recomendado: 1200x630px</small>
+                                    <div id="vista-previa" class="mt-2 text-center">
+                                        {% if noticia.imagen %}
+                                            <img id="imagen-previa" src="{{ noticia.imagen.url }}" alt="Vista previa" class="img-fluid img-thumbnail" style="max-height: 200px;">
+                                            <div class="mt-2">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" id="eliminar_imagen" name="eliminar_imagen">
+                                                    <label class="custom-control-label text-danger" for="eliminar_imagen">Eliminar imagen actual</label>
+                                                </div>
+                                            </div>
+                                        {% else %}
+                                            <div class="alert alert-info">No hay imagen cargada</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group text-right mt-4">
+                            <a href="{% url 'noticias:listar_noticias' %}" class="btn btn-secondary">
+                                <i class="la la-times"></i> Cancelar
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="la la-save"></i> Guardar Cambios
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+<script>
+    $(document).ready(function() {
+        // Vista previa de la imagen
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    var preview = $('#vista-previa');
+                    preview.html('<img id="imagen-previa" src="' + e.target.result + '" class="img-fluid img-thumbnail" style="max-height: 200px;">');
+                    
+                    // Si había un checkbox de eliminar, quitarlo
+                    $('#eliminar_imagen').closest('div').remove();
+                }
+                
+                reader.readAsDataURL(input.files[0]);
+                $('label[for="'+input.id+'"].custom-file-label').text(input.files[0].name);
+            }
+        }
+
+        // Evento para la vista previa de la imagen
+        $('#imagen').change(function() {
+            readURL(this);
+        });
+        
+        // Manejador para el botón de cancelar
+        $('.btn-secondary[data-url]').on('click', function() {
+            window.location.href = $(this).data('url');
+        });
+        
+        // Contador de caracteres para el resumen
+        $('#resumen').on('input', function() {
+            var length = $(this).val().length;
+            $('#contador').text(length + '/500');
+            
+            if (length > 500) {
+                $('#contador').addClass('text-danger');
+            } else {
+                $('#contador').removeClass('text-danger');
+            }
+        });
+        
+        // Validación del formulario
+        $('#form-noticia').on('submit', function(e) {
+            var titulo = $('#titulo').val().trim();
+            var contenido = $('#contenido').val().trim();
+            var resumen = $('#resumen').val().trim();
+            var estado = $('#estado').val();
+            
+            if (!titulo || !contenido || !resumen || !estado) {
+                e.preventDefault();
+                alert('Por favor complete todos los campos obligatorios.');
+                return false;
+            }
+            
+            if (resumen.length > 500) {
+                e.preventDefault();
+                alert('El resumen no puede tener más de 500 caracteres.');
+                return false;
+            }
+            
+            return true;
+        });
+    });
+</script>
+{% endblock %}

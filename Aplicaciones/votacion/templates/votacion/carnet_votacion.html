@@ -1,0 +1,341 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Carnet de Votación - {{ carnet.proceso_electoral }}{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <!-- Contenedor del carnet con dimensiones 70mm x 40mm (convertido a píxeles: 264x151) -->
+    <div class="carnet-container"
+        style="width: 350px; height: 200px; border: 1px solid #ddd; border-radius: 10px; overflow: hidden; box-shadow: 0 0 15px rgba(0,0,0,0.2);">
+        <!-- Encabezado del carnet -->
+        <div class="carnet-header"
+            style="background-color: #0d6efd; color: white; padding: 8px; text-align: center; font-size: 12px; font-weight: bold;">
+            UNIDAD EDUCATIVA DEL MILEIO 11 DE NOVIEMBRE - CARNET DE VOTACIÓN
+        </div>
+
+        <!-- Cuerpo del carnet -->
+        <div class="carnet-body" style="padding: 5px; background: white; height: calc(100% - 45px); display: flex;">
+            <!-- Sección de foto/logo y QR -->
+            <div class="carnet-left"
+                style="width: 40%; border-right: 1px dashed #ddd; padding: 8px 0; display: flex; flex-direction: column; align-items: center; justify-content: space-between;">
+                <!-- Logo institucional -->
+                {% if logo_config and logo_config.logo_1 %}
+                <div class="carnet-logo"
+                    style="width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; overflow: hidden; background-color: white;">
+                    <img src="{{ logo_config.logo_1.url }}" alt="Logo Institucional"
+                        style="width: 100%; height: 100%; object-fit: contain; padding: 5px;">
+                </div>
+                {% else %}
+                <!-- Iniciales como fallback -->
+                <div class="carnet-logo"
+                    style="width: 70px; height: 70px; background-color: #f0f0f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; font-size: 28px; font-weight: bold; color: #0d6efd;">
+                    {{ carnet.nombre_completo|slice:':1' }}
+                </div>
+                {% endif %}
+
+                <!-- Código QR más pequeño -->
+                <!-- Logo embebido desde carnet.codigo_qr -->
+                <div class="carnet-logo-qr"
+                    style="width: 90px; height: 90px; margin: 10px auto 0; background-color: white; padding: 5px; border: 1px solid #eee; border-radius: 4px;">
+                    <img src="{{ carnet.codigo_qr }}" alt="Logo institucional embebido"
+                        style="width: 100%; height: 100%; object-fit: contain;">
+                </div>
+
+
+                <!-- Código de verificación reducido -->
+                <div class="carnet-code"
+                    style="font-size: 10px; text-align: center; word-break: break-all; margin-top: 5px;">
+                    {{ carnet.codigo_verificacion|slice:":12" }}...
+                </div>
+            </div>
+
+            <!-- Sección de información -->
+            <div class="carnet-right" style="width: 60%; padding: 8px 10px; font-size: 11px; overflow: hidden;">
+                <!-- Nombre completo (recortado si es muy largo) -->
+                <div class="carnet-field" style="margin-bottom: 3px;">
+                    <div class="carnet-label" style="font-weight: bold; font-size: 10px; margin-bottom: 2px;">NOMBRE:
+                    </div>
+                    <div class="carnet-value"
+                        style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 10px; margin-bottom: 5px;">
+                        {{ carnet.nombre_completo|upper|truncatechars:25 }}
+                    </div>
+                </div>
+
+                <!-- Cédula -->
+                <div class="carnet-field" style="margin-bottom: 3px;">
+                    <div class="carnet-label" style="font-weight: bold; font-size: 10px; margin-bottom: 2px;">CÉDULA:
+                    </div>
+                    <div class="carnet-value" style="font-size: 11px; margin-bottom: 5px;">
+                        {{ carnet.cedula }}
+                    </div>
+                </div>
+
+                <!-- Proceso electoral (recortado) -->
+                <div class="carnet-field" style="margin-bottom: 3px;">
+                    <div class="carnet-label" style="font-weight: bold; font-size: 10px; margin-bottom: 2px;">PROCESO:
+                    </div>
+                    <div class="carnet-value" style="font-size: 10px; line-height: 1.2; margin-bottom: 5px;">
+                        {{ carnet.proceso_electoral|truncatechars:30|upper }}
+                    </div>
+                </div>
+
+                <!-- Fecha de votación -->
+                <div class="carnet-field" style="margin-bottom: 3px;">
+                    <div class="carnet-label" style="font-weight: bold; font-size: 10px; margin-bottom: 2px;">FECHA:
+                    </div>
+                    <div class="carnet-value" style="font-size: 10px; margin-bottom: 5px;">
+                        {{ carnet.fecha_votacion|date:"d/m/Y H:i" }}
+                    </div>
+                </div>
+
+                <!-- Firma o sello -->
+                <div class="carnet-signature"
+                    style="text-align: center; margin-top: 8px; border-top: 1px dashed #ddd; padding-top: 5px;">
+                    <div style="font-size: 8px; color: #666;">Carnet válido con sello institucional</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pie del carnet -->
+        <div class="carnet-footer"
+            style="background-color: #f8f9fa; text-align: center; font-size: 8px; padding: 4px; border-top: 1px solid #ddd;">
+            {{ fecha_emision|date:"d/m/Y H:i" }} | Sistema de Votación Electrónica
+        </div>
+    </div>
+</div>
+
+<!-- Controles adicionales fuera del carnet -->
+<div class="container mt-3 text-center d-print-none">
+    <button onclick="window.print()" class="btn btn-sm btn-primary me-2">
+        <i class="fas fa-print me-1"></i> Imprimir Carnet
+    </button>
+    <a href="{% url 'votacion:descargar_carnet' carnet.id %}" class="btn btn-sm btn-success">
+        <i class="fas fa-download me-1"></i> Descargar PDF
+    </a>
+
+    <div class="alert alert-warning mt-3" style="max-width: 500px; margin: 10px auto 0;">
+        <i class="fas fa-exclamation-triangle me-2"></i>
+        <strong>Importante:</strong> Este carnet es personal e intransferible. No lo comparta con terceros.
+    </div>
+</div>
+
+<style>
+    @media print {
+        @page {
+            size: 70mm 40mm;
+            margin: 0;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        body * {
+            visibility: hidden;
+        }
+
+        .carnet-container,
+        .carnet-container * {
+            visibility: visible;
+        }
+
+        .carnet-container {
+            position: absolute;
+            left: 0;
+            top: 0;
+            margin: 0;
+            box-shadow: none;
+            width: 70mm !important;
+            height: 40mm !important;
+            font-size: 9px !important;
+        }
+
+        .carnet-header {
+            font-size: 10px !important;
+            padding: 4px !important;
+        }
+
+        .carnet-body {
+            padding: 3px !important;
+        }
+
+        .carnet-logo {
+            width: 50px !important;
+            height: 50px !important;
+            font-size: 20px !important;
+        }
+
+        .carnet-qr {
+            width: 70px !important;
+            height: 70px !important;
+            margin: 5px auto 0 !important;
+        }
+
+        .carnet-field {
+            margin-bottom: 2px !important;
+        }
+
+        .carnet-label {
+            font-size: 8px !important;
+            margin-bottom: 1px !important;
+        }
+
+        .carnet-value {
+            font-size: 9px !important;
+            margin-bottom: 3px !important;
+        }
+
+        .d-print-none,
+        .d-print-none * {
+            display: none !important;
+        }
+    }
+
+    body {
+        background-color: #f5f5f5;
+    }
+
+    .carnet-container {
+        background: white;
+        font-family: Arial, sans-serif;
+    }
+
+    .carnet-body {
+        background: linear-gradient(to bottom, #ffffff, #f8f9fa);
+    }
+</style>
+</div>
+<div class="mt-3 text-center">
+    <small class="text-muted">
+        <i class="fas fa-info-circle"></i>
+        Este documento es su comprobante de votación
+    </small>
+</div>
+</div>
+</div>
+
+<!-- Código QR -->
+<div class="col-md-5 text-center">
+    <div class="qr-container p-3 mb-3" style="border: 1px solid #dee2e6; border-radius: 5px; height: 100%;">
+        <h5 class="mb-3">CÓDIGO DE VERIFICACIÓN</h5>
+        <div class="qr-code mb-3" style="text-align: center;">
+            {% if carnet.codigo_qr %}
+            <img src="{{ carnet.codigo_qr }}" alt="Código QR de Verificación"
+                style="max-width: 200px; height: auto; margin: 0 auto;">
+            {% else %}
+            <div class="alert alert-warning">
+                <i class="fas fa-exclamation-triangle"></i> Código QR no disponible
+            </div>
+            {% endif %}
+        </div>
+        <div class="verification-code p-2 bg-light rounded">
+            <small class="text-muted">Código:</small><br>
+            <strong>{{ carnet.codigo_verificacion|slice:":8" }}...{{ carnet.codigo_verificacion|slice:"-8:" }}</strong>
+        </div>
+        <div class="mt-3">
+            <small class="text-muted">
+                <i class="fas fa-qrcode"></i> Escanee este código para verificar
+            </small>
+        </div>
+    </div>
+    <div class="text-center mt-3">
+        <button onclick="window.print()" class="btn btn-primary me-2">
+            <i class="fas fa-print me-1"></i> Imprimir
+        </button>
+        <a href="{% url 'administracion:index' %}" class="btn btn-outline-secondary">
+            <i class="fas fa-home me-1"></i> Inicio
+        </a>
+    </div>
+</div>
+</div>
+</div>
+<div class="card-footer text-muted text-center">
+    <div class="d-flex justify-content-between align-items-center">
+        <small>Fecha de emisión: {{ fecha_emision }} - Sistema de Votación UE Riobamba</small>
+        <a href="{% url 'votacion:descargar_carnet' carnet.id %}" class="btn btn-sm btn-primary">
+            <i class="fas fa-download me-1"></i> Descargar PDF
+        </a>
+    </div>
+</div>
+</div>
+
+<div class="alert alert-warning mt-3 d-print-none">
+    <i class="fas fa-exclamation-triangle me-2"></i>
+    <strong>Importante:</strong> Este comprobante es personal e intransferible. No lo comparta con terceros.
+</div>
+</div>
+</div>
+</div>
+
+<style>
+    @media print {
+        body * {
+            visibility: hidden;
+        }
+
+        .card,
+        .card * {
+            visibility: visible;
+        }
+
+        .card {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            border: none !important;
+            box-shadow: none !important;
+        }
+
+        .d-print-none,
+        .d-print-none * {
+            display: none !important;
+        }
+
+        .btn {
+            display: none !important;
+        }
+    }
+
+    .card {
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
+
+    .card-header {
+        border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+    }
+
+    #qrcode {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 200px;
+    }
+</style>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Código para generar el QR dinámicamente (opcional)
+    document.addEventListener('DOMContentLoaded', function () {
+        // Si prefieres generar el QR con JavaScript en lugar de usar la API
+        // Puedes descomentar el siguiente código y eliminar la etiqueta img del HTML
+        /*
+        const qrCode = new QRCode(document.getElementById("qrcode"), {
+            text: "{{ carnet.codigo_verificacion }}",
+            width: 200,
+            height: 200,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+        });
+        */
+
+        // Forzar la impresión automática (opcional, descomentar si se desea)
+        // setTimeout(function() { window.print(); }, 1000);
+    });
+</script>
+{% endblock %}

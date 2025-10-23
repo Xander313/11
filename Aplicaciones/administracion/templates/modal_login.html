@@ -1,0 +1,378 @@
+<!-- Modal -->
+<div id="loginModal" class="modal fade" role="dialog">
+    <center>
+        <div class="modal-dialog modal-dialog-centered">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-primary fw-bold" id="loginModalLabel">
+                        <i class="fa fa-sign-in me-2"></i>
+                        &nbsp; &nbsp;
+                        <b>INGRESAR AL SISTEMA DE VOTACIÓN</b>
+                    </h5>
+
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm" action="{% url 'administracion:login_padron' %}" method="post"
+                        class="needs-validation" novalidate>
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ request.GET.next }}">
+                        <div style="padding-left:50px; padding-right:50px;">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <label for="username" class="fw-bold">Usuario:</label>
+                                    <br>
+                                    <input type="text" name="username" id="username" placeholder="Ingrese su usuario"
+                                        class="form-control mi-input"
+                                        style="background: #ffffff !important; color: #333333 !important; font-weight: 600 !important;"
+                                        required>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label for="password" class="fw-bold">Contraseña:</label>
+                                    <br>
+                                    <div class="position-relative">
+                                        <input type="password" name="password" id="password"
+                                            placeholder="Ingrese su contraseña" class="form-control mi-input"
+                                            style="background: #ffffff !important; color: #333333 !important; font-weight: 600 !important; padding-right: 45px !important;"
+                                            required>
+                                        <button type="button" class="btn p-0 position-absolute" id="togglePassword"
+                                            style="right: 10px; top: 50%; transform: translateY(-50%); border: none; background: transparent; color: #666; font-size: 18px; z-index: 10;">
+                                            <i class="fas fa-eye" id="togglePasswordIcon"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <button type="submit" class="btn btn-primary" name="button">
+                                        <i class="fa fa-arrow-right me-2"></i>
+                                        Ingresar al sistema de votación
+                                    </button>
+                                    &nbsp;
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                        <i class="fa fa-times me-2"></i>
+                                        Cancelar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </center>
+</div>
+
+<!-- Script para manejar el envío del formulario de login -->
+<script>
+    // SOLUCIÓN AGRESIVA PARA INPUTS INVISIBLES
+    function forceInputVisibility() {
+        const inputs = document.querySelectorAll('#loginModal input[type="text"], #loginModal input[type="password"]');
+
+        inputs.forEach(function (input) {
+            // Aplicar estilos por fuerza bruta - TEXTO MÁS VISIBLE
+            input.style.setProperty('background', '#ffffff', 'important');
+            input.style.setProperty('color', '#333333', 'important');
+            input.style.setProperty('font-weight', '600', 'important');
+            input.style.setProperty('-webkit-text-fill-color', '#333333', 'important');
+            input.style.setProperty('opacity', '1', 'important');
+            input.style.setProperty('font-size', '16px', 'important');
+
+            // Eventos para mantener la visibilidad
+            input.addEventListener('focus', function () {
+                this.style.setProperty('background', '#ffffff', 'important');
+                this.style.setProperty('color', '#000000', 'important');
+                this.style.setProperty('-webkit-text-fill-color', '#000000', 'important');
+                this.style.setProperty('border-color', '#3498db', 'important');
+            });
+
+            input.addEventListener('blur', function () {
+                this.style.setProperty('background', '#ffffff', 'important');
+                this.style.setProperty('color', '#333333', 'important');
+                this.style.setProperty('-webkit-text-fill-color', '#333333', 'important');
+            });
+
+            input.addEventListener('input', function () {
+                this.style.setProperty('color', '#333333', 'important');
+                this.style.setProperty('-webkit-text-fill-color', '#333333', 'important');
+            });
+        });
+    }
+
+    // Ejecutar al cargar la página
+    document.addEventListener('DOMContentLoaded', forceInputVisibility);
+
+    // Ejecutar cuando se abra el modal
+    $('#loginModal').on('shown.bs.modal', function () {
+        setTimeout(forceInputVisibility, 100);
+    });
+
+    // Ejecutar periódicamente para combatir estilos dinámicos
+    setInterval(function () {
+        if ($('#loginModal').hasClass('show')) {
+            forceInputVisibility();
+        }
+    }, 500);
+
+    $(document).ready(function () {
+        // Función para restaurar el botón
+        function restoreButton(btn, html) {
+            if (btn && btn.length) {
+                btn.prop('disabled', false).html(html);
+            }
+        }
+
+        // Función para mostrar mensajes con SweetAlert
+        function showModalError(message, isWarning = false, type = 'error') {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 5000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer);
+                    toast.addEventListener('mouseleave', Swal.resumeTimer);
+                }
+            });
+
+            let icon = 'error';
+            if (type === 'success') icon = 'success';
+            else if (type === 'warning' || isWarning) icon = 'warning';
+
+            Toast.fire({
+                icon: icon,
+                title: message
+            });
+
+            // Si es un mensaje de éxito, cerrar automáticamente después de 3 segundos
+            if (type === 'success') {
+                setTimeout(function () {
+                    Swal.close();
+                }, 3000);
+            }
+        }
+
+        $('#loginForm').on('submit', function (e) {
+            e.preventDefault();
+
+            // Mostrar spinner de carga
+            const form = $(this);
+            const submitBtn = form.find('button[type="submit"]');
+            const originalBtnText = submitBtn.html();
+            submitBtn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin me-2"></i>Verificando...');
+
+            // Limpiar mensajes anteriores
+            $('.modal-body .alert').remove();
+
+            // Configurar timeout para la petición AJAX (10 segundos)
+            const ajaxTimeout = 10000; // 10 segundos
+            const timeoutTimer = setTimeout(function () {
+                if ($.active > 0) {
+                    $.xhrPool = [];
+                    restoreButton(submitBtn, originalBtnText);
+                    showModalError('El servidor está tardando demasiado en responder. Por favor, intente nuevamente.');
+                }
+            }, ajaxTimeout);
+
+            // Realizar la petición AJAX
+            $.ajax({
+                type: 'POST',
+                url: form.attr('action'),
+                data: form.serialize(),
+                dataType: 'json',
+                timeout: ajaxTimeout,
+                beforeSend: function () {
+                    // Agregar a la pila de peticiones activas
+                    $.xhrPool = [];
+                    $.xhrPool.push(this);
+                },
+                complete: function (xhr, status) {
+                    // Limpiar timeout
+                    clearTimeout(timeoutTimer);
+                    // Restaurar botón
+                    restoreButton(submitBtn, originalBtnText);
+                    // Remover de la pila de peticiones activas
+                    $.xhrPool = [];
+                },
+                success: function (response) {
+                    if (response.success) {
+                        // Mostrar mensaje de éxito personalizado
+                        var successMessage = 'Inicio de sesión exitoso. Redirigiendo...';
+                        if (response.message) {
+                            successMessage = response.message;
+                        }
+
+                        // Mostrar mensaje de éxito
+                        showModalError(successMessage, false, 'success');
+
+                        // Redirigir después de 2 segundos
+                        setTimeout(function () {
+                            if (response.redirect_url) {
+                                window.location.href = response.redirect_url;
+                            } else {
+                                window.location.reload();
+                            }
+                        }, 2000);
+                    } else {
+                        // Mostrar mensaje de error con la función mejorada
+                        showModalError(response.message || 'Error al iniciar sesión', response.voto_ya_emitido);
+
+                        // Restaurar el botón inmediatamente
+                        restoreButton(submitBtn, originalBtnText);
+
+                        // Limpiar los campos del formulario
+                        document.getElementById('loginForm').reset();
+
+                        // Si es un error de voto ya emitido, deshabilitar el formulario
+                        if (response.voto_ya_emitido) {
+                            $('#loginForm :input').prop('disabled', true);
+
+                            // Cerrar el modal después de 5 segundos para este caso específico
+                            setTimeout(function () {
+                                const modal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
+                                if (modal) modal.hide();
+                                document.body.classList.remove('modal-open');
+                                const backdrop = document.querySelector('.modal-backdrop');
+                                if (backdrop) backdrop.remove();
+                            }, 5000);
+                        }
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error en la solicitud AJAX:', xhr, status, error);
+
+                    // Mensaje de error por defecto
+                    let errorMessage = 'Ocurrió un error al intentar iniciar sesión. Por favor, intente nuevamente.';
+                    let isVotoEmitido = false;
+                    let responseType = 'error';
+
+                    // Manejar diferentes tipos de errores
+                    if (status === 'timeout') {
+                        errorMessage = 'El servidor está tardando demasiado en responder. Por favor, intente nuevamente.';
+                        responseType = 'warning';
+                    } else if (xhr.status === 0) {
+                        errorMessage = 'No se pudo conectar con el servidor. Verifique su conexión a Internet.';
+                        responseType = 'warning';
+                    } else if (xhr.status === 403) {
+                        errorMessage = 'Error de autenticación. Por favor, recargue la página e intente nuevamente.';
+                        responseType = 'warning';
+                    } else if (xhr.responseJSON) {
+                        if (xhr.responseJSON.message) {
+                            errorMessage = xhr.responseJSON.message;
+                        }
+                        if (xhr.responseJSON.voto_ya_emitido) {
+                            isVotoEmitido = true;
+                            responseType = 'warning';
+                        }
+                    }
+
+                    // Mostrar mensaje de error con la función mejorada
+                    showModalError(errorMessage, isVotoEmitido, responseType);
+
+                    // Si es un error de voto ya emitido, cerrar el modal después de 5 segundos
+                    if (isVotoEmitido) {
+                        // Deshabilitar el formulario
+                        $('#loginForm :input').prop('disabled', true);
+
+                        // Cerrar el modal después de 5 segundos
+                        setTimeout(function () {
+                            $('#loginModal').modal('hide');
+                            // Recargar la página después de cerrar el modal
+                            window.location.reload();
+                        }, 5000);
+                    }
+                },
+                complete: function (xhr, status) {
+                    console.log('Solicitud completada con estado:', status);
+                    // Restaurar el botón (ya se hace en el complete del AJAX)
+
+                    // Forzar recarga de la página si hay un error de CSRF
+                    if (xhr.status === 403 && xhr.responseJSON &&
+                        xhr.responseJSON.message &&
+                        xhr.responseJSON.message.includes('CSRF')) {
+                        console.warn('Error CSRF detectado, recargando página...');
+                        // Mostrar mensaje antes de recargar
+                        var csrfErrorHtml = '<div class="alert alert-warning" role="alert">' +
+                            '<i class="fas fa-sync-alt fa-spin me-2"></i>Recargando la página debido a un problema de seguridad...</div>';
+                        $('.modal-body').prepend(csrfErrorHtml);
+
+                        // Recargar después de mostrar el mensaje
+                        setTimeout(function () {
+                            window.location.reload(true);
+                        }, 1500);
+                    }
+                }
+            });
+        });
+
+        // Limpiar mensajes cuando se cierre el modal manualmente
+        const loginModal = document.getElementById('loginModal');
+        if (loginModal) {
+            loginModal.addEventListener('hidden.bs.modal', function () {
+                // Limpiar el formulario cuando se cierra el modal
+                const form = document.getElementById('loginForm');
+                if (form) form.reset();
+
+                // Limpiar mensajes de validación
+                const invalidFields = document.querySelectorAll('.is-invalid');
+                invalidFields.forEach(field => field.classList.remove('is-invalid'));
+
+                const feedbacks = document.querySelectorAll('.invalid-feedback');
+                feedbacks.forEach(feedback => feedback.remove());
+
+                // Restaurar el botón de envío
+                const submitBtn = form ? form.querySelector('button[type="submit"]') : null;
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="fa fa-arrow-right me-2"></i>Ingresar al sistema de votación';
+                }
+            });
+        }
+
+        // FUNCIONALIDAD TOGGLE CONTRASEÑA - VERSIÓN ROBUSTA
+        function initPasswordToggle() {
+            const toggleBtn = $('#togglePassword');
+            const passwordField = $('#password');
+            const toggleIcon = $('#togglePasswordIcon');
+
+            if (toggleBtn.length && passwordField.length && toggleIcon.length) {
+                toggleBtn.off('click.passwordToggle');
+
+                toggleBtn.on('click.passwordToggle', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    const currentType = passwordField.attr('type');
+
+                    if (currentType === 'password') {
+                        passwordField.attr('type', 'text');
+                        toggleIcon.removeClass('fa-eye').addClass('fa-eye-slash');
+                        toggleBtn.attr('title', 'Ocultar contraseña');
+                    } else {
+                        passwordField.attr('type', 'password');
+                        toggleIcon.removeClass('fa-eye-slash').addClass('fa-eye');
+                        toggleBtn.attr('title', 'Mostrar contraseña');
+                    }
+                });
+
+                toggleBtn.attr('title', 'Mostrar contraseña');
+            }
+        }
+
+        $(document).ready(function () {
+            initPasswordToggle();
+        });
+
+        $('#loginModal').on('shown.bs.modal', function () {
+            setTimeout(initPasswordToggle, 100);
+        });
+    });
+</script>

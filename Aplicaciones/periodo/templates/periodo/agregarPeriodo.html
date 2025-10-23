@@ -1,0 +1,303 @@
+{% extends 'plantilla.html' %}
+
+{% block contenido %}
+<br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="card-title mb-0">Gestión de Períodos Académicos</h4>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAgregarPeriodo">
+                            <i class="la la-plus"></i> Nuevo Período
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    {% if periodos.exists %}
+                    <div class="table-responsive">
+                        <table id="tablaPeriodos" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Período</th>
+                                    <th>Inicio</th>
+                                    <th>Fin</th>
+                                    <th class="text-center">Duración</th>
+                                    <th class="text-center">Estado</th>
+                                    <th class="text-center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for periodo in periodos %}
+                                <tr>
+                                    <td>{{ periodo.nombre }}</td>
+                                    <td>{{ periodo.fecha_inicio|date:"d/m/Y" }}</td>
+                                    <td>{{ periodo.fecha_fin|date:"d/m/Y" }}</td>
+                                    <td class="text-center">{{ periodo.duracion }} días</td>
+                                    <td class="text-center">
+                                        {% if periodo.estado == 'Activo' %}
+                                            <span class="badge badge-success">Activo</span>
+                                        {% elif periodo.estado == 'Finalizado' %}
+                                            <span class="badge badge-secondary">Finalizado</span>
+                                        {% else %}
+                                            <span class="badge badge-light">Inactivo</span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="text-center">
+                                        <button class="btn btn-sm btn-outline-primary btn-editar" 
+                                                data-toggle="modal" 
+                                                data-target="#editarPeriodoModal{{ periodo.id }}"
+                                                title="Editar"
+                                                data-toggle-tooltip="tooltip"
+                                                data-placement="top">
+                                            <i class="la la-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger btn-eliminar-periodo" 
+                                                data-periodo-id="{{ periodo.id }}"
+                                                data-periodo-nombre="{{ periodo.nombre|escapejs }}"
+                                                title="Eliminar"
+                                                data-toggle-tooltip="tooltip"
+                                                data-placement="top">
+                                            <i class="la la-trash"></i>
+                                        </button>
+                                        <!--
+                                        <button type="button" class="btn btn-sm btn-outline-warning" data-toggle="tooltip" data-placement="top" title="Ver Reportes" onclick="mostrarReportes('{{ periodo.id }}')">
+                                            <i class="fas fa-file-pdf"></i>
+                                        </button>
+                                        -->
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-info text-center">
+                        <i class="la la-info-circle"></i> No hay períodos académicos registrados.
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Agregar Período -->
+<div class="modal fade" id="modalAgregarPeriodo" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form method="POST" action="{% url 'guardarPeriodo' %}">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title">Nuevo Período Académico</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Nombre del Período</label>
+                        <input type="text" name="nombre" class="form-control" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label>Fecha Inicio</label>
+                            <input type="date" name="fecha_inicio" class="form-control" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Fecha Fin</label>
+                            <input type="date" name="fecha_fin" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group text-center mt-4 mb-3">
+                    <button type="submit" class="btn btn-primary rounded-pill px-4 mr-2">
+                        <i class="la la-save"></i> GUARDAR
+                    </button>
+                    <button type="button" class="btn btn-secondary rounded-pill px-4" data-dismiss="modal">
+                        <i class="la la-times"></i> CANCELAR
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Editar Período -->
+{% for periodo in periodos %}
+<div class="modal fade" id="editarPeriodoModal{{ periodo.id }}" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form method="POST" action="{% url 'editar_periodo' periodo.id %}">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar Período Académico</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Nombre del Período</label>
+                        <input type="text" name="nombre" class="form-control" value="{{ periodo.nombre }}" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label>Fecha Inicio</label>
+                            <input type="date" name="fecha_inicio" class="form-control" 
+                                   value="{{ periodo.fecha_inicio|date:'Y-m-d' }}" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Fecha Fin</label>
+                            <input type="date" name="fecha_fin" class="form-control" 
+                                   value="{{ periodo.fecha_fin|date:'Y-m-d' }}" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group text-center mt-4 mb-3">
+                    <button type="submit" class="btn btn-primary rounded-pill px-4 mr-2">
+                        <i class="la la-save"></i> GUARDAR
+                    </button>
+                    <button type="button" class="btn btn-secondary rounded-pill px-4" data-dismiss="modal">
+                        <i class="la la-times"></i> CANCELAR
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Eliminar Período -->
+<div class="modal fade" id="eliminarPeriodoModal{{ periodo.id }}" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="la la-exclamation-triangle text-danger"></i> Confirmar Eliminación</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>¿Está seguro de eliminar el período <strong>{{ periodo.nombre }}</strong>?</p>
+                <p class="text-danger">Esta acción no se puede deshacer.</p>
+            </div>
+            <div class="form-group text-center mt-4 mb-3">
+                <form method="POST" action="{% url 'eliminar_periodo' periodo.id %}" style="display: inline-block;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger rounded-pill px-4 mr-2">
+                        <i class="la la-trash"></i> ELIMINAR
+                    </button>
+                </form>
+                <button type="button" class="btn btn-secondary rounded-pill px-4" data-dismiss="modal">
+                    <i class="la la-times"></i> CANCELAR
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+<script>
+// Usar una función autoejecutable para evitar conflictos
+(function($) {
+    $(document).ready(function() {
+        // Inicializar tooltips primero
+        $('[data-toggle-tooltip="tooltip"]').tooltip({
+            trigger: 'hover',
+            animation: true,
+            delay: {"show": 300, "hide": 100}
+        });
+
+        // Verificar si la tabla existe
+        var $tabla = $('#tablaPeriodos');
+        
+        if ($tabla.length) {
+            // Verificar si DataTables está definido
+            if (typeof $.fn.DataTable === 'function') {
+                // Destruir la tabla si ya está inicializada
+                if ($.fn.DataTable.isDataTable($tabla)) {
+                    $tabla.DataTable().destroy();
+                }
+                
+                // Inicializar DataTable con opciones básicas
+                try {
+                    $tabla.DataTable({
+                        language: {
+                            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                        },
+                        responsive: true,
+                        order: [[1, 'desc']],
+                        pageLength: 10,
+                        lengthMenu: [5, 10, 25, 50, 100],
+                        initComplete: function() {
+                            console.log('DataTable inicializado correctamente');
+                            // Re-inicializar tooltips después de que DataTable haya terminado
+                            $('[data-toggle-tooltip="tooltip"]').tooltip('dispose').tooltip({
+                                trigger: 'hover',
+                                animation: true,
+                                delay: {"show": 300, "hide": 100}
+                            });
+                        }
+                    });
+                } catch (e) {
+                    console.error('Error al inicializar DataTable:', e);
+                }
+            } else {
+                console.warn('DataTables no está disponible');
+            }
+        }
+    });
+})(jQuery);
+
+// SweetAlert2 elegante para eliminar períodos
+$(document).ready(function() {
+    $('.btn-eliminar-periodo').on('click', function(e) {
+        e.preventDefault();
+        const periodoId = $(this).data('periodo-id');
+        const periodoNombre = $(this).data('periodo-nombre');
+        
+        // Mostrar SweetAlert2 elegante
+        Swal.fire({
+            title: '¿Eliminar Período?',
+            text: `¿Desea eliminar el período "${periodoNombre}"?`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar',
+            customClass: {
+                confirmButton: 'btn btn-danger me-2',
+                cancelButton: 'btn btn-secondary'
+            },
+            buttonsStyling: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Crear formulario dinámico
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = `{% url 'eliminar_periodo' 0 %}`.replace('0', periodoId);
+                
+                // Agregar token CSRF
+                const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                const csrfInput = document.createElement('input');
+                csrfInput.type = 'hidden';
+                csrfInput.name = 'csrfmiddlewaretoken';
+                csrfInput.value = csrfToken;
+                form.appendChild(csrfInput);
+                
+                // Agregar al DOM y enviar
+                document.body.appendChild(form);
+                form.submit();
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

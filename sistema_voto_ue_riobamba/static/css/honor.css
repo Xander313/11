@@ -1,0 +1,888 @@
+/* Estilos para el Cuadro de Honor - Timeline */
+.honor-board {
+  background: linear-gradient(135deg, #0c1e3e 0%, #172238 100%);
+  background-image: url('../images/pattern-trophy.svg'), linear-gradient(135deg, #0c1e3e 0%, #172238 100%);
+  background-blend-mode: overlay;
+  padding: 80px 0;
+  position: relative;
+  overflow: hidden;
+  color: #fff;
+}
+
+.honor-board::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, rgba(245, 164, 37, 0.1) 0%, rgba(12, 30, 62, 0) 70%);
+  pointer-events: none;
+}
+
+.honor-board .section-heading h2 {
+  color: #f5a425;
+  text-shadow: 0 0 10px rgba(245, 164, 37, 0.5);
+}
+
+.honor-subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Filtros de categorías */
+.honor-filter-container {
+  margin-bottom: 40px;
+}
+
+.honor-filter-tabs {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.honor-filter {
+  padding: 8px 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border: 1px solid transparent;
+}
+
+.honor-filter:hover {
+  background: rgba(245, 164, 37, 0.2);
+  color: #f5a425;
+}
+
+.honor-filter.active {
+  background: rgba(245, 164, 37, 0.3);
+  color: #f5a425;
+  border-color: rgba(245, 164, 37, 0.5);
+  box-shadow: 0 0 15px rgba(245, 164, 37, 0.3);
+}
+
+/* Timeline Container */
+.honor-timeline-container {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+/* Línea central del timeline */
+.honor-timeline-line {
+  position: absolute;
+  width: 4px;
+  background: linear-gradient(to bottom, transparent, #f5a425, #f5a425, transparent);
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  margin-left: -2px;
+  border-radius: 4px;
+  opacity: 0.5;
+  box-shadow: 0 0 10px rgba(245, 164, 37, 0.5);
+}
+
+/* Timeline Items */
+.honor-timeline {
+  position: relative;
+}
+
+.honor-timeline-item {
+  padding: 10px 40px;
+  position: relative;
+  width: 50%;
+  opacity: 0.8;
+  transition: all 0.5s ease;
+  margin-bottom: 30px;
+  transform: translateY(30px);
+  animation: fadeInUp 0.8s forwards;
+  animation-delay: calc(var(--i, 0) * 0.2s);
+}
+
+.honor-timeline-item:nth-child(odd) {
+  left: 0;
+  text-align: right;
+}
+
+.honor-timeline-item:nth-child(even) {
+  left: 50%;
+  text-align: left;
+}
+
+.honor-timeline-item:hover {
+  opacity: 1;
+  transform: translateY(0) scale(1.03);
+  z-index: 5;
+}
+
+/* Badge con posición */
+.honor-timeline-badge {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #172238;
+  border: 4px solid #f5a425;
+  top: 20px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 4px rgba(245, 164, 37, 0.3), 0 0 15px rgba(245, 164, 37, 0.5);
+}
+
+.honor-timeline-item:nth-child(odd) .honor-timeline-badge {
+  right: -25px;
+}
+
+.honor-timeline-item:nth-child(even) .honor-timeline-badge {
+  left: -25px;
+}
+
+.honor-position {
+  color: #f5a425;
+  font-weight: bold;
+  font-size: 1.2rem;
+  text-shadow: 0 0 5px rgba(245, 164, 37, 0.5);
+}
+
+/* Panel de contenido */
+.honor-timeline-panel {
+  background: rgba(23, 34, 56, 0.8);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.honor-timeline-item:hover .honor-timeline-panel {
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(245, 164, 37, 0.3);
+  border-color: rgba(245, 164, 37, 0.3);
+  transform: translateY(-5px);
+}
+
+/* Cabecera del panel */
+.honor-timeline-header {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  gap: 15px;
+}
+
+.honor-timeline-item:nth-child(odd) .honor-timeline-header {
+  flex-direction: row-reverse;
+  text-align: left;
+}
+
+/* Imagen del estudiante */
+.honor-timeline-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  border: 3px solid rgba(245, 164, 37, 0.5);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  flex-shrink: 0;
+}
+
+.honor-timeline-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.honor-timeline-item:hover .honor-timeline-image img {
+  transform: scale(1.1);
+}
+
+/* Efecto de brillo */
+.honor-shine {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transform: rotate(45deg);
+  transition: all 0.5s ease;
+  opacity: 0;
+}
+
+.honor-timeline-item:hover .honor-shine {
+  top: 100%;
+  left: 100%;
+  opacity: 1;
+}
+
+/* Título y categoría */
+.honor-timeline-title {
+  flex-grow: 1;
+}
+
+.honor-timeline-title h3 {
+  margin: 0 0 5px;
+  color: #fff;
+  font-size: 1.2rem;
+}
+
+.honor-timeline-title p {
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0 0 10px;
+  font-size: 0.9rem;
+}
+
+.honor-timeline-category {
+  display: inline-block;
+  background: rgba(245, 164, 37, 0.2);
+  color: #f5a425;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+/* Cuerpo del panel */
+.honor-timeline-body {
+  padding: 20px;
+}
+
+/* Estadísticas y badges */
+.honor-timeline-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.honor-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.honor-stat-circle {
+  width: 70px;
+  height: 70px;
+  position: relative;
+}
+
+.honor-stat-circle svg {
+  width: 100%;
+  height: 100%;
+}
+
+.honor-stat-circle-bg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.1);
+  stroke-width: 3;
+}
+
+.honor-stat-circle-fill {
+  fill: none;
+  stroke: #f5a425;
+  stroke-width: 3;
+  stroke-linecap: round;
+  transform: rotate(-90deg);
+  transform-origin: center;
+  transition: stroke-dasharray 1s ease;
+}
+
+.honor-stat-text {
+  fill: #fff;
+  font-size: 10px;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  font-weight: bold;
+}
+
+.honor-stat span {
+  margin-top: 5px;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Badges */
+.honor-badges {
+  display: flex;
+  gap: 10px;
+}
+
+.honor-badge {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  color: #fff;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.honor-badge:hover {
+  transform: scale(1.2);
+}
+
+.honor-badge.academic {
+  background: linear-gradient(135deg, #4CAF50, #2E7D32);
+}
+
+.honor-badge.trophy {
+  background: linear-gradient(135deg, #FFC107, #FF8F00);
+}
+
+.honor-badge.leadership {
+  background: linear-gradient(135deg, #2196F3, #0D47A1);
+}
+
+.honor-badge.heart {
+  background: linear-gradient(135deg, #F44336, #B71C1C);
+}
+
+.honor-badge.sports {
+  background: linear-gradient(135deg, #9C27B0, #4A148C);
+}
+
+.honor-badge.tech {
+  background: linear-gradient(135deg, #00BCD4, #006064);
+}
+
+.honor-badge.innovation {
+  background: linear-gradient(135deg, #FFEB3B, #F57F17);
+}
+
+.honor-badge.arts {
+  background: linear-gradient(135deg, #E91E63, #880E4F);
+}
+
+.honor-badge.culture {
+  background: linear-gradient(135deg, #3F51B5, #1A237E);
+}
+
+/* Estilos para las medallas */
+.medal {
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+}
+
+.medal.gold {
+  background: linear-gradient(135deg, #ffd700 0%, #f5a425 100%);
+}
+
+.medal.silver {
+  background: linear-gradient(135deg, #C0C0C0 0%, #A9A9A9 100%);
+}
+
+.medal.bronze {
+  background: linear-gradient(135deg, #CD7F32 0%, #A0522D 100%);
+}
+
+/* Controles de navegación */
+.honor-controls {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  gap: 20px;
+}
+
+.honor-control {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  color: #172238;
+  font-size: 1.2rem;
+}
+
+.honor-control:hover {
+  background: #f5a425;
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Indicadores de posición */
+.honor-indicators {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.honor-indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ddd;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.honor-indicator.active {
+  background: #f5a425;
+  transform: scale(1.3);
+}
+
+/* Efectos de partículas */
+.honor-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.honor-particle {
+  position: absolute;
+  background-color: rgba(245, 164, 37, 0.3);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* Efecto de confeti */
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: #f5a425;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 100;
+}
+
+/* Efecto de brillo */
+.honor-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(30deg);
+  transition: transform 0.7s;
+  opacity: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.honor-card:hover::before {
+  opacity: 1;
+  transform: rotate(30deg) translate(0, 0);
+  animation: card-shine 1.5s ease-out;
+}
+
+@keyframes card-shine {
+  0% {
+    transform: rotate(30deg) translateX(-300%);
+  }
+  100% {
+    transform: rotate(30deg) translateX(300%);
+  }
+}
+
+/* Animación de flotación */
+@keyframes float {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(2deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+  .honor-gallery {
+    height: 450px;
+  }
+  
+  .honor-card {
+    width: 260px;
+    height: 380px;
+  }
+}
+
+@media (max-width: 767px) {
+  .honor-gallery {
+    height: 400px;
+  }
+  
+  .honor-card {
+    width: 240px;
+    height: 350px;
+  }
+  
+  .honor-details h4 {
+    font-size: 1rem;
+  }
+}
+
+/* Cita del timeline */
+.honor-timeline-quote {
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 15px;
+  padding: 10px;
+  border-left: 3px solid rgba(245, 164, 37, 0.5);
+  background: rgba(245, 164, 37, 0.05);
+  border-radius: 0 5px 5px 0;
+}
+
+/* Botón de ver logros */
+.honor-timeline-btn {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background: rgba(245, 164, 37, 0.2);
+  border: 1px solid rgba(245, 164, 37, 0.5);
+  color: #f5a425;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.9rem;
+}
+
+.honor-timeline-btn:hover {
+  background: rgba(245, 164, 37, 0.3);
+  box-shadow: 0 0 15px rgba(245, 164, 37, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Modal de logros detallados */
+.honor-achievement-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(12, 30, 62, 0.95);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.5s ease;
+  backdrop-filter: blur(10px);
+}
+
+.honor-achievement-modal.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.honor-modal-content {
+  background: #172238;
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 15px;
+  position: relative;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  transform: scale(0.9);
+  transition: all 0.5s ease;
+  border: 1px solid rgba(245, 164, 37, 0.3);
+}
+
+.honor-achievement-modal.active .honor-modal-content {
+  transform: scale(1);
+}
+
+.honor-modal-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 30px;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.3s ease;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.honor-modal-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(90deg);
+  color: #fff;
+}
+
+.honor-modal-header {
+  padding: 30px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(to right, rgba(245, 164, 37, 0.1), transparent);
+}
+
+.honor-modal-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #f5a425;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  flex-shrink: 0;
+}
+
+.honor-modal-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.honor-modal-title {
+  flex-grow: 1;
+}
+
+.honor-modal-name {
+  font-size: 1.5rem;
+  margin: 0 0 5px;
+  color: #fff;
+}
+
+.honor-modal-course {
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0 0 10px;
+  font-size: 1rem;
+}
+
+.honor-modal-category {
+  display: inline-block;
+  background: rgba(245, 164, 37, 0.2);
+  color: #f5a425;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.honor-modal-body {
+  padding: 30px;
+}
+
+.honor-modal-section {
+  margin-bottom: 30px;
+}
+
+.honor-modal-section h4 {
+  color: #f5a425;
+  margin-bottom: 20px;
+  font-size: 1.2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.honor-achievement-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.honor-achievement-list li {
+  padding: 12px 15px;
+  margin-bottom: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 5px;
+  position: relative;
+  transition: all 0.3s ease;
+  border-left: 3px solid rgba(245, 164, 37, 0.5);
+}
+
+.honor-achievement-list li:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateX(5px);
+  border-left-color: #f5a425;
+}
+
+.honor-modal-chart {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  padding: 20px;
+  height: 250px;
+}
+
+.honor-modal-quote {
+  background: rgba(245, 164, 37, 0.1);
+  border-left: 4px solid #f5a425;
+  padding: 20px;
+  border-radius: 5px;
+  position: relative;
+}
+
+.honor-modal-quote:before {
+  content: '\201C';
+  font-size: 4rem;
+  position: absolute;
+  top: -20px;
+  left: 10px;
+  color: rgba(245, 164, 37, 0.2);
+  font-family: Georgia, serif;
+}
+
+.honor-quote-text {
+  font-style: italic;
+  margin-bottom: 15px;
+  color: rgba(255, 255, 255, 0.9);
+  position: relative;
+  z-index: 1;
+}
+
+.honor-quote-signature {
+  text-align: right;
+  color: #f5a425;
+  font-weight: 500;
+}
+
+/* Animaciones */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shine {
+  0% {
+    transform: translateX(-100%) rotate(45deg);
+  }
+  100% {
+    transform: translateX(100%) rotate(45deg);
+  }
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+  .honor-timeline-line {
+    left: 50px;
+  }
+  
+  .honor-timeline-item {
+    width: 100%;
+    padding-left: 70px;
+    padding-right: 20px;
+    left: 0;
+    text-align: left;
+  }
+  
+  .honor-timeline-item:nth-child(odd) {
+    text-align: left;
+  }
+  
+  .honor-timeline-item:nth-child(odd) .honor-timeline-badge {
+    left: 25px;
+    right: auto;
+  }
+  
+  .honor-timeline-item:nth-child(even) .honor-timeline-badge {
+    left: 25px;
+  }
+  
+  .honor-timeline-item:nth-child(odd) .honor-timeline-header {
+    flex-direction: row;
+  }
+  
+  .honor-modal-header {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+@media (max-width: 767px) {
+  .honor-filter-tabs {
+    gap: 10px;
+  }
+  
+  .honor-filter {
+    padding: 6px 15px;
+    font-size: 0.8rem;
+  }
+  
+  .honor-timeline-stats {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .honor-badges {
+    margin-top: 10px;
+  }
+  
+  .honor-timeline-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .honor-timeline-image {
+    margin-bottom: 10px;
+  }
+  
+  .honor-modal-section h4 {
+    font-size: 1.1rem;
+  }
+  
+  .honor-modal-chart {
+    height: 200px;
+  }
+}

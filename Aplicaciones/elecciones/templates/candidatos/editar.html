@@ -1,0 +1,186 @@
+{% extends 'plantilla.html' %}
+
+{% block contenido %}
+<div class="container mt-4">
+    <div class="card mb-3">
+        <div class="card-body bg-light text-center">
+            <h5 class="card-title mb-3"><strong>Gestión Electoral</strong></h5>
+            <p class="card-text mb-4">
+                Administración de listas y cargos para elecciones estudiantiles.
+            </p>
+        </div>
+        <nav class="navbar navbar-light bg-light border rounded shadow-sm">
+            <div class="container-fluid justify-content-around">
+                <a href="{% url 'listar_listas' %}" class="text-decoration-none text-center">
+                    <i class="la la-list-ol text-muted fs-2 d-block"></i>
+                    <div>
+                        <strong class="d-block">Listas</strong>
+                        <small class="text-muted">Gestionar listas</small>
+                    </div>
+                </a>
+                <a href="{% url 'listar_cargos' %}" class="text-decoration-none text-center">
+                    <i class="la la-briefcase text-muted fs-2 d-block"></i>
+                    <div>
+                        <strong class="d-block">Cargos</strong>
+                        <small class="text-muted">Gestionar cargos</small>
+                    </div>
+                </a>
+                <a href="{% url 'listar_candidatos' %}" class="text-decoration-none text-center position-relative">
+                    <div>
+                        <i class="la la-users text-primary fs-2 d-block"></i>
+                        <span class="position-absolute" style="top: -15px; right: 70%; z-index: 1000;">
+                            <i class="fas fa-hand-point-left" style="font-size: 2rem; transform: scaleX(1) rotate(-30deg); color: #1cbed3e6;"></i>
+                        </span>
+                        <div>
+                            <strong class="d-block">Candidatos</strong>
+                            <small class="text-muted">Gestionar candidatos</small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <div class="card">
+        <div class="card-header bg-warning text-dark">
+            <h4 class="mb-0">
+                <i class="fas fa-edit me-2"></i>Editar Candidato
+            </h4>
+        </div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <!-- Información básica del candidato -->
+                <div class="card mb-3">
+                    <div class="card-header bg-primary text-white">
+                        <h6 class="mb-0"><i class="fas fa-user me-2"></i>Información del Candidato</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="nombre_candidato" class="form-label">Nombre del Candidato</label>
+                                <input type="text" class="form-control" id="nombre_candidato" 
+                                       name="nombre_candidato" value="{{ candidato.nombre_candidato }}" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="tipo_candidato" class="form-label">Tipo de Candidato</label>
+                                <select class="form-select" id="tipo_candidato" name="tipo_candidato" required>
+                                    {% for tipo in tipos_candidato %}
+                                        <option value="{{ tipo.0 }}" {% if tipo.0 == candidato.tipo_candidato %}selected{% endif %}>
+                                            {{ tipo.1 }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="imagen" class="form-label">Fotografía del Candidato</label>
+                                <div class="position-relative d-inline-block w-100">
+                                    <input type="file" id="imagen" name="imagen" accept="image/*" onchange="previewImage(this, 'preview_candidato')" style="display: none !important; visibility: hidden !important; position: absolute !important; left: -9999px !important;">
+                                    
+                                    <img id="preview_candidato" class="img-thumbnail mt-2 d-none" style="max-width: 150px; max-height: 150px;">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                {% if candidato.imagen %}
+                                    <label class="form-label">Imagen Actual</label>
+                                    <div class="mt-2">
+                                        <img src="{{ candidato.imagen.url }}" alt="{{ candidato.nombre_candidato }}" 
+                                             class="img-thumbnail" style="max-width: 150px; max-height: 150px;">
+                                        <div class="form-text">Imagen actual. Seleccione una nueva para reemplazarla.</div>
+                                    </div>
+                                {% else %}
+                                    <label class="form-label">Vista Previa</label>
+                                    <div class="mt-2 text-muted">
+                                        <i class="fas fa-image fa-3x"></i>
+                                        <div class="form-text">No hay imagen actual. Seleccione una imagen.</div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Información electoral -->
+                <div class="card mb-3">
+                    <div class="card-header bg-success text-white">
+                        <h6 class="mb-0"><i class="fas fa-vote-yea me-2"></i>Información Electoral</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="lista" class="form-label">Lista Electoral</label>
+                                <select class="form-select" id="lista" name="lista" required>
+                                    {% for lista in listas %}
+                                        <option value="{{ lista.id }}" {% if lista.id == candidato.lista.id %}selected{% endif %}>
+                                            {{ lista.nombre_lista }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="cargo" class="form-label">Cargo a Postular</label>
+                                <select class="form-select" id="cargo" name="cargo" required>
+                                    {% for cargo in cargos %}
+                                        <option value="{{ cargo.id }}" {% if cargo.id == candidato.cargo.id %}selected{% endif %}>
+                                            {{ cargo.nombre_cargo }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <label class="form-label">Período Electoral</label>
+                                <input type="text" class="form-control" 
+                                       value="{{ candidato.periodo.nombre }}" disabled>
+                                <div class="form-text">El período electoral no se puede modificar después de crear el candidato.</div>
+                                <input type="hidden" name="periodo" value="{{ candidato.periodo.id }}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                    <a href="{% url 'listar_candidatos' %}" class="btn btn-secondary me-md-2">
+                        <i class="fas fa-times"></i> Cancelar
+                    </a>
+                    <button type="submit" class="btn btn-warning">
+                        <i class="fas fa-save"></i> Actualizar Candidato
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+// Función para previsualizar imagen
+function previewImage(input, previewId) {
+    const preview = document.getElementById(previewId);
+    const fileNameSpan = input.nextElementSibling.querySelector('.file-name');
+    
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.classList.remove('d-none');
+        };
+        
+        reader.readAsDataURL(input.files[0]);
+        
+        // Actualizar el texto del botón con el nombre del archivo
+        fileNameSpan.textContent = input.files[0].name;
+    } else {
+        preview.classList.add('d-none');
+        fileNameSpan.textContent = 'Seleccionar imagen  ';
+    }
+}
+</script>
+
+{% endblock contenido %}

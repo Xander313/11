@@ -1,0 +1,1102 @@
+{% extends 'plantilla.html' %}
+{% load static %}
+
+<!-- SweetAlert2 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- Spinner Loader CSS -->
+
+
+{% block contenido %}
+<br>
+<div class="card mb-3">
+  <div class="card-body bg-light text-center">
+    <h5 class="card-title mb-3"><strong>Gestión Académica</strong></h5>
+    <p class="card-text mb-4">
+      Administra los grados, paralelos y el padrón electoral del sistema.
+    </p>
+  </div>
+  <nav class="navbar navbar-light bg-light border rounded shadow-sm">
+    <div class="container-fluid justify-content-around">
+      <a href="{% url 'listar_grados' %}" class="text-decoration-none text-center">
+        <i class="la la-graduation-cap text-muted fs-2 d-block"></i>
+        <div>
+          <strong class="d-block">Grados</strong>
+          <small class="text-muted">Crear, editar, eliminar</small>
+        </div>
+      </a>
+      <a href="{% url 'listar_paralelos' %}" class="text-decoration-none text-center">
+        <i class="la la-sitemap text-muted fs-2 d-block"></i>
+        <div>
+          <strong class="d-block">Paralelos</strong>
+          <small class="text-muted">Gestionar paralelos</small>
+        </div>
+      </a>
+      <a href="{% url 'gestion_padron' %}" class="text-decoration-none text-center position-relative">
+        <div>
+          <i class="la la-users text-primary fs-2 d-block"></i>
+          <span class="position-absolute" style="top: -15px; right: 70%; z-index: 1000;">
+            <i class="fas fa-hand-point-left" style="font-size: 2rem; transform: scaleX(1) rotate(-30deg); color: #1cbed3e6;"></i>
+          </span>
+          <div>
+            <strong class="d-block">Padrón</strong>
+            <small class="text-muted">Estudiantes</small>
+          </div>
+        </div>
+    </div>
+  </nav>
+</div>
+
+  <section id="listar-padron" class="row match-height">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+          <h4 class="card-title mb-2 mb-md-0">Padrón Electoral</h4>
+          <div class="d-flex flex-column flex-md-row align-items-stretch justify-content-md-end gap-2">
+            <button type="button" class="btn btn-danger" id="btnVaciarPadron">
+              <i class="la la-trash"></i> Vaciar Padrón
+            </button>
+            <a href="{% url 'exportar_padron_excel' %}" class="btn btn-success">
+              <i class="la la-file-excel"></i> Descargar Excel
+            </a>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalImportarExcel">
+              <i class="la la-upload"></i> Cargar Excel
+            </button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAgregarEstudiante">
+              <i class="la la-plus"></i> Nuevo 
+            </button>
+            <form action="{% url 'generar_credenciales' %}" method="post" class="d-inline" id="formEnviarCredenciales">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-info" id="btnEnviarCredenciales">
+                <i class="la la-key"></i> Enviar credenciales
+              </button>
+            </form>
+            <a href="{% url 'generar_credenciales' %}" class="btn btn-warning">
+              <i class="la la-eye"></i> Ver credenciales
+            </a>
+          </div>
+        </div>
+  
+        <div class="card-content">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table id="tablaPadron" class="table table-striped table-bordered table-hover" style="width:100%; font-size: 0.9rem;">
+                <thead class="thead-dark">
+                  <tr>
+                    <th>Cédula</th>
+                    <th>Apellidos</th>
+                    <th>Nombres</th>
+                    <th>Grado</th>
+                    <th>Paralelo</th>
+                    <th>Período</th>
+                    <th>Correo</th>
+                   
+                    <th class="text-center">Estado</th>
+                    <th class="text-center" style="width: 80px;">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for estudiante in padron %}
+                  <tr>
+                    <td>{{ estudiante.cedula|default:"" }}</td>
+                    <td>{{ estudiante.apellidos|default:"" }}</td>
+                    <td>{{ estudiante.nombre|default:"" }}</td>
+                    <td>{{ estudiante.grado.nombre|default:"" }}</td>
+                    <td>{{ estudiante.paralelo.nombre|default:"" }}</td>
+                    <td>{{ estudiante.periodo.nombre|default:"" }}</td>
+                    <td>{{ estudiante.correo|default:"" }}</td>
+                 
+                    <td class="text-center">
+                      <span class="badge {% if estudiante.estado == 'activo' %}badge-success{% else %}badge-danger{% endif %}">
+                        {{ estudiante.get_estado_display|default:"" }}
+                      </span>
+                    </td>
+                    <td class="text-center" style="white-space: nowrap;">
+                      <!-- Botón Editar -->
+                      <button class="btn btn-sm btn-outline-primary mx-1" 
+                              data-toggle="modal" 
+                              data-target="#editarEstudianteModal{{ estudiante.id }}"
+                              title="Editar"
+                              data-toggle-tooltip="tooltip"
+                              data-placement="top">
+                        <i class="la la-edit"></i>
+                      </button>
+                      <!-- Botón Eliminar -->
+                      <button class="btn btn-sm btn-outline-danger btn-eliminar-estudiante" 
+                              data-estudiante-id="{{ estudiante.id }}"
+                              data-estudiante-nombre="{{ estudiante.nombre|escapejs }} {{ estudiante.apellidos|escapejs }}"
+                              data-estudiante-cedula="{{ estudiante.cedula|escapejs }}"
+                              title="Eliminar"
+                              data-toggle-tooltip="tooltip"
+                              data-placement="top">
+                        <i class="la la-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+  
+                  <!-- Modal Editar -->
+                  <div class="modal fade" id="editarEstudianteModal{{ estudiante.id }}" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                      <div class="modal-content p-4">
+                        <div class="modal-header border-0">
+                          <h5 class="modal-title w-100 text-center font-weight-bold">EDITAR ESTUDIANTE</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <form method="POST" action="{% url 'editar_estudiante' estudiante.id %}">
+                            {% csrf_token %}
+                            <div class="form-row">
+                              <div class="form-group col-md-6">
+                                <label>Cédula*</label>
+                                <input type="text" class="form-control" name="cedula" value="{{ estudiante.cedula }}" required>
+                              </div>
+                              <div class="form-group col-md-6">
+                                <label>Correo Electrónico*</label>
+                                <input type="email" class="form-control" name="correo" value="{{ estudiante.correo }}" required>
+                              </div>
+                            </div>
+  
+                            <div class="form-row">
+                              <div class="form-group col-md-6">
+                                <label>Nombres*</label>
+                                <input type="text" class="form-control" name="nombre" value="{{ estudiante.nombre }}" required>
+                              </div>
+                              <div class="form-group col-md-6">
+                                <label>Apellidos*</label>
+                                <input type="text" class="form-control" name="apellidos" value="{{ estudiante.apellidos }}" required>
+                              </div>
+                            </div>
+  
+                            <div class="form-row">
+                              <div class="form-group col-md-4">
+                                <label>Grado*</label>
+                                <select class="form-control select-grado" name="grado" required>
+                                  {% for grado in grados %}
+                                  <option value="{{ grado.id }}" {% if grado.id == estudiante.grado.id %}selected{% endif %}>
+                                    {{ grado.nombre }}
+                                  </option>
+                                  {% endfor %}
+                                </select>
+                              </div>
+                              <div class="form-group col-md-4">
+                                <label>Paralelo*</label>
+                                <select class="form-control select-paralelo" name="paralelo" required>
+                                  {% for paralelo in estudiante.grado.paralelos.all %}
+                                  <option value="{{ paralelo.id }}" {% if paralelo.id == estudiante.paralelo.id %}selected{% endif %}>
+                                    {{ paralelo.nombre }}
+                                  </option>
+                                  {% endfor %}
+                                </select>
+                              </div>
+                              <div class="form-group col-md-4">
+                                <label for="periodo">PERÍODO</label>
+                                <input type="text" class="form-control rounded-pill" name="periodo" value="{{ periodo_actual.nombre }}" readonly>
+                                <input type="hidden" name="periodo_id" value="{{ periodo_actual.id }}">
+                              </div>
+                            </div>
+  
+                            <div class="form-row">
+                              <div class="form-group col-md-6">
+                                <label>Teléfono</label>
+                                <input type="text" class="form-control" name="telefono" value="{{ estudiante.telefono|default:'' }}">
+                              </div>
+                              <div class="form-group col-md-6">
+                                <label>Estado*</label>
+                                <select class="form-control" name="estado" required>
+                                  {% for estado in estudiante.ESTADOS %}
+                                  <option value="{{ estado.0 }}" {% if estado.0 == estudiante.estado %}selected{% endif %}>
+                                    {{ estado.1 }}
+                                  </option>
+                                  {% endfor %}
+                                </select>
+                              </div>
+                            </div>
+  
+                            <div class="form-group text-center mt-4">
+                              <button type="submit" class="btn btn-primary px-4 mr-2">
+                                <i class="la la-save"></i> GUARDAR
+                              </button>
+                              <button type="button" class="btn btn-secondary px-4" data-dismiss="modal">
+                                <i class="la la-times"></i> CANCELAR
+                              </button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+  
+                  <!-- Modal Eliminar -->
+                  <div class="modal fade" id="eliminarEstudianteModal{{ estudiante.id }}" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Confirmar Eliminación</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          ¿Estás seguro de eliminar a <strong>{{ estudiante.apellidos }} {{ estudiante.nombre }}</strong> del padrón electoral?
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                          <a href="{% url 'eliminar_estudiante' estudiante.id %}" class="btn btn-danger">Eliminar</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {% empty %}
+                  <tr>
+                    <td colspan="10" class="text-center py-4">
+                      <i class="la la-users" style="font-size: 2rem;"></i>
+                      <p class="mt-2">No hay estudiantes registrados en el padrón</p>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-- Modal Agregar -->
+<div class="modal fade" id="modalAgregarEstudiante" tabindex="-1" role="dialog" aria-labelledby="modalAgregarEstudianteLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content p-4">
+      <div class="modal-header border-0">
+        <h5 class="modal-title w-100 text-center font-weight-bold" id="modalAgregarEstudianteLabel">AGREGAR ESTUDIANTE</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" action="{% url 'agregar_estudiante' %}">
+          {% csrf_token %}
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>Cédula*</label>
+              <input type="text" class="form-control" name="cedula" required>
+            </div>
+            <div class="form-group col-md-6">
+              <label>Correo Electrónico*</label>
+              <input type="email" class="form-control" name="correo" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>Nombres*</label>
+              <input type="text" class="form-control" name="nombre" required>
+            </div>
+            <div class="form-group col-md-6">
+              <label>Apellidos*</label>
+              <input type="text" class="form-control" name="apellidos" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label>Grado*</label>
+              <select class="form-control select-grado" name="grado" required>
+                <option value="">-- Seleccione --</option>
+                {% for grado in grados %}
+                <option value="{{ grado.id }}">{{ grado.nombre }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="form-group col-md-4">
+              <label>Paralelo*</label>
+              <select class="form-control select-paralelo" name="paralelo" required >
+                <option value="">-- Seleccione grado primero --</option>
+                {% for paralelo in paralelos %}
+                  <option value="{{ paralelo.id }}" data-grado="{{ paralelo.grado_id }}">{{ paralelo.nombre }} ({{ paralelo.grado.nombre|default:'' }})</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="periodo">PERÍODO</label>
+              <input type="text" class="form-control rounded-pill" name="periodo" value="{{ periodo_actual.nombre }}" readonly>
+              <input type="hidden" name="periodo_id" value="{{ periodo_actual.id }}">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>Teléfono</label>
+              <input type="text" class="form-control" name="telefono">
+            </div>
+            <div class="form-group col-md-6">
+              <label>Estado*</label>
+              <select class="form-control" name="estado" required>
+                {% for estado in ESTADOS %}
+                <option value="{{ estado.0 }}" {% if estado.0 == 'activo' %}selected{% endif %}>
+                  {{ estado.1 }}
+                </option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group text-center mt-4">
+            <button type="submit" class="btn btn-primary px-4 mr-2">
+              <i class="la la-save"></i> GUARDAR
+            </button>
+            <button type="button" class="btn btn-secondary px-4" data-dismiss="modal">
+              <i class="la la-times"></i> CANCELAR
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Importar Excel -->
+<div class="modal fade" id="modalImportarExcel" tabindex="-1" role="dialog" aria-labelledby="modalImportarExcelLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalImportarExcelLabel">Importar desde Excel</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form id="importarExcelForm" method="POST" action="{% url 'importar_padron_excel' %}" enctype="multipart/form-data">
+        <div class="modal-body">
+          {% csrf_token %}
+          {% if messages %}
+          {% for message in messages %}
+          <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show" role="alert">
+            {% if 'safe' in message.tags %}
+              {{ message|safe }}
+            {% else %}
+              {{ message }}
+            {% endif %}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          {% endfor %}
+          {% endif %}
+          <div class="form-group">
+            <label>Seleccione archivo Excel (.xlsx)</label>
+            <input type="file" class="form-control-file" name="archivo_excel" id="archivoExcel" accept=".xlsx" required>
+          </div>
+          <div class="alert alert-info">
+            <strong>Formato requerido:</strong> Cédula | Apellidos | Nombres | Grado | Paralelo | Correo | Teléfono (opcional)
+          </div>
+          <div id="loadingIndicator" class="text-center" style="display: none;">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Cargando...</span>
+            </div>
+            <p>Procesando archivo, por favor espere...</p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary" id="btnImportar">
+            <i class="la la-upload"></i> Importar
+          </button>
+        </div>
+      </form>
+      <script>
+        // Función para mostrar notificaciones con SweetAlert2
+        function mostrarNotificacion(titulo, mensaje, tipo = 'success', timer = 5000) {
+            // Configuración común para todas las notificaciones
+            const toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: timer,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer);
+                    toast.addEventListener('mouseleave', Swal.resumeTimer);
+                }
+            });
+            
+            // Mostrar notificación según el tipo
+            switch(tipo) {
+                case 'success':
+                    toast.fire({
+                        icon: 'success',
+                        title: titulo,
+                        text: mensaje
+                    });
+                    break;
+                case 'error':
+                    toast.fire({
+                        icon: 'error',
+                        title: titulo,
+                        text: mensaje
+                    });
+                    break;
+                case 'info':
+                    toast.fire({
+                        icon: 'info',
+                        title: titulo,
+                        text: mensaje
+                    });
+                    break;
+                default:
+                    toast.fire({
+                        icon: 'info',
+                        title: titulo,
+                        text: mensaje
+                    });
+            }
+        }
+
+        // Manejar el envío del formulario de importación
+        document.addEventListener('DOMContentLoaded', function() {
+            const importForm = document.getElementById('importarExcelForm');
+            if (!importForm) return;
+
+            importForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const form = this;
+                const btnImportar = document.getElementById('btnImportar');
+                const originalBtnText = btnImportar.innerHTML;
+                const loadingIndicator = document.getElementById('loadingIndicator');
+                
+                // Validar que se haya seleccionado un archivo
+                const archivoInput = document.getElementById('archivoExcel');
+                if (!archivoInput.files || archivoInput.files.length === 0) {
+                    mostrarNotificacion('Error', 'Por favor seleccione un archivo Excel para importar', 'error');
+                    return false;
+                }
+                
+                // Validar extensión del archivo
+                const fileName = archivoInput.files[0].name;
+                const fileExt = fileName.split('.').pop().toLowerCase();
+                if (fileExt !== 'xlsx' && fileExt !== 'xls') {
+                    mostrarNotificacion('Formato no válido', 'El archivo debe ser de tipo Excel (.xlsx o .xls)', 'error');
+                    return false;
+                }
+                
+                // Mostrar indicador de carga
+                btnImportar.disabled = true;
+                btnImportar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Importando...';
+                if (loadingIndicator) loadingIndicator.style.display = 'block';
+                
+                // Crear FormData para el envío
+                const formData = new FormData(form);
+                
+                // Mostrar diálogo de confirmación
+                Swal.fire({
+                    title: '¿Está seguro?',
+                    html: 'Está a punto de importar datos desde un archivo Excel. ¿Desea continuar?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sí, importar',
+                    cancelButtonText: 'Cancelar',
+                    backdrop: 'rgba(0,0,0,0.5)',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    allowEnterKey: false,
+                    showLoaderOnConfirm: true,
+                    preConfirm: () => {
+                        return fetch(form.action, {
+                            method: 'POST',
+                            body: formData,
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest',
+                                'X-CSRFToken': '{{ csrf_token }}'
+                            }
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Error en la respuesta del servidor');
+                            }
+                            return response.json();
+                        })
+                        .catch(error => {
+                            console.error('Error en la petición:', error);
+                            Swal.showValidationMessage(
+                                `Error al procesar la solicitud: ${error.message}`
+                            );
+                        });
+                    }
+                })
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        // Si la respuesta es exitosa
+                        if (result.value && result.value.success) {
+                            const mensaje = result.value.message;
+                            // Mostrar mensaje de éxito con SweetAlert2
+                            Swal.fire({
+                                title: mensaje.title || '¡Éxito!',
+                                html: mensaje.html || 'La importación se realizó correctamente.',
+                                icon: 'success',
+                                confirmButtonText: 'Aceptar',
+                                allowOutsideClick: false,
+                                allowEscapeKey: false
+                            }).then(() => {
+                                // Recargar la página para ver los cambios
+                                window.location.reload();
+                            });
+                        } else if (result.value) {
+                            // Mostrar mensaje de error del servidor
+                            const mensaje = result.value.message || {};
+                            Swal.fire({
+                                title: mensaje.title || 'Error',
+                                html: mensaje.html || 'Ocurrió un error al procesar el archivo.',
+                                icon: 'error',
+                                confirmButtonText: 'Aceptar'
+                            });
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error en la petición:', error);
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Ocurrió un error al procesar la solicitud. Por favor, intente nuevamente.',
+                        icon: 'error',
+                        confirmButtonText: 'Aceptar'
+                    });
+                })
+                .finally(() => {
+                    // Restaurar el botón y ocultar indicador de carga
+                    btnImportar.disabled = false;
+                    btnImportar.innerHTML = originalBtnText;
+                    if (loadingIndicator) loadingIndicator.style.display = 'none';
+                });
+            });
+        });
+      </script>
+
+      <!-- Inicialización de DataTables -->
+      <script>
+        $(document).ready(function() {
+          // Inicializar tooltips
+          $('[data-toggle-tooltip="tooltip"]').tooltip({
+              trigger: 'hover',
+              placement: 'top'
+          });
+          
+          // Verificar si DataTables está disponible
+          if (typeof $.fn.DataTable === 'function') {
+            // Inicializar DataTable con opciones
+            var table = $('#tablaPadron').DataTable({
+            "language": {
+              "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
+            },
+            "responsive": true,
+            "columnDefs": [
+              { 
+                "orderable": false, 
+                "targets": 9, // Índice de la columna de acciones
+                "className": "text-center"
+              },
+              { 
+                "searchable": false, 
+                "targets": 9 // Índice de la columna de acciones
+              },
+              {
+                "targets": [6, 8], // Columnas de teléfono y estado
+                "className": "text-center"
+              }
+            ],
+            "pageLength": 10,
+            "order": [[1, 'asc']], // Ordenar por apellidos por defecto
+            "language": {
+              "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json",
+              "search": "Buscar:",
+              "lengthMenu": "Mostrar _MENU_ registros por página",
+              "zeroRecords": "No se encontraron registros",
+              "info": "Mostrando página _PAGE_ de _PAGES_",
+              "infoEmpty": "No hay registros disponibles",
+              "infoFiltered": "(filtrado de _MAX_ registros totales)",
+              "paginate": {
+                "first": "Primera",
+                "last": "Última",
+                "next": "Siguiente",
+                "previous": "Anterior"
+              }
+            },
+            "responsive": true,
+            "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+                   "<'row'<'col-sm-12'tr>>" +
+                   "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>"
+          });
+
+          // Inicializar tooltips
+          $('[data-toggle-tooltip="tooltip"]').tooltip({
+              trigger: 'hover',
+              placement: 'top'
+          });
+
+          // Manejar el evento de búsqueda personalizado
+          $('#searchInput').on('keyup', function() {
+            table.search(this.value).draw();
+          });
+        } else {
+            console.error('DataTables no está cargado correctamente');
+          }
+        });
+      </script>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Confirmación -->
+<div class="modal fade" id="modalConfirmarVaciado" tabindex="-1" role="dialog" aria-labelledby="modalConfirmarVaciadoLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="modalConfirmarVaciadoLabel">Confirmar Vaciar Padrón</h5>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <br>
+      <div class="modal-body">
+        <div class="alert alert-danger" role="alert">
+          <h5 class="alert-heading"><i class="fas fa-exclamation-triangle"></i> ¡Atención! Acción Crítica</h5>
+          <p class="mb-0">Estás a punto de eliminar <strong>TODOS</strong> los registros del padrón electoral.</p>
+        </div>
+        
+        <div class="card border-danger mb-3">
+          <div class="card-header bg-danger text-white">
+            <i class="fas fa-exclamation-circle"></i> Impacto de esta acción:
+          </div>
+          <div class="card-body text-danger">
+            <ul class="mb-0">
+              <li>Se eliminarán <strong>todos los estudiantes</strong> del padrón electoral actual.</li>
+              <li>Los grados y paralelos que no estén siendo utilizados también serán eliminados.</li>
+              <li>Esta acción <strong>no se puede deshacer</strong> y los datos no podrán ser recuperados.</li>
+              <li>Si necesitas hacer una copia de seguridad, haz clic en "Cancelar" y exporta los datos primero.</li>
+            </ul>
+          </div>
+        </div>
+        
+        <p class="font-weight-bold mt-3">¿Estás completamente seguro de continuar con esta acción?</p>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="confirmarEliminacion">
+          <label class="form-check-label" for="confirmarEliminacion">
+            Entiendo que esta acción es irreversible y deseo continuar.
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          <i class="fas fa-times"></i> Cancelar
+        </button>
+        <button type="button" class="btn btn-danger" id="btnConfirmarVaciado" disabled>
+          <i class="fas fa-trash-alt"></i> Vaciar Padrón
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Éxito -->
+<div class="modal fade" id="modalExitoVaciado" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title">¡Operación Exitosa!</h5>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center">
+        <i class="fas fa-check-circle fa-4x text-success mb-3"></i>
+        <p>El padrón ha sido vaciado correctamente.</p>
+        <p>La página se recargará automáticamente...</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Error -->
+<div class="modal fade" id="modalError" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title">Error</h5>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <i class="fas fa-exclamation-circle fa-3x text-danger float-left mr-3"></i>
+        <p id="errorMensaje">Ocurrió un error al intentar vaciar el padrón.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Spinner en pantalla completa -->
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Verificar si jQuery está cargado
+if (typeof jQuery == 'undefined') {
+    console.error('jQuery no está cargado');
+} else {
+    console.log('jQuery está cargado correctamente');
+}
+
+// Función para vaciar el padrón
+function vaciarPadron() {
+    // Mostrar mensaje de carga
+    var boton = document.getElementById('btnConfirmarVaciado');
+    var botonOriginal = document.getElementById('btnVaciarPadron');
+    var textoOriginal = boton.innerHTML;
+    boton.disabled = true;
+    boton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
+    
+    // Cerrar el modal
+    $('#modalConfirmarVaciado').modal('hide');
+    
+    // Configurar los encabezados para la petición
+    const headers = new Headers();
+    headers.append('X-Requested-With', 'XMLHttpRequest');
+    headers.append('X-CSRFToken', '{{ csrf_token }}');
+    
+    // Hacer la petición AJAX
+    fetch("{% url 'eliminar_todo_el_padron' %}", {
+        method: 'POST',
+        headers: headers,
+        body: new URLSearchParams({
+            'csrfmiddlewaretoken': '{{ csrf_token }}'
+        })
+    })
+    .then(response => {
+        // Verificar si la respuesta es JSON
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+            return response.json();
+        }
+        // Si no es JSON, lanzar un error
+        return response.text().then(text => {
+            throw new Error('El servidor devolvió una respuesta inesperada');
+        });
+    })
+    .then(data => {
+        if (data && data.success) {
+            // Mostrar mensaje de éxito
+            $('#modalExitoVaciado').modal('show');
+            // Recargar la página después de 2 segundos
+            setTimeout(() => {
+                location.reload();
+            }, 2000);
+        } else {
+            throw new Error(data && data.message ? data.message : 'Error desconocido al vaciar el padrón');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        // Mostrar mensaje de error
+        $('#errorMensaje').text('Ocurrió un error al intentar vaciar el padrón: ' + (error.message || 'Error desconocido'));
+        $('#modalError').modal('show');
+    })
+    .finally(() => {
+        if (boton) {
+            boton.disabled = false;
+            boton.innerHTML = textoOriginal;
+        }
+        if (botonOriginal) {
+            botonOriginal.disabled = false;
+            botonOriginal.innerHTML = '<i class="la la-trash"></i> Vaciar Padrón';
+        }
+    });
+}
+
+// Asignar eventos cuando el DOM esté listo
+$(document).ready(function() {
+    // Configurar el botón para abrir el modal
+    $(document).off('click', '#btnVaciarPadron').on('click', '#btnVaciarPadron', function(e) {
+        e.preventDefault();
+        console.log('Abriendo modal de confirmación');
+        // Resetear el modal cada vez que se abre
+        $('#confirmarEliminacion').prop('checked', false);
+        $('#btnConfirmarVaciado').prop('disabled', true);
+        
+        // Mostrar el modal
+        $('#modalConfirmarVaciado').modal('show');
+    });
+
+    // Manejar cambios en la casilla de confirmación
+    $(document).on('change', '#confirmarEliminacion', function() {
+        if ($(this).is(':checked')) {
+            $('#btnConfirmarVaciado').prop('disabled', false);
+        } else {
+            $('#btnConfirmarVaciado').prop('disabled', true);
+        }
+    });
+    
+    // Configurar el botón de confirmación
+    $(document).off('click', '#btnConfirmarVaciado').on('click', '#btnConfirmarVaciado', function(e) {
+        e.preventDefault();
+        console.log('Confirmación de vaciado del padrón');
+        // Cerrar el modal de confirmación
+        $('#modalConfirmarVaciado').modal('hide');
+        // Llamar a la función que realiza el vaciado
+        vaciarPadron();
+    });
+    
+    // Inicializar tooltips
+    $('[data-toggle-tooltip="tooltip"]').tooltip();
+});
+
+// Función para actualizar los paralelos cuando se selecciona un grado
+function actualizarParalelos(gradoId, paraleloId = '') {
+    if (gradoId) {
+        // Mostrar indicador de carga
+        const select = $('.select-paralelo');
+        select.prop('disabled', true);
+        select.html('<option value="">Cargando paralelos...</option>');
+        
+        // Hacer la petición AJAX a la vista cargar_paralelos
+        fetch(`/cargar-paralelos/?grado_id=${gradoId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error al cargar los paralelos');
+                }
+                return response.json();
+            })
+            .then(data => {
+                select.empty();
+                select.append('<option value="">-- Seleccione un paralelo --</option>');
+                
+                if (data.paralelos && data.paralelos.length > 0) {
+                    data.paralelos.forEach(paralelo => {
+                        select.append(`<option value="${paralelo.id}" ${paralelo.id == paraleloId ? 'selected' : ''}>${paralelo.nombre}</option>`);
+                    });
+                } else {
+                    select.append('<option value="" disabled>No hay paralelos para este grado</option>');
+                }
+                
+                // Si hay un paraleloId específico, seleccionarlo
+                if (paraleloId) {
+                    select.val(paraleloId).trigger('change');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                select.empty();
+                select.append(`<option value="" disabled>Error al cargar los paralelos</option>`);
+            })
+            .finally(() => {
+                select.prop('disabled', false);
+                select.trigger('change');
+            });
+    } else {
+        // Si no hay grado seleccionado, limpiar y deshabilitar el select de paralelos
+        const select = $('.select-paralelo');
+        select.empty();
+        select.append('<option value="">-- Seleccione un grado primero --</option>');
+    }
+}
+
+// Inicializar el select2 para los select de grado y paralelo
+$(document).ready(function() {
+    // Inicializar select2
+    $('.select-grado, .select-paralelo').select2({
+        theme: 'bootstrap4',
+        width: '100%'
+    });
+
+    // Función para manejar el cambio de grado
+    function manejarCambioGrado() {
+        const gradoSelect = $('.select-grado');
+        const gradoId = gradoSelect.val();
+        const gradoNombre = gradoSelect.find('option:selected').text().trim().toUpperCase();
+        const paraleloSelect = $('.select-paralelo');
+        
+        // Limpiar opciones actuales
+        paraleloSelect.empty();
+        
+        // Si no hay grado seleccionado, mostrar mensaje
+        if (!gradoId) {
+            paraleloSelect.append('<option value="">-- Seleccione un grado --</option>');
+            paraleloSelect.trigger('change');
+            return;
+        }
+        
+        // Mostrar mensaje de carga
+        paraleloSelect.append('<option value="" disabled>Cargando paralelos...</option>');
+        paraleloSelect.prop('disabled', true);
+        
+        // Obtener los paralelos para el grado seleccionado
+        fetch(`/cargar-paralelos/?grado_id=${gradoId}`)
+            .then(response => {
+                if (!response.ok) throw new Error('Error en la respuesta del servidor');
+                return response.json();
+            })
+            .then(data => {
+                const paralelos = data.paralelos || [];
+                
+                // Limpiar el select
+                paraleloSelect.empty();
+                
+                if (paralelos.length === 0) {
+                    paraleloSelect.append('<option value="">No hay paralelos para este grado</option>');
+                    return;
+                }
+                
+                // Agregar opción por defecto
+                paraleloSelect.append('<option value="">-- Seleccione un paralelo --</option>');
+                
+                // Agregar cada paralelo con el formato: GRADO (LETRA)
+                paralelos.forEach(paralelo => {
+                    const letraParalelo = paralelo.nombre.trim().toUpperCase();
+                    const textoMostrar = `${gradoNombre} (${letraParalelo})`;
+                    paraleloSelect.append(`<option value="${paralelo.id}">${textoMostrar}</option>`);
+                });
+                
+                // Seleccionar el primer paralelo por defecto
+                if (paralelos.length === 1) {
+                    paraleloSelect.val(paralelos[0].id);
+                }
+            })
+            .catch(error => {
+                console.error('Error al cargar paralelos:', error);
+                paraleloSelect.empty();
+                paraleloSelect.append('<option value="">Error al cargar los paralelos</option>');
+            })
+            .finally(() => {
+                paraleloSelect.prop('disabled', false);
+                paraleloSelect.trigger('change');
+            });
+    }
+
+    // Manejar cambio de grado
+    $('.select-grado').on('change', manejarCambioGrado);
+    
+    // Cargar paralelos automáticamente al abrir el modal si ya hay un grado seleccionado
+    $('#modalAgregarEstudiante').on('shown.bs.modal', function() {
+        const gradoId = $('.select-grado').val();
+        if (gradoId) {
+            manejarCambioGrado();
+        }
+    });
+
+    // Configurar DataTables
+    const table = $('#tablaPadron').DataTable({
+        responsive: true,
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.10.22/i18n/Spanish.json'
+        },
+        columnDefs: [
+            { orderable: false, targets: -1 } // Deshabilitar ordenación en la columna de acciones
+        ]
+    });
+
+    // Manejar el evento de búsqueda personalizado
+    $('#searchInput').on('keyup', function() {
+        table.search(this.value).draw();
+    });
+});
+</script>
+
+<style>
+#spinnerOverlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.4);
+  z-index: 99999;
+  justify-content: center;
+  align-items: center;
+}
+.loading-gif {
+  width: 200px;
+  height: 200px;
+  border-radius: 25px;
+}
+</style>
+<div id="spinnerOverlay">
+  <img src="{% static 'padron/img/loading.gif' %}" alt="Cargando..." class="loading-gif">
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('formEnviarCredenciales');
+    const spinnerOverlay = document.getElementById('spinnerOverlay');
+    if (form && spinnerOverlay) {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Mostrar notificación discreta tipo toast
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          icon: 'info',
+          title: 'Generando credenciales...',
+          text: 'Este proceso puede tardar unos momentos',
+          showConfirmButton: false,
+          timer: 2500,
+          timerProgressBar: true
+        });
+        
+        // Mostrar spinner inmediatamente
+        spinnerOverlay.style.display = 'flex';
+        setTimeout(() => { form.submit(); }, 100);
+      });
+    }
+  });
+
+  // SweetAlert2 elegante para eliminar estudiantes del padrón
+  $(document).ready(function() {
+    $('.btn-eliminar-estudiante').on('click', function(e) {
+      e.preventDefault();
+      const estudianteId = $(this).data('estudiante-id');
+      const estudianteNombre = $(this).data('estudiante-nombre');
+      const estudianteCedula = $(this).data('estudiante-cedula');
+      
+      // Mostrar SweetAlert2 elegante
+      Swal.fire({
+        title: '¿Eliminar Estudiante?',
+        text: `¿Desea eliminar al estudiante "${estudianteNombre}" (Cédula: ${estudianteCedula})?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar',
+        customClass: {
+          confirmButton: 'btn btn-danger me-2',
+          cancelButton: 'btn btn-secondary'
+        },
+        buttonsStyling: false
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Crear formulario dinámico
+          const form = document.createElement('form');
+          form.method = 'POST';
+          form.action = `{% url 'eliminar_estudiante' 0 %}`.replace('0', estudianteId);
+          
+          // Agregar token CSRF
+          const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+          const csrfInput = document.createElement('input');
+          csrfInput.type = 'hidden';
+          csrfInput.name = 'csrfmiddlewaretoken';
+          csrfInput.value = csrfToken;
+          form.appendChild(csrfInput);
+          
+          // Agregar al DOM y enviar
+          document.body.appendChild(form);
+          form.submit();
+        }
+      });
+    });
+  });
+</script>
+{% endblock %}

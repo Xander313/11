@@ -1,0 +1,614 @@
+{% extends 'plantilla.html' %}
+{% load static %}
+
+{% block head %}
+{{ block.super }}
+<!-- SweetAlert2 -->
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.all.min.js"></script>
+{% endblock %}
+
+{% block contenido %}
+<div class="container mt-4">
+    <div class="card mb-3">
+        <div class="card-body text-center bg-light">
+            <h5 class="card-title mb-2"><strong>Gestión Electoral</strong></h5>
+            <p class="card-text">Administra listas, cargos y candidatos de forma sencilla.</p>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Agregar Nuevo Candidato</h5>
+        </div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <!-- Sección de Información General -->
+                <div class="card mb-4 border-secondary">
+                    <div class="card-header bg-secondary text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-info-circle me-2"></i> Información General
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="lista" class="form-label">Lista</label>
+                                <select class="form-select" id="lista" name="lista" required>
+                                    <option value="" selected disabled>Seleccione una lista</option>
+                                    {% for lista in listas %}
+                                        <option value="{{ lista.id }}">{{ lista.nombre_lista }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="periodo" class="form-label">Período</label>
+                                <select class="form-select" id="periodo" name="periodo" required>
+                                    <option value="" selected disabled>Seleccione un período</option>
+                                    {% for periodo in periodos %}
+                                        <option value="{{ periodo.id }}">{{ periodo.nombre }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección Principal -->
+                <div class="card mb-4 border-primary">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-star me-2"></i> Candidato Principal
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label for="cargo_principal" class="form-label">Cargo</label>
+                                <select class="form-select" id="cargo_principal" name="cargo_principal" required>
+                                    <option value="" selected disabled>Seleccione un cargo</option>
+                                    {% for cargo in cargos %}
+                                        <option value="{{ cargo.id }}">{{ cargo.nombre_cargo }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="buscar_principal" class="form-label">Buscar Candidato (Nombre)</label>
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control" id="buscar_principal" name="buscar_principal" 
+                                           placeholder="Ingrese nombre del candidato" autocomplete="off">
+                                    <input type="hidden" id="cedula_principal" name="cedula_principal">
+                                    <input type="hidden" id="nombre_principal" name="nombre_principal">
+                                    <input type="hidden" name="tipo_principal" value="PRINCIPAL">
+                                    <button class="btn btn-primary" type="button" onclick="buscarCandidato('buscar_principal', 'nombre_principal', 'cedula_principal')">
+                                        <i class="fas fa-search me-1"></i> Buscar
+                                    </button>
+                                </div>
+                                <div id="sugerencias_principal" class="list-group position-absolute d-none" style="z-index: 1000; max-height: 200px; overflow-y: auto; width: calc(100% - 30px);">
+                                    <!-- Las sugerencias se cargarán aquí -->
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Información del Candidato</label>
+                                <div class="card bg-light p-3">
+                                    <div id="info_principal" class="text-muted">
+                                        Ingrese la cédula o nombre del candidato y presione Buscar
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="foto_principal" class="form-label">Fotografía</label>
+                                <div class="position-relative d-inline-block w-100">
+                                    <input type="file" id="foto_principal" name="foto_principal" accept="image/*" onchange="previewImage(this, 'preview_principal')" class="d-none" required>
+                                    <label for="foto_principal" class="btn btn-outline-secondary w-100 text-start">
+                                        <i class="fas fa-camera me-2"></i>
+                                        <span class="file-name">Seleccionar imagen</span>
+                                    </label>
+                                    <img id="preview_principal" class="img-thumbnail mt-2 d-none" style="max-width: 100px; max-height: 100px;">
+                                </div>
+                                <small class="form-text text-muted">Recomendado: 300x300px (JPG/PNG)</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección Suplente -->
+                <div class="card mb-4 border-success">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-user-clock me-2"></i> Candidato Suplente
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label for="cargo_suplente" class="form-label">Cargo</label>
+                                <select class="form-select" id="cargo_suplente" name="cargo_suplente" required>
+                                    <option value="" selected disabled>Seleccione un cargo</option>
+                                    {% for cargo in cargos %}
+                                        <option value="{{ cargo.id }}">{{ cargo.nombre_cargo }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="buscar_suplente" class="form-label">Buscar Candidato (Nombre)</label>
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control" id="buscar_suplente" name="buscar_suplente" 
+                                           placeholder="Ingrese nombre del suplente" autocomplete="off">
+                                    <input type="hidden" id="cedula_suplente" name="cedula_suplente">
+                                    <input type="hidden" id="nombre_suplente" name="nombre_suplente">
+                                    <input type="hidden" name="tipo_suplente" value="SUPLENTE">
+                                    <button class="btn btn-success" type="button" onclick="buscarCandidato('buscar_suplente', 'nombre_suplente', 'cedula_suplente')">
+                                        <i class="fas fa-search me-1"></i> Buscar
+                                    </button>
+                                </div>
+                                <div id="sugerencias_suplente" class="list-group position-absolute d-none" style="z-index: 1000; max-height: 200px; overflow-y: auto; width: calc(100% - 30px);">
+                                    <!-- Las sugerencias se cargarán aquí -->
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Información del Candidato</label>
+                                <div class="card bg-light p-3">
+                                    <div id="info_suplente" class="text-muted">
+                                        Ingrese la cédula o nombre del candidato y presione Buscar
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="foto_suplente" class="form-label">Fotografía</label>
+                                <div class="position-relative d-inline-block w-100">
+                                    <input type="file" id="foto_suplente" name="foto_suplente" accept="image/*" onchange="previewImage(this, 'preview_suplente')" class="d-none">
+                                    <label for="foto_suplente" class="btn btn-outline-secondary w-100 text-start">
+                                        <i class="fas fa-camera me-2"></i>
+                                        <span class="file-name">Seleccionar imagen</span>
+                                    </label>
+                                    <img id="preview_suplente" class="img-thumbnail mt-2 d-none" style="max-width: 100px; max-height: 100px;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección Alterno -->
+                <div class="card mb-4 border-info">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-user-plus me-2"></i> Candidato Alterno (Opcional)
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label for="cargo_alterno" class="form-label">Cargo</label>
+                                <select class="form-select" id="cargo_alterno" name="cargo_alterno">
+                                    <option value="" selected disabled>Seleccione un cargo (opcional)</option>
+                                    {% for cargo in cargos %}
+                                        <option value="{{ cargo.id }}">{{ cargo.nombre_cargo }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="buscar_alterno" class="form-label">Buscar Candidato (Nombre)</label>
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control" id="buscar_alterno" name="buscar_alterno" 
+                                           placeholder="Ingrese nombre del alterno (opcional)" autocomplete="off">
+                                    <input type="hidden" id="cedula_alterno" name="cedula_alterno">
+                                    <input type="hidden" id="nombre_alterno" name="nombre_alterno">
+                                    <input type="hidden" name="tipo_alterno" value="ALTERNO">
+                                    <button class="btn btn-info text-white" type="button" onclick="buscarCandidato('buscar_alterno', 'nombre_alterno', 'cedula_alterno')">
+                                        <i class="fas fa-search me-1"></i> Buscar
+                                    </button>
+                                </div>
+                                <div id="sugerencias_alterno" class="list-group position-absolute d-none" style="z-index: 1000; max-height: 200px; overflow-y: auto; width: calc(100% - 30px);">
+                                    <!-- Las sugerencias se cargarán aquí -->
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Información del Candidato</label>
+                                <div class="card bg-light p-3">
+                                    <div id="info_alterno" class="text-muted">
+                                        Ingrese la cédula o nombre del candidato y presione Buscar
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="foto_alterno" class="form-label">Fotografía</label>
+                                <div class="position-relative d-inline-block w-100">
+                                    <input type="file" id="foto_alterno" name="foto_alterno" accept="image/*" onchange="previewImage(this, 'preview_alterno')" class="d-none">
+                                    <label for="foto_alterno" class="btn btn-outline-secondary w-100 text-start">
+                                        <i class="fas fa-camera me-2"></i>
+                                        <span class="file-name">Seleccionar imagen</span>
+                                    </label>
+                                    <img id="preview_alterno" class="img-thumbnail mt-2 d-none" style="max-width: 100px; max-height: 100px;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-end gap-2 mt-4">
+                    <a href="{% url 'listar_candidatos' %}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Cancelar
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+.camera-icon {
+    width: 60px;
+    height: 60px;
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+.camera-icon:hover {
+    background-color: #e9ecef;
+}
+</style>
+
+<script>
+// Función unificada para buscar candidatos por cédula o nombre
+async function buscarCandidato(buscarId, nombreId, cedulaId) {
+    const buscarInput = document.getElementById(buscarId);
+    const nombreInput = document.getElementById(nombreId);
+    const cedulaInput = document.getElementById(cedulaId);
+    const infoDiv = document.getElementById(`info_${buscarId.split('_')[1]}`);
+    const buscarValor = buscarInput.value.trim();
+    const tipoCandidato = buscarId.split('_')[1]; // Obtener 'principal', 'suplente' o 'alterno'
+    
+    if (!buscarValor) {
+        mostrarAlerta('Por favor ingrese un nombre o cédula para buscar', 'warning');
+        return;
+    }
+    
+    // Mostrar indicador de carga
+    const botonBuscar = buscarInput.nextElementSibling.nextElementSibling; // El botón es el hermano siguiente al input hidden
+    const iconoOriginal = botonBuscar.innerHTML;
+    botonBuscar.disabled = true;
+    botonBuscar.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
+    
+    try {
+        // Determinar si es búsqueda por cédula (solo números) o por nombre
+        const esCedula = /^\d+$/.test(buscarValor);
+        const url = esCedula 
+            ? `/buscar_nombre_por_cedula/?cedula=${encodeURIComponent(buscarValor)}`
+            : `/buscar_cedula_por_nombre/?nombre=${encodeURIComponent(buscarValor)}`;
+        
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(data.error || 'Error en la búsqueda');
+        }
+        
+        if ((esCedula && data.nombre) || (!esCedula && data.cedula)) {
+            // Verificar si el estudiante ya está en otra lista
+            const cedula = data.cedula || buscarValor;
+            const verificarResponse = await fetch(`/verificar_estudiante/?cedula=${encodeURIComponent(cedula)}`);
+            const verificarData = await verificarResponse.json();
+            
+            if (verificarData.en_otra_lista) {
+                // Estudiante ya está en otra lista
+                infoDiv.innerHTML = `
+                    <div class="alert alert-warning">
+                        <strong>¡Atención!</strong> Este estudiante ya está registrado en la lista "${verificarData.lista}" como ${verificarData.tipo}.
+                    </div>
+                    <div class="mb-1"><strong>Nombre:</strong> ${data.nombre || 'No disponible'}</div>
+                    <div class="mb-1"><strong>Cédula:</strong> ${data.cedula || 'No disponible'}</div>
+                `;
+                infoDiv.classList.remove('text-muted');
+                nombreInput.value = '';
+                cedulaInput.value = '';
+                buscarInput.value = '';
+                mostrarAlerta(`Este estudiante ya está en la lista "${verificarData.lista}" como ${verificarData.tipo}`, 'warning');
+                return;
+            }
+            
+            // Actualizar campos ocultos
+            nombreInput.value = data.nombre || nombreInput.value;
+            cedulaInput.value = data.cedula || cedulaInput.value;
+            
+            // Mostrar información en el card
+            infoDiv.innerHTML = `
+                <div class="alert alert-success">
+                    <i class="fas fa-check-circle me-2"></i> Estudiante disponible para registro
+                </div>
+                <div class="mb-1"><strong>Nombre:</strong> ${data.nombre || 'No disponible'}</div>
+                <div class="mb-1"><strong>Cédula:</strong> ${data.cedula || 'No disponible'}</div>
+                ${data.grado ? `<div class="mb-1"><strong>Grado:</strong> ${data.grado}</div>` : ''}
+                ${data.paralelo ? `<div><strong>Paralelo:</strong> ${data.paralelo}</div>` : ''}
+            `;
+            infoDiv.classList.remove('text-muted');
+            
+            mostrarAlerta('Datos del candidato cargados correctamente', 'success');
+        } else {
+            infoDiv.innerHTML = 'No se encontró ningún candidato con los datos proporcionados';
+            infoDiv.classList.add('text-muted');
+            nombreInput.value = '';
+            cedulaInput.value = '';
+            mostrarAlerta('No se encontró ningún candidato con los datos proporcionados', 'warning');
+        }
+    } catch (error) {
+        console.error('Error en la búsqueda:', error);
+        infoDiv.innerHTML = 'Error al buscar el candidato';
+        infoDiv.classList.add('text-muted');
+        mostrarAlerta(error.message || 'Error al realizar la búsqueda', 'danger');
+    } finally {
+        // Restaurar el botón
+        botonBuscar.disabled = false;
+        botonBuscar.innerHTML = iconoOriginal;
+    }
+}
+
+// Configurar autocompletado para los campos de búsqueda
+function configurarAutocompletado(buscarId, nombreId, cedulaId) {
+    const buscarInput = document.getElementById(buscarId);
+    const sugerenciasDiv = document.getElementById(`sugerencias_${buscarId.split('_')[1]}`);
+    const infoDiv = document.getElementById(`info_${buscarId.split('_')[1]}`);
+    let timeoutId = null;
+    
+    buscarInput.addEventListener('input', (e) => {
+        const termino = e.target.value.trim();
+        
+        // Limpiar el timeout anterior si existe
+        if (timeoutId) {
+            clearTimeout(timeoutId);
+        }
+        
+        // Ocultar sugerencias si el término es muy corto
+        if (termino.length < 2) {
+            sugerenciasDiv.classList.add('d-none');
+            return;
+        }
+        
+        // Usar debounce para no hacer demasiadas peticiones
+        timeoutId = setTimeout(async () => {
+            try {
+                const esCedula = /^\d+$/.test(termino);
+                const url = esCedula 
+                    ? `/buscar_nombre_por_cedula/?cedula=${encodeURIComponent(termino)}`
+                    : `/buscar_cedula_por_nombre/?nombre=${encodeURIComponent(termino)}`;
+                
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                if (response.ok && ((esCedula && data.nombre) || (!esCedula && data.cedula))) {
+                    // Mostrar sugerencia
+                    sugerenciasDiv.innerHTML = `
+                        <a href="#" class="list-group-item list-group-item-action" 
+                           onclick="event.preventDefault(); seleccionarSugerencia('${data.cedula}', '${data.nombre.replace(/'/g, "\\'")}', '${buscarId}', '${nombreId}', '${cedulaId}');">
+                            ${data.nombre} (${data.cedula})
+                        </a>
+                    `;
+                    sugerenciasDiv.classList.remove('d-none');
+                } else {
+                    sugerenciasDiv.innerHTML = `
+                        <div class="list-group-item">
+                            ${data.error || 'No se encontraron coincidencias'}
+                        </div>`;
+                    sugerenciasDiv.classList.remove('d-none');
+                }
+            } catch (error) {
+                console.error('Error en autocompletado:', error);
+                sugerenciasDiv.innerHTML = `
+                    <div class="list-group-item text-danger">
+                        Error al realizar la búsqueda
+                    </div>`;
+                sugerenciasDiv.classList.remove('d-none');
+            }
+        }, 300); // 300ms de retraso
+    });
+    
+    // Ocultar sugerencias al hacer clic fuera
+    document.addEventListener('click', (e) => {
+        if (!sugerenciasDiv.contains(e.target) && e.target !== buscarInput) {
+            sugerenciasDiv.classList.add('d-none');
+        }
+    });
+    
+    // Ocultar sugerencias al presionar Escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            sugerenciasDiv.classList.add('d-none');
+        }
+    });
+}
+
+// Función para mostrar alertas con SweetAlert2
+function mostrarAlerta(mensaje, tipo) {
+    // Mapear tipos de alerta de Bootstrap a iconos de SweetAlert2
+    const iconos = {
+        'success': 'success',
+        'warning': 'warning',
+        'danger': 'error',
+        'info': 'info'
+    };
+    
+    // Configuración base
+    const config = {
+        text: mensaje,
+        icon: iconos[tipo] || 'info',
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer);
+            toast.addEventListener('mouseleave', Swal.resumeTimer);
+        }
+    };
+    
+    // Mostrar la alerta
+    Swal.fire(config);
+}
+
+// Función para manejar el autocompletado de nombres
+function configurarAutocompletado(nombreId, cedulaId) {
+    const nombreInput = document.getElementById(nombreId);
+    const sugerenciasDiv = document.getElementById(`sugerencias_${nombreId}`);
+    let timeoutId = null;
+    
+    nombreInput.addEventListener('input', (e) => {
+        const termino = e.target.value.trim();
+        
+        // Limpiar el timeout anterior si existe
+        if (timeoutId) {
+            clearTimeout(timeoutId);
+        }
+        
+        // Ocultar sugerencias si el término es muy corto
+        if (termino.length < 2) {
+            sugerenciasDiv.classList.add('d-none');
+            return;
+        }
+        
+        // Usar debounce para no hacer demasiadas peticiones
+        timeoutId = setTimeout(async () => {
+            try {
+                const response = await fetch(`/buscar_cedula_por_nombre/?nombre=${encodeURIComponent(termino)}`);
+                const data = await response.json();
+                
+                if (response.ok && data.cedula) {
+                    // Escapar comillas simples para evitar problemas con el HTML
+                    const nombreSeguro = data.nombre.replace(/'/g, "\\'");
+                    sugerenciasDiv.innerHTML = `
+                        <a href="#" class="list-group-item list-group-item-action" 
+                           onclick="event.preventDefault(); seleccionarSugerencia('${data.cedula}', '${nombreSeguro}', '${cedulaId}', '${nombreId}');">
+                            ${data.nombre} (${data.cedula})
+                        </a>
+                    `;
+                    sugerenciasDiv.classList.remove('d-none');
+                } else {
+                    sugerenciasDiv.innerHTML = `
+                        <div class="list-group-item">
+                            ${data.error || 'No se encontraron coincidencias'}
+                        </div>`;
+                    sugerenciasDiv.classList.remove('d-none');
+                }
+            } catch (error) {
+                console.error('Error en autocompletado:', error);
+                sugerenciasDiv.innerHTML = `
+                    <div class="list-group-item text-danger">
+                        Error al realizar la búsqueda
+                    </div>`;
+                sugerenciasDiv.classList.remove('d-none');
+            }
+        }, 300); // 300ms de retraso
+    });
+    
+    // Ocultar sugerencias al hacer clic fuera
+    document.addEventListener('click', (e) => {
+        if (!sugerenciasDiv.contains(e.target) && e.target !== nombreInput) {
+            sugerenciasDiv.classList.add('d-none');
+        }
+    });
+    
+    // Ocultar sugerencias al presionar Escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            sugerenciasDiv.classList.add('d-none');
+        }
+    });
+}
+
+// Función para seleccionar una sugerencia
+function seleccionarSugerencia(cedula, nombre, buscarId, nombreId, cedulaId) {
+    const buscarInput = document.getElementById(buscarId);
+    const nombreInput = document.getElementById(nombreId);
+    const cedulaInput = document.getElementById(cedulaId);
+    const tipoCandidato = buscarId.split('_')[1]; // Obtener 'principal', 'suplente' o 'alterno'
+    const infoDiv = document.getElementById(`info_${tipoCandidato}`);
+    
+    console.log(`Seleccionando sugerencia para ${tipoCandidato}:`, {cedula, nombre});
+    
+    // Actualizar campos ocultos
+    nombreInput.value = nombre;
+    cedulaInput.value = cedula;
+    
+    // Actualizar campo de búsqueda
+    buscarInput.value = `${nombre} (${cedula})`;
+    
+    // Actualizar información mostrada
+    if (infoDiv) {
+        infoDiv.innerHTML = `
+            <strong>Nombre:</strong> ${nombre}<br>
+            <strong>Cédula:</strong> ${cedula}
+        `;
+        infoDiv.classList.remove('text-muted');
+    }
+    
+    // Cerrar sugerencias
+    const sugerenciasDiv = document.getElementById(`sugerencias_${tipoCandidato}`);
+    if (sugerenciasDiv) {
+        sugerenciasDiv.classList.add('d-none');
+    }
+    
+    // Forzar el cambio en los campos para asegurar que se detecte la modificación
+    const event = new Event('change');
+    nombreInput.dispatchEvent(event);
+    cedulaInput.dispatchEvent(event);
+}
+
+function previewImage(input, previewId) {
+    const file = input.files[0];
+    const preview = document.getElementById(previewId);
+    const fileNameSpan = input.nextElementSibling.querySelector('.file-name');
+
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.classList.remove('d-none');
+            // Actualizar el texto del botón con el nombre del archivo
+            fileNameSpan.textContent = file.name.length > 20 ? 
+                file.name.substring(0, 17) + '...' : 
+                file.name;
+        };
+        reader.readAsDataURL(file);
+    } else {
+        preview.src = '#';
+        preview.classList.add('d-none');
+        fileNameSpan.textContent = 'Seleccionar imagen';
+    }
+}
+
+// Inicializar tooltips y autocompletados
+window.addEventListener('DOMContentLoaded', function() {
+    // Tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+    
+    // Configurar autocompletados para cada campo de búsqueda
+    configurarAutocompletado('buscar_principal', 'nombre_principal', 'cedula_principal');
+    configurarAutocompletado('buscar_suplente', 'nombre_suplente', 'cedula_suplente');
+    configurarAutocompletado('buscar_alterno', 'nombre_alterno', 'cedula_alterno');
+    
+    // Configurar eventos para búsqueda con Enter
+    ['buscar_principal', 'buscar_suplente', 'buscar_alterno'].forEach(buscarId => {
+        const input = document.getElementById(buscarId);
+        if (input) {
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    const tipo = buscarId.split('_')[1];
+                    const buscarFunc = `buscarCandidato('${buscarId}', 'nombre_${tipo}', 'cedula_${tipo}')`;
+                    eval(buscarFunc);
+                }
+            });
+        }
+    });
+});
+</script>
+{% endblock contenido %}

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+
+  <title>UNIDAD EDUCATIVA EL MILENIO 11 DE NOVIEMBRE {{ logo_config.iniciales|default:"U E M 11 N" }}</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="{% static 'plantillas/assets/vendor_informativo/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+  <!-- Additional CSS Files -->
+  <link rel="stylesheet" href="{% static 'plantillas/assets/assets_informativo/css/fontawesome.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'plantillas/assets/assets_informativo/css/templatemo-grad-school.css' %}">
+  <link rel="stylesheet" href="{% static 'plantillas/assets/assets_informativo/css/owl.css' %}">
+  <link rel="stylesheet" href="{% static 'plantillas/assets/assets_informativo/css/lightbox.css' %}">
+
+  <!-- Custom CSS Files -->
+  <link rel="stylesheet" href="{% static 'css/global-colors.css' %}">
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <link rel="stylesheet" href="{% static 'css/cards.css' %}">
+  <link rel="stylesheet" href="{% static 'css/features.css' %}">
+  <link rel="stylesheet" href="{% static 'css/docentes.css' %}">
+  <link rel="stylesheet" href="{% static 'css/autoridades.css' %}">
+  <link rel="stylesheet" href="{% static 'css/honor.css' %}">
+  <link rel="stylesheet" href="{% static 'css/contact-custom.css' %}">
+  <link rel="stylesheet" href="{% static 'css/login.css' %}">
+  <link rel="stylesheet" href="{% static 'css/logo.css' %}">
+  <link rel="stylesheet" href="{% static 'css/login-modern.css' %}">
+  <link rel="stylesheet" href="{% static 'css/buttons-modern.css' %}">
+  <link rel="stylesheet" href="{% static 'css/nosotros.css' %}">
+  <link rel="stylesheet" href="{% static 'css/docentes-nuevo.css' %}">
+</head>
+
+<body>
+  <!-- Contenedor para mensajes (oculto, se muestran con SweetAlert2) -->
+  <div id="messages-container" style="display: none;">
+    {% if messages %}
+    {% for message in messages %}
+    <div data-tags="{{ message.tags }}">{{ message|escapejs }}</div>
+    {% endfor %}
+    {% endif %}
+  </div>
+
+  <a id="inicio"></a>
+
+  <!--header-->
+  <header class="main-header clearfix" role="header">
+    <div class="logo">
+      <a href="/" class="logo-link">
+        <img src="{% static 'images/logo1.png' %}" alt="Unidad Educativa el Milenio 11 de Noviembre" class="logo-img">
+        <span class="logo-text"> UE del Milenio 11 de Noviembre</span>
+      </a>
+    </div>
+    <a href="#menu" class="menu-link"><i></i></a>
+    <!-- El menú se inyectará aquí mediante JavaScript -->
+  </header>
+
+  <!-- Contenido principal -->
+  {% block content %}
+  {% endblock %}
+
+  <!-- Scripts -->
+  <script src="{% static 'plantillas/assets/vendor_informativo/jquery/jquery.min.js' %}"></script>
+  <!-- jQuery UI -->
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+  <!-- Menú móvil -->
+  <link rel="stylesheet" href="{% static 'css/mobile-menu.css' %}">
+  <script src="{% static 'js/mobile-menu.js' %}"></script>
+
+  <!-- Bootstrap JS Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+    crossorigin="anonymous"></script>
+
+  <!-- SweetAlert2 CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+  <!-- Template Scripts -->
+  <script src="{% static 'plantillas/assets/assets_informativo/js/isotope.min.js' %}"></script>
+  <script src="{% static 'plantillas/assets/assets_informativo/js/owl-carousel.js' %}"></script>
+  <script src="{% static 'plantillas/assets/assets_informativo/js/lightbox.js' %}"></script>
+  <script src="{% static 'plantillas/assets/assets_informativo/js/video.js' %}"></script>
+  <script src="{% static 'plantillas/assets/assets_informativo/js/slick-slider.js' %}"></script>
+
+  <!-- SweetAlert2 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <!-- Custom Scripts -->
+  <script src="{% static 'js/menu.js' %}?v=1.1"></script>
+  <script src="{% static 'js/features.js' %}"></script>
+  <script src="{% static 'js/cards.js' %}"></script>
+
+  <script>
+    // Función para inicializar el año en el footer
+    function initializeYear() {
+      const yearElement = document.getElementById('currentYear');
+      if (yearElement) {
+        yearElement.textContent = new Date().getFullYear();
+      }
+    }
+
+    // Función para inicializar tooltips de Bootstrap
+    function initializeTooltips() {
+      if (typeof bootstrap === 'undefined') return;
+
+      const tooltipTriggerList = [].slice.call(
+        document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      );
+
+      tooltipTriggerList.forEach(function (tooltipEl) {
+        new bootstrap.Tooltip(tooltipEl);
+      });
+    }
+
+    // Función para inicializar pestañas de Bootstrap
+    function initializeTabs() {
+      if (typeof bootstrap === 'undefined') return;
+
+      const tabEls = document.querySelectorAll('button[data-bs-toggle="tab"]');
+
+      tabEls.forEach(function (tabEl) {
+        tabEl.addEventListener('click', function (e) {
+          e.preventDefault();
+          new bootstrap.Tab(tabEl).show();
+        });
+      });
+    }
+
+    // Función para inicializar pestañas de jQuery UI
+    function initializeJqueryTabs() {
+      if (window.jQuery && typeof window.jQuery.fn.tabs === 'function') {
+        window.jQuery(".tabs").tabs();
+      }
+    }
+
+    // Función para mostrar notificaciones
+    function showNotifications() {
+      const messagesContainer = document.getElementById('messages-container');
+      if (!messagesContainer) return;
+
+      const messageElements = messagesContainer.querySelectorAll('div[data-tags]');
+
+      messageElements.forEach(function (element) {
+        const tags = element.getAttribute('data-tags');
+        const text = element.textContent;
+
+        window.Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 5000,
+          timerProgressBar: true
+        }).fire({
+          icon: tags,
+          title: text
+        });
+      });
+    }
+
+    // Inicialización cuando el DOM esté listo
+    document.addEventListener('DOMContentLoaded', function () {
+      initializeYear();
+      initializeTooltips();
+      initializeTabs();
+      initializeJqueryTabs();
+      showNotifications();Este
+    });
+  </script>
+  <!-- Estilos específicos para botón flotante en responsive -->
+  <style>
+    .btn-login-float {
+      position: fixed !important;
+      bottom: 20px !important;
+      right: 20px !important;
+      z-index: 9999 !important;
+      width: 60px !important;
+      height: 60px !important;
+      border-radius: 50% !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    /* Asegurar visibilidad en móvil */
+    @media (max-width: 768px) {
+      .btn-login-float {
+        bottom: 15px !important;
+        right: 15px !important;
+        width: 55px !important;
+        height: 55px !important;
+        z-index: 10000 !important;
+      }
+
+      .btn-login-float i {
+        font-size: 1.3rem !important;
+        margin: 0 !important;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .btn-login-float {
+        bottom: 12px !important;
+        right: 12px !important;
+        width: 50px !important;
+        height: 50px !important;
+      }
+
+      .btn-login-float i {
+        font-size: 1.2rem !important;
+      }
+    }
+  </style>
+
+  <!-- Botón de Inicio de Sesión -->
+  <div>
+    <button type="button" class="btn btn-lg btn-login btn-login-float" data-bs-toggle="modal"
+      data-bs-target="#loginModal">
+      <i class="fa fa-sign-in"></i>
+    </button>
+  </div>
+
+  <!-- Incluir el modal de inicio de sesión -->
+  {% include 'modal_login.html' %}
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <p><i class="fa fa-copyright"></i> Copyright 2025 by UNIVERSIDAD TÉCNICA DE COTOPAXI
+
+            | Developed by: <a rel="sponsored" target="_parent">CIYA - SISTEMAS DE INFORMACIÓN</a><br>
+
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SweetAlert2 CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+  <!-- SweetAlert2 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+
+</html>

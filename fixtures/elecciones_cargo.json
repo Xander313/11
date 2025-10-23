@@ -1,0 +1,29 @@
+[
+{
+  "model": "elecciones.cargo",
+  "pk": 61,
+  "fields": {
+    "nombre_cargo": "Presidente",
+    "descripcion": null,
+    "periodo": 26
+  }
+},
+{
+  "model": "elecciones.cargo",
+  "pk": 63,
+  "fields": {
+    "nombre_cargo": "Secretario",
+    "descripcion": null,
+    "periodo": 26
+  }
+},
+{
+  "model": "elecciones.cargo",
+  "pk": 64,
+  "fields": {
+    "nombre_cargo": "VOCAL DE ASEOs",
+    "descripcion": null,
+    "periodo": 26
+  }
+}
+]

@@ -1,0 +1,141 @@
+/* ESTILO DE PRUEBA - Si ves esto, el archivo se está cargando */
+body {
+    background-color: var(--color-primary) !important; /* Usando el color primario global */
+}
+
+/* Estilos para la sección de docentes */
+.docentes {
+    padding: 80px 0;
+    background-color: #f8f9fa;
+}
+
+.docentes .section-heading {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.docentes .section-heading h1 {
+    color: #2c3e50;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.docentes .section-heading p {
+    color: #6c757d;
+    font-size: 1.1rem;
+}
+
+/* Estilos para las tarjetas de docentes */
+.docente-card {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    margin-bottom: 30px;
+    height: 100%;
+}
+
+.docente-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.docente-header {
+    position: relative;
+    padding: 20px;
+    text-align: center;
+    background: linear-gradient(135deg, #4e73df 0%, #224abe 100%);
+}
+
+.docente-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin: 0 auto 15px;
+    overflow: hidden;
+    border: 5px solid rgba(255, 255, 255, 0.3);
+}
+
+.docente-avatar-iniciales {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.docente-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.docente-specialty {
+    display: inline-block;
+    background: #f5a425;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.docente-body {
+    padding: 25px 20px;
+    text-align: center;
+}
+
+.docente-name {
+    color: #2c3e50;
+    font-size: 1.25rem;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.docente-title {
+    color: #6c757d;
+    font-size: 0.9rem;
+    margin-bottom: 0;
+}
+
+/* Estilos para los botones de filtro */
+.filtro-docentes {
+    margin: 20px 0 40px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.filtro-docentes .btn {
+    margin: 0 5px 10px;
+    border-radius: 20px;
+    padding: 5px 15px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .docente-card {
+        max-width: 300px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .filtro-docentes {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .filtro-docentes .btn {
+        width: 80%;
+        margin: 5px 0;
+    }
+}

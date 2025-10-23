@@ -1,0 +1,11 @@
+[
+{
+  "model": "configuracion.logoconfig",
+  "pk": 1,
+  "fields": {
+    "logo_1": "logos/652c5a77-d545-4b09-bf86-834e2271de2e.jpeg",
+    "logo_2": "logos/652c5a77-d545-4b09-bf86-834e2271de2e_N9xfdpO.jpeg",
+    "iniciales": "ESCUELA RIOBAMBA"
+  }
+}
+]

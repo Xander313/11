@@ -1,0 +1,291 @@
+{% extends 'plantilla.html' %}
+
+{% block contenido %}
+<br>
+<div class="card mb-3">
+  <div class="card-body bg-light text-center">
+    <h5 class="card-title mb-3"><strong>Gestión Académica</strong></h5>
+    <p class="card-text mb-4">
+      Administra los grados, paralelos y el padrón electoral del sistema.
+    </p>
+  </div>
+  <nav class="navbar navbar-light bg-light border rounded shadow-sm">
+    <div class="container-fluid justify-content-around">
+      <a href="{% url 'listar_grados' %}" class="text-decoration-none text-center">
+        <i class="la la-graduation-cap text-muted fs-2 d-block"></i>
+        <div>
+          <strong class="d-block">Grados</strong>
+          <small class="text-muted">Crear, editar, eliminar</small>
+        </div>
+      </a>
+      <a href="{% url 'listar_paralelos' %}" class="text-decoration-none text-center position-relative">
+        <div class="position-relative">
+          <i class="la la-sitemap text-primary fs-2 d-block"></i>
+          <span class="position-absolute" style="top: -15px; right: 70%; z-index: 1000;">
+            <i class="fas fa-hand-point-left" style="font-size: 2rem; transform: scaleX(1) rotate(-30deg); color: #1cbed3e6;"></i>
+          </span>
+        </div>
+        <div>
+          <strong class="d-block">Paralelos</strong>
+          <small class="text-muted">Gestionar paralelos</small>
+        </div>
+      </a>
+      <a href="{% url 'gestion_padron' %}" class="text-decoration-none text-center">
+        <i class="la la-users text-muted fs-2 d-block"></i>
+        <div>
+          <strong class="d-block">Padrón</strong>
+          <small class="text-muted">Estudiantes</small>
+        </div>
+      </a>
+    </div>
+  </nav>
+</div>
+
+<section id="listar-paralelos" class="row match-height">
+  <div class="col-sm-12">
+    <div class="card">
+      <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+        <h4 class="card-title mb-2 mb-md-0">Lista de Paralelos</h4>
+        <div class="d-flex flex-column flex-md-row align-items-stretch justify-content-md-end">
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAgregarParalelo">
+            <i class="la la-plus"></i> Nuevo 
+          </button>
+        </div>
+      </div>
+
+      <div class="card-content">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered" id="tablaParalelos">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Grado</th>
+                  <th>Período</th>
+                  <th class="text-center" style="width: 80px;">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for paralelo in paralelos %}
+                  <tr>
+                    <td>{{ paralelo.nombre }}</td>
+                    <td>{{ paralelo.grado.nombre }}</td>
+                    <td>{{ paralelo.grado.periodo.nombre|default:"Sin período" }}</td>
+                    <td class="text-center" style="white-space: nowrap;">
+                      <!-- Botón Editar -->
+                      <button class="btn btn-sm btn-outline-primary mx-1" 
+                              data-toggle="modal" 
+                              data-target="#editarParaleloModal{{ paralelo.id }}"
+                              title="Editar"
+                              data-toggle-tooltip="tooltip"
+                              data-placement="top">
+                        <i class="la la-edit"></i>
+                      </button>
+                      <!-- Botón Eliminar -->
+                      <button class="btn btn-sm btn-outline-danger mx-1" 
+                              data-toggle="modal"
+                              data-target="#eliminarParaleloModal{{ paralelo.id }}"
+                              title="Eliminar"
+                              data-toggle-tooltip="tooltip"
+                              data-placement="top"
+                              {% if paralelo.padronelectoral_set.count > 0 %}disabled{% endif %}>
+                        <i class="la la-trash"></i>
+                      </button>
+                      
+
+                      <!-- Modal Eliminar -->
+                      <div class="modal fade" id="eliminarParaleloModal{{ paralelo.id }}" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title">Confirmar Eliminación</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              ¿Estás seguro de eliminar el paralelo <strong>{{ paralelo.nombre }}</strong> del grado {{ paralelo.grado.nombre }}?
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                              <a href="{% url 'eliminar_paralelo' paralelo.id %}" class="btn btn-danger">Eliminar</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Modal Editar -->
+                      <div class="modal fade" id="editarParaleloModal{{ paralelo.id }}" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content p-4">
+                            <div class="modal-header border-0">
+                              <h5 class="modal-title w-100 text-center font-weight-bold">EDITAR PARALELO</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              <form method="POST" action="{% url 'editar_paralelo' paralelo.id %}">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                  <label for="nombre">LETRA DEL PARALELO</label>
+                                  <input type="text" class="form-control rounded-pill" name="nombre" value="{{ paralelo.nombre }}" required maxlength="5">
+                                </div>
+                                
+                                <div class="form-group">
+                                  <label for="grado">GRADO</label>
+                                  <select class="form-control rounded-pill" name="grado" required>
+                                    {% for grado in grados %}
+                                      <option value="{{ grado.id }}" {% if grado.id == paralelo.grado.id %}selected{% endif %}>
+                                        {{ grado.nombre }} ({{ grado.periodo.nombre|default:"Sin período" }})
+                                      </option>
+                                    {% endfor %}
+                                  </select>
+                                </div>
+                                
+                               
+                                
+                              </form>
+                            </div>
+                            <div class="form-group text-center mt-4">
+                              <button type="submit" class="btn btn-primary rounded-pill px-4 mr-2">
+                                <i class="la la-save"></i> GUARDAR
+                              </button>
+                              
+                              <button type="button" class="btn btn-secondary rounded-pill px-4" data-dismiss="modal">
+                                <i class="la la-times"></i> CANCELAR
+                              </button>
+                            </div>
+                          </div>
+                          
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                {% empty %}
+                  <tr>
+                    <td colspan="4" class="text-center">No hay paralelos registrados.</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Modal Agregar Paralelo -->
+<div class="modal fade" id="modalAgregarParalelo" tabindex="-1" role="dialog" aria-labelledby="modalAgregarParaleloLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content p-4">
+      <div class="modal-header border-0">
+        <h5 class="modal-title w-100 text-center font-weight-bold" id="modalAgregarParaleloLabel">AGREGAR NUEVO PARALELO</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" action="{% url 'agregar_paralelo' %}">
+          {% csrf_token %}
+          
+          <div class="form-group">
+            <label for="nombre">LETRA DEL PARALELO</label>
+            <input type="text" class="form-control rounded-pill" name="nombre" required maxlength="5" placeholder="Ej: A, B, C">
+          </div>
+          
+          <div class="form-group">
+            <label for="grado">GRADO</label>
+            <select class="form-control rounded-pill" name="grado" required>
+              <option value="" disabled selected>-- Seleccione un grado --</option>
+              {% for grado in grados %}
+                <option value="{{ grado.id }}">{{ grado.nombre }} ({{ grado.periodo.nombre|default:"Sin período" }})</option>
+              {% endfor %}
+            </select>
+          </div>
+          
+          <div class="form-group text-center mt-4">
+            <button type="submit" class="btn btn-primary btn-lg rounded-pill px-4 mr-2">GUARDAR</button>
+            <button type="button" class="btn btn-secondary btn-lg rounded-pill px-4" data-dismiss="modal">CANCELAR</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Función para buscar paralelos en la tabla
+  document.getElementById('buscarParalelo').addEventListener('input', function() {
+    const searchTerm = this.value.toLowerCase();
+    const rows = document.querySelectorAll('#tablaParalelos tbody tr');
+    
+    rows.forEach(row => {
+      const text = row.textContent.toLowerCase();
+      row.style.display = text.includes(searchTerm) ? '' : 'none';
+    });
+  });
+</script>
+
+<script>
+    // Función para inicializar DataTables de manera segura
+    function initDataTables() {
+        // Verificar si jQuery está disponible
+        if (typeof jQuery === 'undefined') {
+            console.error('jQuery no está cargado');
+            return;
+        }
+
+        // Usar jQuery.ready para asegurar que el DOM esté completamente cargado
+        jQuery(function($) {
+            console.log('jQuery version:', $.fn.jquery);
+            console.log('DataTables available:', !!$.fn.DataTable);
+
+            var $table = $('#tablaParalelos');
+            console.log('Table exists:', $table.length > 0);
+
+            if ($table.length && $.fn.DataTable) {
+                try {
+                    $table.DataTable({
+                        language: {
+                            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                        },
+                        responsive: true,
+                        pageLength: 10,
+                        lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, 'Todos']],
+                        columnDefs: [
+                            { orderable: false, targets: 3 } // Deshabilitar ordenación en columna de acciones
+                        ]
+                    });
+                    console.log('DataTables initialized successfully');
+                } catch (error) {
+                    console.error('Error initializing DataTables:', error);
+                }
+            } else {
+                console.warn('DataTables initialization failed');
+                console.warn('$ type:', typeof $);
+                console.warn('$.fn.DataTable:', $.fn.DataTable);
+                console.warn('Table length:', $table.length);
+            }
+        });
+    }
+
+    // Inicializar DataTables cuando el DOM esté listo
+    $(document).ready(function() {
+        // Inicializar tooltips
+        $('[data-toggle-tooltip="tooltip"]').tooltip({
+            trigger: 'hover',
+            placement: 'top'
+        });
+
+        // Inicializar DataTables
+        if (typeof $.fn.DataTable === 'function') {
+            initDataTables();
+        } else {
+            console.error('DataTables no está cargado correctamente');
+        }
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,114 @@
+/* Estilos para el modal de login */
+.modal-content {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: none;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+    border-radius: 1rem 1rem 0 0;
+    padding: 1.5rem;
+}
+
+.modal-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.modal-body {
+    padding: 2rem;
+}
+
+.form-floating {
+    margin-bottom: 1.5rem;
+}
+
+/* Selectores ultra específicos para el modal de login */
+#loginModal .form-control,
+#loginModal .mi-input,
+#loginModal input[type="text"],
+#loginModal input[type="password"] {
+    border-radius: 0.5rem !important;
+    padding: 0.75rem 1rem !important;
+    border: 1px solid #e0e0e0 !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: #333 !important;
+    font-weight: 500 !important;
+}
+
+#loginModal .form-control:focus,
+#loginModal .mi-input:focus,
+#loginModal input[type="text"]:focus,
+#loginModal input[type="password"]:focus {
+    border-color: #3498db !important;
+    box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25) !important;
+    background: rgba(255, 255, 255, 0.15) !important;
+    color: #222 !important;
+    outline: none !important;
+}
+
+#loginModal .form-control:not(:focus),
+#loginModal .mi-input:not(:focus),
+#loginModal input[type="text"]:not(:focus),
+#loginModal input[type="password"]:not(:focus) {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: #333 !important;
+}
+
+#loginModal .form-control::placeholder,
+#loginModal .mi-input::placeholder,
+#loginModal input::placeholder {
+    color: #666 !important;
+    opacity: 0.8 !important;
+}
+
+#loginModal .form-control:focus::placeholder,
+#loginModal .mi-input:focus::placeholder,
+#loginModal input:focus::placeholder {
+    color: #888 !important;
+    opacity: 0.6 !important;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    border: none;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #2980b9, #21618c);
+}
+
+.btn-outline-secondary {
+    border: 1px solid #e0e0e0;
+    color: #333;
+    padding: 0.75rem 2rem;
+}
+
+.btn-outline-secondary:hover {
+    background: #f8f9fa;
+    color: #21618c;
+}
+
+.form-check-input {
+    margin-top: 0.3rem;
+}
+
+.form-check-label {
+    color: #666;
+}
+
+.text-primary {
+    color: #3498db !important;
+    font-weight: 500;
+    text-decoration: none !important;
+}
+
+.text-primary:hover {
+    text-decoration: underline !important;
+}

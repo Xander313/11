@@ -1,0 +1,131 @@
+/* Estilos para las tarjetas con efecto flip */
+.flip-card {
+  width: 100%;
+  height: 400px;
+  perspective: 1000px;
+  margin-bottom: 30px;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+.flip-card.active .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: 15px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+}
+
+.flip-card-front {
+  background: rgba(255, 255, 255, 0.95);
+  color: #1e3c72;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.3);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+}
+
+.flip-card-back {
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  color: white;
+  transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  overflow-y: auto;
+}
+
+.card-icon {
+  font-size: 3em;
+  margin-bottom: 20px;
+  color: #1e3c72;
+}
+
+.flip-card-front h3 {
+  font-size: 2em;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.flip-card-back h3 {
+  font-size: 1.8em;
+  margin-bottom: 15px;
+  color: white;
+}
+
+.hover-instruction {
+  margin-top: 20px;
+  font-size: 0.9em;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.back-button {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  padding: 8px 15px;
+  border-radius: 20px;
+  color: white;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background 0.3s;
+}
+
+.back-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.mission-values {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.value-tag {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 5px 15px;
+  border-radius: 20px;
+  margin: 5px;
+  font-size: 0.9em;
+}
+
+.vision-achievements {
+  margin-top: 20px;
+}
+
+.achievement {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 5px 15px;
+  border-radius: 20px;
+  margin: 5px;
+  font-size: 0.9em;
+  display: inline-block;
+}
+
+/* Estilos específicos para cada tarjeta */
+.mision-card {
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.vision-card {
+  background: rgba(255, 255, 255, 0.95);
+}

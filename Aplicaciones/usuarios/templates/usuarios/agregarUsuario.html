@@ -1,0 +1,531 @@
+{% extends 'plantilla.html' %}
+
+{% block contenido %}
+
+
+<br>
+<div class="card mb-3">
+  <div class="card-body bg-light text-center">
+    <h5 class="card-title mb-3"><strong>Gestión de Usuarios</strong></h5>
+    <p class="card-text mb-4">
+      Administra los usuarios del sistema, asignando roles y gestionando sus accesos.
+    </p>
+  </div>
+  <nav class="navbar navbar-light bg-light border rounded shadow-sm">
+    <div class="container-fluid justify-content-around">
+      <a href="{% url 'agregarrol' %}" class="text-decoration-none text-center">
+        <i class="la la-user-shield text-muted fs-2 d-block"></i>
+        <div>
+          <strong class="d-block">Roles</strong>
+          <small class="text-muted">Crear, editar, eliminar</small>
+        </div>
+      </a>
+      <a href="{% url 'agregarUsuario' %}" class="text-decoration-none text-center position-relative">
+        <div class="position-relative">
+          <i class="la la-users-cog text-primary fs-2 d-block"></i>
+          <span class="position-absolute" style="top: -15px; right: 70%; z-index: 1000;">
+            <i class="fas fa-hand-point-left" style="font-size: 2rem; transform: scaleX(1) rotate(-30deg); color: #1cbed3e6;"></i>
+          </span>
+        </div>
+        <div>
+          <strong class="d-block">Usuarios</strong>
+          <small class="text-muted">Asignar roles y accesos</small>
+        </div>
+      </a>
+    </div>
+  </nav>
+</div>
+
+
+
+<section id="listar-usuarios" class="row match-height">
+  <div class="col-sm-12">
+    <div class="card">
+      
+    
+      <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+        <h4 class="card-title mb-2 mb-md-0">Lista de Usuarios</h4>
+        <div class="d-flex flex-column flex-md-row align-items-stretch justify-content-md-end">
+            <button type="button" class="btn btn-primary rounded-pill px-4" data-toggle="modal" data-target="#modalAgregarUsuario">
+                <i class="la la-plus"></i> NUEVO USUARIO
+            </button>
+        </div>
+    </div>
+    
+
+  
+      <div class="card-content">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Cédula</th>
+                  <th>Nombre</th>
+                  <th>Estado de Contraseña</th>
+                  <th>Rol</th>
+                  <th>Estado</th>
+                  <th class="text-center" style="width: 80px;">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for usuario in usuarios %}
+                  <tr>
+                    <td>{{ usuario.username }}</td>
+                    <td>{{ usuario.nombre }} {{ usuario.apellido }}</td>
+                    <td>
+                      {% if usuario.primer_inicio %}
+                        <span class="badge badge-warning">Por actualizar</span>
+                      {% else %}
+                        <span class="badge badge-success">Actualizada</span>
+                      {% endif %}
+                    </td>
+                    <td>{{ usuario.id_rol.nombre_rol }}</td>
+                    <td>
+                      {% if usuario.activo %} Activo {% else %} Desactivado {% endif %}
+                    </td>
+                    <td class="text-center" style="white-space: nowrap;">
+                      
+                      
+                      <button type="button" class="btn btn-sm btn-outline-primary mx-1" 
+                              data-toggle="modal" 
+                              data-target="#editarUsuarioModal{{ usuario.id }}"
+                              title="Editar"
+                              data-toggle-tooltip="tooltip"
+                              data-placement="top">
+                        <i class="la la-edit"></i>
+                      </button>
+
+               
+                      <button type="button" class="btn btn-sm btn-outline-danger mx-1" 
+                              data-toggle="modal" 
+                              data-target="#eliminarUsuarioModal{{ usuario.id }}"
+                              title="Eliminar"
+                              data-toggle-tooltip="tooltip"
+                              data-placement="top">
+                        <i class="la la-trash"></i>
+                      </button>
+                      
+
+                  
+                      <div class="modal fade" id="eliminarUsuarioModal{{ usuario.id }}" tabindex="-1" role="dialog" aria-labelledby="eliminarUsuarioModalLabel{{ usuario.id }}" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title">
+                                <i class="la la-exclamation-triangle text-danger"></i>
+                                Confirmar Eliminación
+                              </h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body text-center">
+                              <i class="la la-exclamation-triangle text-warning" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                              <h5 class="mb-3">¿Eliminar a <span class="text-primary">{{ usuario.nombre }} {{ usuario.apellido }}</span>?</h5>
+                              <p class="text-muted">El usuario será eliminado permanentemente del sistema.</p>
+                              <p class="text-danger font-weight-bold"><i class="la la-exclamation-triangle"></i> Esta acción no se puede deshacer.</p>
+                            </div>
+                            <div class="form-group text-center mt-2 mb-4">
+                              <form method="POST" action="{% url 'eliminarUsuario' usuario.id %}" style="display: inline-block;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger rounded-pill px-4">
+                                  <i class="la la-trash"></i> ELIMINAR
+                                </button>
+                              </form>
+                              <button type="button" class="btn btn-secondary rounded-pill px-4" data-dismiss="modal">
+                                <i class="la la-times"></i> CANCELAR
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+              
+                      <div class="modal fade" id="editarUsuarioModal{{ usuario.id }}" tabindex="-1" role="dialog" aria-labelledby="editarUsuarioModalLabel{{ usuario.id }}" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                          <div class="modal-content p-4">
+                            <div class="modal-header border-0">
+                              <h5 class="modal-title w-100 text-center font-weight-bold" id="editarUsuarioModalLabel{{ usuario.id }}">EDITAR USUARIO</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              <form method="POST" action="{% url 'editarUsuario' usuario.id %}" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <input type="hidden" name="id" value="{{ usuario.id }}">
+
+                               
+                                <div class="form-row">
+                                  <div class="form-group col-md-6">
+                                    <label for="username">CÉDULA</label>
+                                    <input type="text" class="form-control rounded-pill" id="username" name="username" value="{{ usuario.username }}" readonly>
+                                  </div>
+                                  <div class="form-group col-md-6">
+                                    <label for="email">CORREO ELECTRÓNICO</label>
+                                    <input type="email" class="form-control rounded-pill" id="email" name="email" value="{{ usuario.email }}" required>
+                                  </div>
+                                </div>
+
+                              
+                                <div class="form-row">
+                                  <div class="form-group col-md-6">
+                                    <label for="nombre">NOMBRE</label>
+                                    <input type="text" class="form-control rounded-pill" id="nombre" name="nombre" value="{{ usuario.nombre }}" required>
+                                  </div>
+                                  <div class="form-group col-md-6">
+                                    <label for="apellido">APELLIDO</label>
+                                    <input type="text" class="form-control rounded-pill" id="apellido" name="apellido" value="{{ usuario.apellido|default:'' }}">
+                                  </div>
+                                </div>
+
+                                
+                                <div class="form-row">
+                                  <div class="form-group col-md-6">
+                                    <label for="id_rol">ROL</label>
+                                    <select class="form-control rounded-pill" id="id_rol" name="id_rol" required>
+                                      {% for rol in roles %}
+                                        <option value="{{ rol.id }}" {% if rol.id == usuario.id_rol_id %}selected{% endif %}>{{ rol.nombre_rol }}</option>
+                                      {% endfor %}
+                                    </select>
+                                  </div>
+                                  <div class="form-group col-md-6">
+                                    <label for="activo">ACTIVO</label><br>
+                                    <input type="checkbox" id="activo" name="activo" {% if usuario.activo %}checked{% endif %} style="transform: scale(1.5); margin-top: 8px;">
+                                  </div>
+                                </div>
+
+                               <!--
+                                <div class="form-group">
+                                  <label for="imagen">IMAGEN</label>
+                                  <input type="file" class="form-control-file" id="imagen" name="imagen" accept="image/*">
+                                </div>
+                              -->
+                                
+                                <div class="form-group text-center mt-4 mb-3">
+                                  <button type="submit" class="btn btn-primary rounded-pill px-4">
+                                    <i class="la la-save"></i> GUARDAR
+                                  </button>
+                                  <button type="button" class="btn btn-secondary rounded-pill px-4" data-dismiss="modal">
+                                    <i class="la la-times"></i> CANCELAR
+                                  </button>
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </td>
+                  </tr>
+                {% empty %}
+                  <tr>
+                    <td colspan="6" class="text-center">No hay usuarios registrados.</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+
+<div class="modal fade" id="modalAgregarUsuario" tabindex="-1" role="dialog" aria-labelledby="modalAgregarUsuarioLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content p-4">
+      <div class="modal-header border-0">
+        <h5 class="modal-title w-100 text-center font-weight-bold" id="modalAgregarUsuarioLabel">AGREGAR NUEVO USUARIO</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" enctype="multipart/form-data" action="{% url 'guardarUsuario' %}">
+          {% csrf_token %}
+
+          
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="cedula">CÉDULA</label>
+              <input type="text" class="form-control rounded-pill" name="cedula" maxlength="10" minlength="10" required placeholder="Ingrese cédula">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="email">CORREO ELECTRÓNICO</label>
+              <input type="email" class="form-control rounded-pill" name="email" required placeholder="correo@dominio.com">
+            </div>
+          </div>
+
+       
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="nombre">NOMBRE</label>
+              <input type="text" class="form-control rounded-pill" name="nombre" required placeholder="Ingrese nombre">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="apellido">APELLIDO</label>
+              <input type="text" class="form-control rounded-pill" name="apellido" placeholder="Ingrese apellido">
+            </div>
+          </div>
+
+         
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="id_rol">ROL</label>
+              <select class="form-control rounded-pill" name="id_rol" required>
+                <option value="" disabled selected>--Seleccione un rol--</option>
+                {% for rol in roles %}
+                  <option value="{{ rol.id }}">{{ rol.nombre_rol }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="activo">ACTIVO</label><br>
+              <input type="checkbox" name="activo" checked style="transform: scale(1.5); margin-top: 8px;">
+            </div>
+          </div>
+
+         <!--
+          <div class="form-group">
+            <label for="imagen">IMAGEN</label>
+            <input type="file" class="form-control-file" id="imagen" name="imagen" accept="image/*">
+            <small id="fileHelp" class="form-text text-muted">Selecciona una imagen para el perfil del usuario</small>
+            <div id="fileStatus" class="mt-2"></div>
+          </div>
+           -->
+          <script>
+          // Depuración del campo de archivo
+          document.addEventListener('DOMContentLoaded', function() {
+            const fileInput = document.getElementById('imagen');
+            const fileStatus = document.getElementById('fileStatus');
+            
+            if (fileInput) {
+              console.log('Campo de archivo encontrado:', fileInput);
+              
+              fileInput.addEventListener('change', function(e) {
+                console.log('Archivo seleccionado:', e.target.files[0]);
+                if (e.target.files.length > 0) {
+                  fileStatus.innerHTML = '<div class="alert alert-success p-2">Archivo seleccionado: ' + e.target.files[0].name + '</div>';
+                } else {
+                  fileStatus.innerHTML = '<div class="alert alert-warning p-2">No se ha seleccionado ningún archivo</div>';
+                }
+              });
+              
+              // Verificar si el formulario se envía correctamente
+              const form = fileInput.closest('form');
+              if (form) {
+                form.addEventListener('submit', function(e) {
+                  console.log('Formulario enviado');
+                  const file = fileInput.files[0];
+                  if (file) {
+                    console.log('Archivo a enviar:', file.name, 'Tamaño:', file.size, 'bytes');
+                  } else {
+                    console.log('No se adjuntó ningún archivo');
+                  }
+                });
+              }
+            } else {
+              console.error('No se encontró el campo de archivo con ID "imagen"');
+            }
+          });
+          </script>
+          
+          <div class="alert alert-info text-center mt-3">
+            La contraseña se generará automáticamente y será enviada por correo electrónico.
+          </div>
+
+         
+          <div class="form-group text-center mt-4 mb-3">
+            <button type="submit" class="btn btn-primary rounded-pill px-4">
+              <i class="la la-save"></i> GUARDAR
+            </button>
+            <button type="button" class="btn btn-secondary rounded-pill px-4" data-dismiss="modal">
+              <i class="la la-times"></i> CANCELAR
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock contenido %}
+
+<script>
+// Función para alternar la visibilidad de la contraseña
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.toggle-password').forEach(button => {
+        button.addEventListener('click', function() {
+            const targetId = this.getAttribute('data-target');
+            const passwordSpan = document.getElementById(targetId);
+            const password = passwordSpan.getAttribute('data-password');
+            const icon = this.querySelector('i');
+            
+            if (passwordSpan.textContent === '••••••••') {
+                // Mostrar la contraseña
+                passwordSpan.textContent = password;
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                // Ocultar la contraseña
+                passwordSpan.textContent = '••••••••';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+    });
+});
+</script>
+
+{% block javascript %}
+{{ block.super }}
+<script>
+// Usar una función autoejecutable para evitar conflictos
+(function($) {
+    $(document).ready(function() {
+        // Inicializar tooltips
+        $('[data-toggle-tooltip="tooltip"]').tooltip({
+            trigger: 'hover',
+            animation: true,
+            delay: {"show": 300, "hide": 100}
+        });
+        // Inicializar tooltips primerorol
+        $('[data-toggle-tooltip="tooltip"]').tooltip({
+            trigger: 'hover',
+            animation: true,
+            delay: {"show": 300, "hide": 100}
+        });
+
+        // Verificar si la tabla existe
+        var $tabla = $('.table');
+        
+        if ($tabla.length) {
+            // Verificar si DataTables está definido
+            if (typeof $.fn.DataTable === 'function') {
+                // Destruir la tabla si ya está inicializada
+                if ($.fn.DataTable.isDataTable($tabla)) {
+                    $tabla.DataTable().destroy();
+                }
+                
+                // Inicializar DataTable con opciones básicas
+                try {
+                    $tabla.DataTable({
+                        language: {
+                            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                        },
+                        responsive: true,
+                        pageLength: 10,
+                        lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, 'Todos']],
+                        columnDefs: [
+                            { orderable: false, targets: -1 },
+                            { width: '100px', targets: -1 }
+                        ],
+                        order: [[1, 'asc']],
+                        initComplete: function() {
+                            console.log('DataTable inicializado correctamente');
+                            // Re-inicializar tooltips después de que DataTable haya terminado
+                            $('[data-toggle-tooltip="tooltip"]').tooltip('dispose').tooltip({
+                                trigger: 'hover',
+                                animation: true,
+                                delay: {"show": 300, "hide": 100}
+                            });
+                        }
+                    });
+                } catch (e) {
+                    console.error('Error al inicializar DataTable:', e);
+                }
+            } else {
+                console.warn('DataTables no está disponible');
+            }
+        }
+    });
+})(jQuery);
+
+// Inicialización de DataTables y tooltips
+$(document).ready(function() {
+    // Inicializar tooltips
+    $('[data-toggle-tooltip="tooltip"]').tooltip({
+        trigger: 'hover',
+        animation: true,
+        delay: {"show": 300, "hide": 100}
+    });
+
+    // Inicializar DataTable
+    var $tabla = $('.table');
+    if ($tabla.length && typeof $.fn.DataTable === 'function') {
+        if ($.fn.DataTable.isDataTable($tabla)) {
+            $tabla.DataTable().destroy();
+        }
+        
+        try {
+            $tabla.DataTable({
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                },
+                responsive: true,
+                pageLength: 10,
+                lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, 'Todos']],
+                columnDefs: [
+                    { orderable: false, targets: -1 },
+                    { width: '100px', targets: -1 }
+                ],
+                order: [[1, 'asc']],
+                initComplete: function() {
+                    // Re-inicializar tooltips después de que DataTable haya terminado
+                    $('[data-toggle-tooltip="tooltip"]').tooltip('dispose').tooltip({
+                        trigger: 'hover',
+                        animation: true,
+                        delay: {"show": 300, "hide": 100}
+                    });
+                }
+            });
+        } catch (e) {
+            console.error('Error al inicializar DataTable:', e);
+        }
+    }
+});
+</script>
+
+<style>
+/* Estilos para el input de archivo personalizado */
+.custom-file-input:focus ~ .custom-file-label {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.custom-file-label::after {
+    content: "Examinar";
+}
+
+/* Efecto hover para el área de carga */
+.custom-file {
+    transition: all 0.3s ease;
+    border-radius: 0.25rem;
+    padding: 0.375rem 0.75rem;
+}
+
+/* Estilo para la vista previa de la imagen */
+#imagePreview {
+    transition: all 0.3s ease;
+}
+
+#imagePreview:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+/* Estilo para el botón de limpiar */
+#clearImage {
+    transition: all 0.2s ease;
+}
+
+#clearImage:hover {
+    color: #dc3545 !important;
+    border-color: #dc3545 !important;
+}
+</style>
+{% endblock javascript %}

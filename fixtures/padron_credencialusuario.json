@@ -1,0 +1,1190 @@
+[
+{
+  "model": "padron.credencialusuario",
+  "pk": 449,
+  "fields": {
+    "padron": 1044,
+    "usuario": "1754168167",
+    "_contrasena_plana": "Rep8HLUE",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$7xPbMtpkjcyaKRrS9pGUOS$4YDKZKQRSq/LIJqM1TIPSyVK6jMCODLgIVnHrAuiReo=",
+    "fecha_generacion": "2025-10-21T17:46:40.270Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 450,
+  "fields": {
+    "padron": 1045,
+    "usuario": "1727502583",
+    "_contrasena_plana": "LhvyEJ50",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$FT4uFCBkaNrGSXj8fs9IA0$2DRk9DaadGH+86Hp6eSYTnEN2E8lBj+99zFaa/EjEyw=",
+    "fecha_generacion": "2025-10-21T17:46:40.809Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 451,
+  "fields": {
+    "padron": 1046,
+    "usuario": "1727502591",
+    "_contrasena_plana": "w2oGZ7PZ",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$LvdsinPGkLdHu0J2e0E8d4$A5mFXr+u2x41QlVomjKsOJapJbVhc22sWEpDkX0vVu8=",
+    "fecha_generacion": "2025-10-21T17:46:41.349Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 452,
+  "fields": {
+    "padron": 1002,
+    "usuario": "1751855527",
+    "_contrasena_plana": "RZjKZ3Gi",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$rt1fd9g8EE0hQ3h4DrRVmh$RNfQTmn9EEnoRFSMCD+BEE4dENG23RSzUMrp5fBs2P4=",
+    "fecha_generacion": "2025-10-21T17:46:41.888Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 453,
+  "fields": {
+    "padron": 970,
+    "usuario": "0964187637",
+    "_contrasena_plana": "RI1TP6w9",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$0X4udPMTDwVpImAlWqhQM5$NJgAwq7nr8kwl+Gk/nT6l43aOUDxF9gCgZOfCCIalAk=",
+    "fecha_generacion": "2025-10-21T17:46:42.431Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 454,
+  "fields": {
+    "padron": 988,
+    "usuario": "0551182306",
+    "_contrasena_plana": "EHVyNgOY",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$un6o5fNn9bXAlA13sCognN$53OJaUANbfXGoRsGgC3j6Xl1gw/WVYKgo+bIFpPQquM=",
+    "fecha_generacion": "2025-10-21T17:46:42.991Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 455,
+  "fields": {
+    "padron": 1003,
+    "usuario": "1727645663",
+    "_contrasena_plana": "kPp2mO60",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$z74ryIer5K40NziJXyM5Fz$0rehLOtByU8W1JOFyS93nLVfSeeShcv0yoCzXl43SeI=",
+    "fecha_generacion": "2025-10-21T17:46:43.532Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 456,
+  "fields": {
+    "padron": 971,
+    "usuario": "1760087302",
+    "_contrasena_plana": "XwL9XRcl",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$aKd1ZLR29H21GjJinT6lfV$LKyiNkyYekMnhQlqNWsD8bJTnSQFeTRr2Fb/beIR3V0=",
+    "fecha_generacion": "2025-10-21T17:46:44.066Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 457,
+  "fields": {
+    "padron": 1004,
+    "usuario": "1727646349",
+    "_contrasena_plana": "gHiB4L21",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$RQfTdFTrEJxyCWVgFxVobg$CgWfV+4aMQsReLhHlL3gVGn1kea1V+GSbIDPteQn+zk=",
+    "fecha_generacion": "2025-10-21T17:46:44.583Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 458,
+  "fields": {
+    "padron": 989,
+    "usuario": "E006988680",
+    "_contrasena_plana": "OBH7EUCt",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$LbYoLAlNKTJTUVmhbETqOI$YXszgb/21zHG3+VTqxA869vw4oxUvaxcWS/2myyhtTc=",
+    "fecha_generacion": "2025-10-21T17:46:45.109Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 459,
+  "fields": {
+    "padron": 1047,
+    "usuario": "1087672997",
+    "_contrasena_plana": "YVO6CZMc",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$veUMGMoJhSHrFuSzv9P0sL$/LMLHipNzXsDGt4x8J4Csh3rvX9eXSrXy0cVOgUQkH8=",
+    "fecha_generacion": "2025-10-21T17:46:45.635Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 460,
+  "fields": {
+    "padron": 972,
+    "usuario": "1760174134",
+    "_contrasena_plana": "ITaW6n9z",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$U9A59ZmelQn5vjrBF4giOf$W6doOaMKfaTjNS2lWhXxBCm7/3/B6nfmeieSPoQAO9M=",
+    "fecha_generacion": "2025-10-21T17:46:46.147Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 461,
+  "fields": {
+    "padron": 1048,
+    "usuario": "0943338905",
+    "_contrasena_plana": "Mq53ZsIN",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$SssLSuuBvOY2we15wy6yuF$XamwjbCCi+smPjjJWsnTuu47uMU+w2ns/V+TI9oMk14=",
+    "fecha_generacion": "2025-10-21T17:46:46.670Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 462,
+  "fields": {
+    "padron": 1005,
+    "usuario": "1754342960",
+    "_contrasena_plana": "N0MMsV3d",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$PxRsVx2YKoxhgOjzaTb3bi$bGMbPG2nWSWltctwYIkY7AbOCoZYLKdC7Rl/o5glWJ0=",
+    "fecha_generacion": "2025-10-21T17:46:47.197Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 463,
+  "fields": {
+    "padron": 1049,
+    "usuario": "1728484559",
+    "_contrasena_plana": "q16fm2C9",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$fPxfp0VM8ywqVmGrurOXg9$QvCenxJbhBgAUqMZD80iA7x3B8J6e+paQPO1kV9IL5o=",
+    "fecha_generacion": "2025-10-21T17:46:47.720Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 464,
+  "fields": {
+    "padron": 1025,
+    "usuario": "1755110671",
+    "_contrasena_plana": "A2EHEVOP",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$bBZL2ZYMFyrbq9jYYB1P3l$NduiunfodZW2DxK9MGVZVkVaOXGodIbKgVbiKooLKG4=",
+    "fecha_generacion": "2025-10-21T17:46:48.254Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 465,
+  "fields": {
+    "padron": 990,
+    "usuario": "0551177306",
+    "_contrasena_plana": "mGreHiuZ",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$oOb8HdYSSem0LUhAKdqRUB$S24l2wU2Z1y3jg3sdgNEIWXFN2iGLSWRei8C6ZeSkdQ=",
+    "fecha_generacion": "2025-10-21T17:46:48.782Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 466,
+  "fields": {
+    "padron": 973,
+    "usuario": "1760163483",
+    "_contrasena_plana": "PtXdTuDo",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$1UnDVIXRkk4wgR872KvcLf$btF0RzhlCeq1WQB77CgFyV+PeUsqKnrcp2Mgz6envd4=",
+    "fecha_generacion": "2025-10-21T17:46:49.307Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 467,
+  "fields": {
+    "padron": 991,
+    "usuario": "1760183671",
+    "_contrasena_plana": "4JJHl0w8",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$X0g3kIftVW8Rgxmt4c0TNG$lDro0xgduFCcGkLfgIRhCYsc6Dz4dB8sDHNn4S/7DY8=",
+    "fecha_generacion": "2025-10-21T17:46:49.829Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 468,
+  "fields": {
+    "padron": 1006,
+    "usuario": "1727648360",
+    "_contrasena_plana": "D3WmwFQa",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$nJjT98dzEtbEGr9gcxKpvi$BmZwd/+UaF8CAhhqNy7sEyYFraXBEWLeKu6yIFIShN0=",
+    "fecha_generacion": "2025-10-21T17:46:50.342Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 469,
+  "fields": {
+    "padron": 1050,
+    "usuario": "1755496633",
+    "_contrasena_plana": "T3w9uwZw",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$73981BIQXBdIVB5farG2vv$1MJPYQ3WjUYHfrv4iHQR2KkM2Ufpss4OXbUj637vayI=",
+    "fecha_generacion": "2025-10-21T17:46:50.858Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 470,
+  "fields": {
+    "padron": 992,
+    "usuario": "1760160893",
+    "_contrasena_plana": "nJaaySV0",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$3q3FTTovdEcy8TJfxOUZxL$DiU6IWJt+udfKZRoaD2rUy9erUktvjc2uNN3L6hGUXc=",
+    "fecha_generacion": "2025-10-21T17:46:51.382Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 471,
+  "fields": {
+    "padron": 1007,
+    "usuario": "1755258157",
+    "_contrasena_plana": "WUWSqd05",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$dmD94RwIA3GEvxCNHb7UUO$dGqBOME/m0tObyoAj5/lLB1Qte3lid1tMaUY9Azlll8=",
+    "fecha_generacion": "2025-10-21T17:46:51.902Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 472,
+  "fields": {
+    "padron": 1008,
+    "usuario": "1752256998",
+    "_contrasena_plana": "Cky1qcTu",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$odpP6WoCOyp5EybT9L28KY$d3vU1tERtsvSUi4JxvRBZM9+0vf2wGE2e1LcM+olP88=",
+    "fecha_generacion": "2025-10-21T17:46:52.428Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 473,
+  "fields": {
+    "padron": 1051,
+    "usuario": "1727650333",
+    "_contrasena_plana": "4zxiUl2e",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$mhSPttEdVKrsWZDQEcCFwS$gpAVhJx0u54luFRsl9N00tbsRvjP3zVEQdzUqoaJHfQ=",
+    "fecha_generacion": "2025-10-21T17:46:52.954Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 474,
+  "fields": {
+    "padron": 1052,
+    "usuario": "1755597950",
+    "_contrasena_plana": "4K7EG83p",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$hou6qTHFLKBLhJ2LMsGGGe$noD8gRK2JU81a2dBCkB64Yifj3iPZBGgkDWIrx+Gaf4=",
+    "fecha_generacion": "2025-10-21T17:46:53.472Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 475,
+  "fields": {
+    "padron": 1009,
+    "usuario": "1727651224",
+    "_contrasena_plana": "2CAANPba",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$nQlGV0aQ5zRE5J74oSz0hE$3gZNH+m22NxcGZWUl2yCUO2w52MiRfRyNJGp9S6WiJo=",
+    "fecha_generacion": "2025-10-21T17:46:53.993Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 476,
+  "fields": {
+    "padron": 1053,
+    "usuario": "1728034438",
+    "_contrasena_plana": "oIGHwZcV",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$X4LP3k7ZxyWfyBWZN52lEb$sRJObgIeeYAJLKK0HWFr37DWxVGpZr+43WEmbkrM2Aw=",
+    "fecha_generacion": "2025-10-21T17:46:54.515Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 477,
+  "fields": {
+    "padron": 1026,
+    "usuario": "0650067929",
+    "_contrasena_plana": "BM9eBESN",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$gf9wNZ1ZcDrkZcH2aGgdvk$NOW4SgGZOlcJeMptR1icpOVVqoVkw1CkHyuEgV3b5uQ=",
+    "fecha_generacion": "2025-10-21T17:46:55.041Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 478,
+  "fields": {
+    "padron": 1054,
+    "usuario": "1727688762",
+    "_contrasena_plana": "e2BEmRlJ",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$Iqnz5wl1d1KZLQ4PV0oQ9Z$P03/qWr39m0zc1tPMGMKV9VPxem9JG15uZQ74fzkN2c=",
+    "fecha_generacion": "2025-10-21T17:46:55.566Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 479,
+  "fields": {
+    "padron": 1055,
+    "usuario": "1727938274",
+    "_contrasena_plana": "lT9Exzpf",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$zoLFNFTxrQqYgh6Cf11avt$6BExvC2qsvh/PaSTxXG+7YD7r/n0XfrU2Ai38lHrvcM=",
+    "fecha_generacion": "2025-10-21T17:46:56.091Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 480,
+  "fields": {
+    "padron": 974,
+    "usuario": "0551182405",
+    "_contrasena_plana": "9g8hNkLl",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$b79hgRlXTc3izsKrqw5pXl$6UbJj7YDUUpUTniZ6CXS6bN3lGHgGam8jjmqXgbcrVs=",
+    "fecha_generacion": "2025-10-21T17:46:56.617Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 481,
+  "fields": {
+    "padron": 975,
+    "usuario": "17604941011",
+    "_contrasena_plana": "0b4dlTIu",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$wIOahcWsr2JMf4dlAWu2Mn$fOWlLeBCJ5lvhajku8wPPxW6f3vPXO3l8oV2/GGeFz0=",
+    "fecha_generacion": "2025-10-21T17:46:57.148Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 482,
+  "fields": {
+    "padron": 1010,
+    "usuario": "1754919411",
+    "_contrasena_plana": "qubgt874",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$Mxyp1m1ahjBdzZGVvTEcpR$rS7tCEckffPa2cbm5IqF9XRxbpnE9KIfNRag/j0R30U=",
+    "fecha_generacion": "2025-10-21T17:46:57.681Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 483,
+  "fields": {
+    "padron": 1056,
+    "usuario": "2350807893",
+    "_contrasena_plana": "FWqPdbyo",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$2lza5dVRutRM0JYAeKOy54$uiRaMXi2pnB+tstj/aNoecj2xoB8fldaA0o7NUkZ/OM=",
+    "fecha_generacion": "2025-10-21T17:46:58.219Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 484,
+  "fields": {
+    "padron": 993,
+    "usuario": "1051007431",
+    "_contrasena_plana": "ojqRyjqF",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$E55vnvs7aYDjWCErdAasfY$+z+mj9uDSJMVQbaAcwzB8at9FuXv5cnkiEGrsZPTX/0=",
+    "fecha_generacion": "2025-10-21T17:46:58.743Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 485,
+  "fields": {
+    "padron": 994,
+    "usuario": "0651017626",
+    "_contrasena_plana": "5U3miRi1",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$qyxZ4Z1Thkd99CVDRy5RLp$DN7s/sP7McnEU1KWBrhbljS/pffYv6+svojvxdva+vU=",
+    "fecha_generacion": "2025-10-21T17:46:59.272Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 486,
+  "fields": {
+    "padron": 1057,
+    "usuario": "E003877146",
+    "_contrasena_plana": "kdvooD2B",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$6zbJSoNqn9d2FtdQQNra9I$AWGRh9IgA4GPvFY+9cF+Y9I8WXbMpJLPmP+PVkWSAhk=",
+    "fecha_generacion": "2025-10-21T17:46:59.794Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 487,
+  "fields": {
+    "padron": 1011,
+    "usuario": "1754679890",
+    "_contrasena_plana": "rt3WuHa2",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$CJiDQNYezPvuNAdAD5U9Hh$p/knjQSSOzUj3Wd4ASCKVAeKkhPh7iJ/U6xrMO1rOgk=",
+    "fecha_generacion": "2025-10-21T17:47:00.323Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 488,
+  "fields": {
+    "padron": 1058,
+    "usuario": "1727652479",
+    "_contrasena_plana": "eK4wC8Sv",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$qMLijqgQoc67bKWtt06w8t$fQcEZY/zjTIgvX6Y0Pf+lZzWptcyBGxr96VcWEir3Rk=",
+    "fecha_generacion": "2025-10-21T17:47:00.848Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 489,
+  "fields": {
+    "padron": 1027,
+    "usuario": "1728013812",
+    "_contrasena_plana": "EjXE72mQ",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$xszGCpsleDPIN1uivSudGp$JIbav4jG68pSnA3Bwa3m9VSPPMm1LARhi1fj6oJfLqY=",
+    "fecha_generacion": "2025-10-21T17:47:01.375Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 490,
+  "fields": {
+    "padron": 995,
+    "usuario": "E008680212",
+    "_contrasena_plana": "xMeDPCfL",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$6P7zVQB5Lx3HQOSLz3MrtU$SxShJr8kYggCKsZMjHK+JnilFfDgibp/dPgh/NZ8/gM=",
+    "fecha_generacion": "2025-10-21T17:47:01.903Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 491,
+  "fields": {
+    "padron": 976,
+    "usuario": "1760201135",
+    "_contrasena_plana": "3Teu3Ai3",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$QShj0wSnbvFYYADM6fQn4G$H+tHMecEcm9r37CL3bFrjTZ0tvNhflIcIs/z2ozHWZQ=",
+    "fecha_generacion": "2025-10-21T17:47:02.436Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 492,
+  "fields": {
+    "padron": 1012,
+    "usuario": "1755210687",
+    "_contrasena_plana": "Pci7BDKq",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$7EpuHzkEPFeuY8N8SZz4Iy$utxugPKcq8fe16OtEWc3p4t7WRS4/IBFmAkkcHdD7DM=",
+    "fecha_generacion": "2025-10-21T17:47:02.958Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 493,
+  "fields": {
+    "padron": 1059,
+    "usuario": "1727850123",
+    "_contrasena_plana": "qJdR4ZUp",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$2apZen5whr4kz8GKO6S6wM$CR54Q05BnBbhTEkk5XJ/AFdCbCOYZNeQUowdN3xqx94=",
+    "fecha_generacion": "2025-10-21T17:47:03.482Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 494,
+  "fields": {
+    "padron": 1028,
+    "usuario": "1750681767",
+    "_contrasena_plana": "my9TXDnD",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$P2wojlWb6Anr87zHnmtnQo$jpPDscpnG4NGBHzxglPFljTQvYuSfUaSYQOxBu0/wjE=",
+    "fecha_generacion": "2025-10-21T17:47:04.005Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 495,
+  "fields": {
+    "padron": 1029,
+    "usuario": "1755415120",
+    "_contrasena_plana": "jMQ6TOex",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$nv70mBZE1tWQyj2hRqQL3T$F+SmV9sysZVpHiuEhLjBgjVzDKngHCiTULYZqr9euWA=",
+    "fecha_generacion": "2025-10-21T17:47:04.534Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 496,
+  "fields": {
+    "padron": 1013,
+    "usuario": "1756230171",
+    "_contrasena_plana": "xNjrx1oV",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$GieKkqPDhWOE4rbhvGXugD$og73mYt/W0nx+JV+8hf8GDwS17XvHQwdWb5PB9x38Ck=",
+    "fecha_generacion": "2025-10-21T17:47:05.062Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 497,
+  "fields": {
+    "padron": 977,
+    "usuario": "0650986441",
+    "_contrasena_plana": "JolXm38w",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$WBEPmzZ9gMmwRCKaLtM2ht$qMxEM0oY84jvtolHSLac9ORsdPJRNmH2mzroTI1EUR8=",
+    "fecha_generacion": "2025-10-21T17:47:05.623Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 498,
+  "fields": {
+    "padron": 996,
+    "usuario": "1760242881",
+    "_contrasena_plana": "J47AgKmO",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$zi4zrtojE1W6y0I5nPMzeb$2v1+rTjOSl2Osqqt9ZmhgeuGtcxu6wOnRuILmNflTg4=",
+    "fecha_generacion": "2025-10-21T17:47:06.145Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 499,
+  "fields": {
+    "padron": 1030,
+    "usuario": "1727503797",
+    "_contrasena_plana": "o17eGQDY",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$5gl7Ab9sEkbJFBt6wUvXes$Mw3c1IpLybIhRplYb/HAf9LJEFXE0l2FYcqKt0Bww0g=",
+    "fecha_generacion": "2025-10-21T17:47:06.658Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 500,
+  "fields": {
+    "padron": 978,
+    "usuario": "1760085330",
+    "_contrasena_plana": "AFvGAv1G",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$27lnfsFlhftFxO0022mmLO$X0LL7ZJ9vzR7K1D+Rs32NKaQoZQm1QYT/PITt14mCaY=",
+    "fecha_generacion": "2025-10-21T17:47:07.180Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 501,
+  "fields": {
+    "padron": 1060,
+    "usuario": "1755320783",
+    "_contrasena_plana": "Jidoxn4l",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$LSFuaQYArmOYXeaZU464MT$qfQFldelVQO8lQUl72YL4GS7YVYfGVViWT8M4/o/l+A=",
+    "fecha_generacion": "2025-10-21T17:47:07.705Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 502,
+  "fields": {
+    "padron": 979,
+    "usuario": "1759813536",
+    "_contrasena_plana": "jr5yc4KH",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$aAmjdczBjbKLPMXXopSHyL$Ya5KeZviWvxVL7qhBmmQRW5raB4js8Vx8bEslODPouI=",
+    "fecha_generacion": "2025-10-21T17:47:08.234Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 503,
+  "fields": {
+    "padron": 1014,
+    "usuario": "1728421338",
+    "_contrasena_plana": "JkFsieDf",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$RuGIASM13DMbutPDGQkbuT$BCYqrAnuMuZUlbW7KRQ37Ili76RsNX/OETOoe5CpbUo=",
+    "fecha_generacion": "2025-10-21T17:47:08.748Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 504,
+  "fields": {
+    "padron": 980,
+    "usuario": "1760052751",
+    "_contrasena_plana": "S1aH1fqf",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$gjXP9T1XkEWY3JeBiUIWfe$b5xwbCTDXaONJOZtjPzDLf56H8BkOU3Pf2/y8qImllE=",
+    "fecha_generacion": "2025-10-21T17:47:09.262Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 505,
+  "fields": {
+    "padron": 997,
+    "usuario": "1759932260",
+    "_contrasena_plana": "WYJs1hRz",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$JlM1tuR4PocEG0jav3piJ0$1rr3hx/qB9qMLUKgIXLE5iy0DW8JL/oKLQZgBva6wew=",
+    "fecha_generacion": "2025-10-21T17:47:09.789Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 506,
+  "fields": {
+    "padron": 1031,
+    "usuario": "1728776756",
+    "_contrasena_plana": "gKg1szWU",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$MigQrXJOajydJecAivk3Rj$8m5nSNTX97mQfygRh0KoCu/4pguS5vUxo2bJxyWC+G4=",
+    "fecha_generacion": "2025-10-21T17:47:10.314Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 507,
+  "fields": {
+    "padron": 981,
+    "usuario": "1760189371",
+    "_contrasena_plana": "sqBOrK6i",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$d7UXCL78WNDWJMkwOna3ln$o6oBqDEY2u3y0scdrYqELuj57rt/SD3Y/c1O6TNPruw=",
+    "fecha_generacion": "2025-10-21T17:47:10.833Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 508,
+  "fields": {
+    "padron": 1061,
+    "usuario": "1728318955",
+    "_contrasena_plana": "1EaiudN5",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$VtZkc6ItQbTdLbInkZa2Zc$5ZR+bsMwuwMurL3BQgoFZ8e60SPKQbahTDvzF6N9Rqc=",
+    "fecha_generacion": "2025-10-21T17:47:11.361Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 509,
+  "fields": {
+    "padron": 1062,
+    "usuario": "1755438718",
+    "_contrasena_plana": "RosijyRt",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$KgLLUSR7c7DzRd4ZKIQxPJ$75jo4ZT56eE90YS4FmTH1cA03w2RnVrbxV3X1L2H2g4=",
+    "fecha_generacion": "2025-10-21T17:47:11.884Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 510,
+  "fields": {
+    "padron": 982,
+    "usuario": "1851632370",
+    "_contrasena_plana": "4ky4HfYN",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$tPCyzgz2h4bdJtxortu8CK$WSUmA2rumzSuSeh9QBhbbSZ2hfC6uiQ3uApnSSENVXU=",
+    "fecha_generacion": "2025-10-21T17:47:12.405Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 511,
+  "fields": {
+    "padron": 1015,
+    "usuario": "1727650309",
+    "_contrasena_plana": "C6YczVa6",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$JYjjNeV8NAhJOiiDIuGyjS$vPq8yx2J3gVLc2imGe3sFLxfVice/IvDw8+rj+114Yg=",
+    "fecha_generacion": "2025-10-21T17:47:12.928Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 512,
+  "fields": {
+    "padron": 983,
+    "usuario": "1760340875",
+    "_contrasena_plana": "28tkbbzE",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$bUrjcKif3sHsvcv5Ifvyjx$lT8jM4XYcj/hk3uQTPMo4MClo33eXRuKOR/P3ZzzYPA=",
+    "fecha_generacion": "2025-10-21T17:47:13.451Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 513,
+  "fields": {
+    "padron": 1063,
+    "usuario": "1755717251",
+    "_contrasena_plana": "YQDLSgD7",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$nJFZZ8hsoP4Sq0bxy4coUL$/259za1gWY3t+tgAn0krO/WISD9tVyDvDjh3nJwpMqk=",
+    "fecha_generacion": "2025-10-21T17:47:13.969Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 514,
+  "fields": {
+    "padron": 1064,
+    "usuario": "1728587336",
+    "_contrasena_plana": "4FV8xBua",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$FOXD8pQEG9NNf9ewWZTxDr$c7qsHfTSAI59gLaqC99Y+z9rm6zTM+3WuohMABI1/vY=",
+    "fecha_generacion": "2025-10-21T17:47:14.485Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 515,
+  "fields": {
+    "padron": 1016,
+    "usuario": "1755303250",
+    "_contrasena_plana": "DEnv8kaj",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$SFAMXn7EDhvXdjO7n7kgwe$RgN7/51HAtKasTBsc7Xaw5VB5KM2RE/rjpBcDWFuxH0=",
+    "fecha_generacion": "2025-10-21T17:47:15.008Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 516,
+  "fields": {
+    "padron": 1065,
+    "usuario": "1727060889",
+    "_contrasena_plana": "GXb7Ri3i",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$PCM1v8QbIlspfSl2zqF1Mb$UClqj1nba6m1VNoM8eeCMWeaUmFiuNv4FjBaMWCvioA=",
+    "fecha_generacion": "2025-10-21T17:47:15.535Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 517,
+  "fields": {
+    "padron": 998,
+    "usuario": "1760414191",
+    "_contrasena_plana": "6n5xlcNT",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$vJcQLHWXdb1cfXQTiI9MIc$xVJhv3NbQIme14QHALodRpvXLfcU8aCfMa27+DO06aU=",
+    "fecha_generacion": "2025-10-21T17:47:16.067Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 518,
+  "fields": {
+    "padron": 1017,
+    "usuario": "1727644997",
+    "_contrasena_plana": "oq8Jx4lT",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$7bUvoET6uygpaNNnfbIJ8Y$XALSzImf6bI8sXDBN4/uBc3fWnTJy0cOEjMDTjrXqk4=",
+    "fecha_generacion": "2025-10-21T17:47:16.587Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 519,
+  "fields": {
+    "padron": 1066,
+    "usuario": "1755329156",
+    "_contrasena_plana": "f0qRJYP6",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$DZjiECM9cUuKHq5jquu2Oj$7vSy0yCUdNAMdv/BDTo5ilX2KkhT/Ru7YzergqjLC4U=",
+    "fecha_generacion": "2025-10-21T17:47:17.118Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 520,
+  "fields": {
+    "padron": 1018,
+    "usuario": "1755231097",
+    "_contrasena_plana": "va6T8dsR",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$Oc1qi7BnXx2Av8EjE9jcYI$67mvDS9KkMaWbuJI6y/3S6IqwbXtuLGXlZvejx2lKS4=",
+    "fecha_generacion": "2025-10-21T17:47:17.650Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 521,
+  "fields": {
+    "padron": 984,
+    "usuario": "1760166932",
+    "_contrasena_plana": "cWsyfdsm",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$oTVB0fQzTCHpafrtX03EeJ$cB4Ydsi5T+pfBXYPQTid+OyktgvPzEeBb3S3uwvFm7Y=",
+    "fecha_generacion": "2025-10-21T17:47:18.170Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 522,
+  "fields": {
+    "padron": 1032,
+    "usuario": "1754926234",
+    "_contrasena_plana": "vFhTH1LV",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$70DFYDQ2POiLFmJQqY5xcw$ZXVl7olqFv4YUBRAzbrfb+loCOo9rCdItsP7vivLsUY=",
+    "fecha_generacion": "2025-10-21T17:47:18.695Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 523,
+  "fields": {
+    "padron": 999,
+    "usuario": "E007300666",
+    "_contrasena_plana": "Vg57KeNl",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$OGLFaGBa36tm8IymVFeeUR$yTCLwtWRwTnwvfAHqKFvA2g2vV5hELJ7SKVTBDWfYec=",
+    "fecha_generacion": "2025-10-21T17:47:19.219Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 524,
+  "fields": {
+    "padron": 1033,
+    "usuario": "1728476498",
+    "_contrasena_plana": "1CDIKXnK",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$DM5nAx7twcppLk3rwf7sdx$S9s2thLDdTOOW5dbO3LDWkLsyZhTWr9QUg2j+MQ54d0=",
+    "fecha_generacion": "2025-10-21T17:47:19.743Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 525,
+  "fields": {
+    "padron": 1067,
+    "usuario": "1850054568",
+    "_contrasena_plana": "TSHG70RI",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$crULP3HsgbfInKk6FksIWo$HyIHTU2ZZnmIBAD6RSLLG+r2kYjhah/XNKJeIqqivOc=",
+    "fecha_generacion": "2025-10-21T17:47:20.262Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 526,
+  "fields": {
+    "padron": 1034,
+    "usuario": "1755376496",
+    "_contrasena_plana": "4WObBWOv",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$RMkZuKR2MsjRQufxWJZx3j$6V8Ewoa8E/3ccaxWXWvfEnDFeEl5Kxrq/gv7YjxeOWI=",
+    "fecha_generacion": "2025-10-21T17:47:20.790Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 527,
+  "fields": {
+    "padron": 1068,
+    "usuario": "1754034971",
+    "_contrasena_plana": "IKRUtFV5",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$XF6um6HsFkXl0M7mCj8vUr$zPzEjjMxfzlFpuWZd/Q6RY8bsDhF4TgTNt3IMxkGYfI=",
+    "fecha_generacion": "2025-10-21T17:47:21.313Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 528,
+  "fields": {
+    "padron": 1019,
+    "usuario": "1727644641",
+    "_contrasena_plana": "ixg6yRGs",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$bGoyywYcDyLIhg8YyOVAwN$Yn6uhnJXoJj+tSSS3vla/uwmkvzxs5USQQHenhGSUnk=",
+    "fecha_generacion": "2025-10-21T17:47:21.837Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 529,
+  "fields": {
+    "padron": 1035,
+    "usuario": "E002397493",
+    "_contrasena_plana": "ZB4zqOd6",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$tVaoXlKjurCPfL0hbjNIo5$9rBbk3yKd8U3LyG12LtctE9tzhex2COv2gVcwlIKu6Q=",
+    "fecha_generacion": "2025-10-21T17:47:22.361Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 530,
+  "fields": {
+    "padron": 1036,
+    "usuario": "1752479764",
+    "_contrasena_plana": "HVJncs8c",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$Czc2HuHAO48XtosnP95Qjy$MV9WUKD35ydADG8eGVpklA2k3Ecv2XSGGjdMfAtr/rg=",
+    "fecha_generacion": "2025-10-21T17:47:22.888Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 531,
+  "fields": {
+    "padron": 1037,
+    "usuario": "1728672138",
+    "_contrasena_plana": "OrnrtckL",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$MudmTOTFsI62CM53mG6T5h$ENROsmbH/C5gKu3qdjRy28PS8GfzLZncaR9ZjC8MlAI=",
+    "fecha_generacion": "2025-10-21T17:47:23.406Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 532,
+  "fields": {
+    "padron": 1020,
+    "usuario": "1752205995",
+    "_contrasena_plana": "jRIkZBZX",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$2XWmF7HbjQSMNlCN4eGLQ7$VXfc5Lm4nNJvqWmUFkpmGgOFYwXWp+l8kxGVQxR2DCI=",
+    "fecha_generacion": "2025-10-21T17:47:23.927Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 533,
+  "fields": {
+    "padron": 1021,
+    "usuario": "2351016387",
+    "_contrasena_plana": "IW95Q1eU",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$K5nPjuw1QGgEAAHtgBj4Q6$BolEWTeHDJ7xF6Y9IwZnR8Qw47H/ULr1Y6mUysfHnww=",
+    "fecha_generacion": "2025-10-21T17:47:24.449Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 534,
+  "fields": {
+    "padron": 1038,
+    "usuario": "1754995460",
+    "_contrasena_plana": "qba3M0T6",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$QuHZFldYzlknYW7pVz6fym$x/q5tCASlKsqndsTjL4qneTn5295OzqqMi9gGZoToAU=",
+    "fecha_generacion": "2025-10-21T17:47:24.969Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 535,
+  "fields": {
+    "padron": 1039,
+    "usuario": "1755304423",
+    "_contrasena_plana": "QY7KJALY",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$xVgSNeCvhmHungYVYChHfr$FWYGoDQ686Oc3s7K4Xw+lgmwGoRGZRHTMrm1p1XG8oY=",
+    "fecha_generacion": "2025-10-21T17:47:25.490Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 536,
+  "fields": {
+    "padron": 1022,
+    "usuario": "1750547893",
+    "_contrasena_plana": "IND5czG0",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$2sDcXCBTTxLyF6fwpggbul$K3f81G4J6aoKhnI682DepfrL0ZUVpB1O0RQ3PP+eiqk=",
+    "fecha_generacion": "2025-10-21T17:47:26.007Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 537,
+  "fields": {
+    "padron": 1023,
+    "usuario": "1750547992",
+    "_contrasena_plana": "IJFXnCvY",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$pKBoQaQ4trFIspGbxPFVC2$evbtywHYheqipwtWTIbgPbZBBvZTRVc2ELhZ3FBUKxU=",
+    "fecha_generacion": "2025-10-21T17:47:26.521Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 538,
+  "fields": {
+    "padron": 1000,
+    "usuario": "1650340258",
+    "_contrasena_plana": "NXtzU0Dk",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$H9N48VHmldnwe3YUmpE601$PCH5Q+VzXtYNlSsLEfv3xPQV/S1J2AArkFoTX2ojO1k=",
+    "fecha_generacion": "2025-10-21T17:47:27.044Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 539,
+  "fields": {
+    "padron": 1040,
+    "usuario": "1754989869",
+    "_contrasena_plana": "Xubqb5fm",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$ZmyCGCbV2bzzSjF9anYvAq$bgfD8QIxm6MB0n+WWQco0hvk8mqeKR+LKPUgh9lFvkQ=",
+    "fecha_generacion": "2025-10-21T17:47:27.571Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 540,
+  "fields": {
+    "padron": 1001,
+    "usuario": "1760403087",
+    "_contrasena_plana": "mkzMY6rL",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$5lNP9WncvaR4a36HF1ry92$s5rieepkbnbJaKoF+PnIy7eBmEzfX/OMks+UqYekbiA=",
+    "fecha_generacion": "2025-10-21T17:47:28.102Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 541,
+  "fields": {
+    "padron": 1024,
+    "usuario": "0504683038",
+    "_contrasena_plana": "af4xuX0s",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$mdjaCCPrnbhPjT8p4EU3aI$y+QWZAaQWfXdKDgnEiqOoNI8ujcQya1PNqWMuROQmw8=",
+    "fecha_generacion": "2025-10-21T17:47:28.627Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 542,
+  "fields": {
+    "padron": 1041,
+    "usuario": "1728527605",
+    "_contrasena_plana": "QuKRkbsv",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$v41SARa76VtJQ0tiI4C1cX$bTQtGJt797A9cvA6afQ8DJziWxWE2x5/+tsqwXfEEKg=",
+    "fecha_generacion": "2025-10-21T17:47:29.152Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 543,
+  "fields": {
+    "padron": 985,
+    "usuario": "1760306413",
+    "_contrasena_plana": "DhQb9iUy",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$v9LkQfqDJVVYEzSdgbzR0r$KH7yD0gy1B+b49pWwmddaXAYGT63Np8sVteif+Ygedk=",
+    "fecha_generacion": "2025-10-21T17:47:29.676Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 544,
+  "fields": {
+    "padron": 1042,
+    "usuario": "0606264984",
+    "_contrasena_plana": "HKADwm1v",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$1wmfOKtJ5FvyqzWvnLnQCW$e6FIZvxmEU4Ya9v3K+lJyi/QIoRA3LYFWfWAlhNgjys=",
+    "fecha_generacion": "2025-10-21T17:47:30.244Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 545,
+  "fields": {
+    "padron": 1043,
+    "usuario": "1756160378",
+    "_contrasena_plana": "8tgilKXa",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$yQq4wxohuOSmCualJRWFvY$DnKom3YorPIzN4yWFZarRWlYLLW42A5TVtLqpTOmPxc=",
+    "fecha_generacion": "2025-10-21T17:47:30.791Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 546,
+  "fields": {
+    "padron": 986,
+    "usuario": "0751817065",
+    "_contrasena_plana": "0pT7sPZH",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$a5FiQeoPjrEv8Lw57xUtim$zxbpVcct8EghFbkvy4Q3Cif00+/zvGYOUnZrG94TfRY=",
+    "fecha_generacion": "2025-10-21T17:47:31.335Z",
+    "estado": "activo"
+  }
+},
+{
+  "model": "padron.credencialusuario",
+  "pk": 547,
+  "fields": {
+    "padron": 987,
+    "usuario": "1760150860",
+    "_contrasena_plana": "2PgLK0h6",
+    "contrasena_encriptada": "pbkdf2_sha256$1000000$04w6uNLbDbifmYhi8zEwLv$di/5RCStRH44GIWwe3u07ozbvqn7gC558irxuP2RCxk=",
+    "fecha_generacion": "2025-10-21T17:47:31.871Z",
+    "estado": "activo"
+  }
+}
+]

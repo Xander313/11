@@ -1,0 +1,1685 @@
+[
+{
+  "model": "padron.padronelectoral",
+  "pk": 970,
+  "fields": {
+    "cedula": "0964187637",
+    "nombre": "LEONARDO JESUS",
+    "apellidos": "ALMACHE GIRON",
+    "correo": "algileje15863822@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 117,
+    "paralelo": 142,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.131Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.131Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 971,
+  "fields": {
+    "cedula": "1760087302",
+    "nombre": "JHONNY YADIEL",
+    "apellidos": "ARIAS CHICAIZA",
+    "correo": "archjhya15067151@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 117,
+    "paralelo": 142,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.133Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.133Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 972,
+  "fields": {
+    "cedula": "1760174134",
+    "nombre": "YALEXI MAOLI",
+    "apellidos": "BRICEÑO JARA",
+    "correo": "brjayama14315184@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 117,
+    "paralelo": 142,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.134Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.134Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 973,
+  "fields": {
+    "cedula": "1760163483",
+    "nombre": "EDITH DANIELA",
+    "apellidos": "CAIZA RIASCOS",
+    "correo": "cariedda14404302@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 117,
+    "paralelo": 142,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.135Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.135Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 974,
+  "fields": {
+    "cedula": "0551182405",
+    "nombre": "YARITA LISBETH",
+    "apellidos": "CHUQUI PUMASHUNTA",
+    "correo": "chpuyali15817075@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 117,
+    "paralelo": 142,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.136Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.136Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 975,
+  "fields": {
+    "cedula": "17604941011",
+    "nombre": "MIA MONSERRAT",
+    "apellidos": "COLA CHIPUGSI",
+    "correo": "cochmimo15866540@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 117,
+    "paralelo": 142,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.137Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.137Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 976,
+  "fields": {
+    "cedula": "1760201135",
+    "nombre": "MATHIAS AMARU",
+    "apellidos": "GOMEZ IZA",
+    "correo": "goizmaam15222831@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 117,
+    "paralelo": 142,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.138Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.138Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 977,
+  "fields": {
+    "cedula": "0650986441",
+    "nombre": "JHAMILETH ROSMERY",
+    "apellidos": "GUAMAN GUAMAN",
+    "correo": "gugujhro15141562@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 117,
+    "paralelo": 142,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.139Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.139Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 978,
+  "fields": {
+    "cedula": "1760085330",
+    "nombre": "JULIAN MATEO",
+    "apellidos": "GUERRERO DIAZ",
+    "correo": "gudijuma15374503@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 117,
+    "paralelo": 142,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.140Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.140Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 979,
+  "fields": {
+    "cedula": "1759813536",
+    "nombre": "DAMIAN ISAC",
+    "apellidos": "HUILCA MOREANO",
+    "correo": "humodais15784148@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 117,
+    "paralelo": 142,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.140Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.140Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 980,
+  "fields": {
+    "cedula": "1760052751",
+    "nombre": "EMMA LUCIA",
+    "apellidos": "LANDAETA PEÑA",
+    "correo": "lapeemlu15864707@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 117,
+    "paralelo": 142,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.141Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.141Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 981,
+  "fields": {
+    "cedula": "1760189371",
+    "nombre": "ERIK DARELL",
+    "apellidos": "LUNA CAIZALUISA",
+    "correo": "lucaerda15171524@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 117,
+    "paralelo": 142,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.142Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.142Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 982,
+  "fields": {
+    "cedula": "1851632370",
+    "nombre": "ANGIE MONSERRATH",
+    "apellidos": "MORA SILVA",
+    "correo": "mosianmo14396846@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 117,
+    "paralelo": 142,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.143Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.143Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 983,
+  "fields": {
+    "cedula": "1760340875",
+    "nombre": "KERLY SAMANTHA",
+    "apellidos": "MOYA CASIGÑA",
+    "correo": "mocakesa15128687@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 117,
+    "paralelo": 142,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.144Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.144Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 984,
+  "fields": {
+    "cedula": "1760166932",
+    "nombre": "SOPHIA RAQUEL",
+    "apellidos": "PARAMO ANGULO",
+    "correo": "paansora15786366@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 117,
+    "paralelo": 142,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.145Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.145Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 985,
+  "fields": {
+    "cedula": "1760306413",
+    "nombre": "SCARLETH MILEYDI",
+    "apellidos": "VINUEZA TACO",
+    "correo": "vitascmi15135606@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 117,
+    "paralelo": 142,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.146Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.146Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 986,
+  "fields": {
+    "cedula": "0751817065",
+    "nombre": "KENNER ZABDIEL",
+    "apellidos": "ZAMORA ZAMBRANO",
+    "correo": "zazakeza15901912@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 117,
+    "paralelo": 142,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.147Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.147Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 987,
+  "fields": {
+    "cedula": "1760150860",
+    "nombre": "DANNA ARLET",
+    "apellidos": "ÑACATA JACOME",
+    "correo": "najadaar14399016@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 117,
+    "paralelo": 142,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.148Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.148Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 988,
+  "fields": {
+    "cedula": "0551182306",
+    "nombre": "CARMEN NOHEMI",
+    "apellidos": "ALOMOTO CAMBO",
+    "correo": "alcacano15129360@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 117,
+    "paralelo": 143,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.149Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.149Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 989,
+  "fields": {
+    "cedula": "E006988680",
+    "nombre": "JOSEPH ADRIAN",
+    "apellidos": "AZAIN CUASTUMAL",
+    "correo": "azcujoad14530029@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 117,
+    "paralelo": 143,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.150Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.150Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 990,
+  "fields": {
+    "cedula": "0551177306",
+    "nombre": "ERICK JOSUE",
+    "apellidos": "CAIZA PILATASIG",
+    "correo": "capierjo15786313@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 117,
+    "paralelo": 143,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.151Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.151Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 991,
+  "fields": {
+    "cedula": "1760183671",
+    "nombre": "ANGHELY DANAE",
+    "apellidos": "CAIZA TIGASI",
+    "correo": "catianda15135755@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 117,
+    "paralelo": 143,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.152Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.152Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 992,
+  "fields": {
+    "cedula": "1760160893",
+    "nombre": "FABIO MARCEL",
+    "apellidos": "CALERO ZAPATA",
+    "correo": "cazafama15068837@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 117,
+    "paralelo": 143,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.152Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.153Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 993,
+  "fields": {
+    "cedula": "1051007431",
+    "nombre": "JAKE EMILIANO",
+    "apellidos": "CUASCOTA VEGA",
+    "correo": "cuvejaem15194710@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 117,
+    "paralelo": 143,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.153Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.153Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 994,
+  "fields": {
+    "cedula": "0651017626",
+    "nombre": "DYLAN ALEXANDER",
+    "apellidos": "CUÑAS CAPITO",
+    "correo": "cucadyal15828116@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 117,
+    "paralelo": 143,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.154Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.154Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 995,
+  "fields": {
+    "cedula": "E008680212",
+    "nombre": "MYA MONSERRAT",
+    "apellidos": "GARCIA MONTILLA",
+    "correo": "gamomymo15186781@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 117,
+    "paralelo": 143,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.155Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.155Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 996,
+  "fields": {
+    "cedula": "1760242881",
+    "nombre": "HECTOR GABRIEL",
+    "apellidos": "GUAMAN LLERENA",
+    "correo": "gullhega15219940@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 117,
+    "paralelo": 143,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.157Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.157Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 997,
+  "fields": {
+    "cedula": "1759932260",
+    "nombre": "JOHAN ADRIEL",
+    "apellidos": "LLANOS TANGUILA",
+    "correo": "lltajoad14495420@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 117,
+    "paralelo": 143,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.158Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.158Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 998,
+  "fields": {
+    "cedula": "1760414191",
+    "nombre": "DEYKEL MANUEL",
+    "apellidos": "PACHACAMA TIGASI",
+    "correo": "patidema15781018@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 117,
+    "paralelo": 143,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.159Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.159Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 999,
+  "fields": {
+    "cedula": "E007300666",
+    "nombre": "ABDIEL EFRAIN",
+    "apellidos": "PAZMIÑO CHAVEZ",
+    "correo": "pachabef15019250@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 117,
+    "paralelo": 143,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.160Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.160Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1000,
+  "fields": {
+    "cedula": "1650340258",
+    "nombre": "TAYRON ALEXANDER",
+    "apellidos": "TZAMAREINIA HUATATOCA",
+    "correo": "tzhutaal15181439@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 117,
+    "paralelo": 143,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.161Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.161Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1001,
+  "fields": {
+    "cedula": "1760403087",
+    "nombre": "ANDREA NOEMI",
+    "apellidos": "UVILLUS LARCO",
+    "correo": "uvlaanno15139142@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 117,
+    "paralelo": 143,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.163Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.163Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1002,
+  "fields": {
+    "cedula": "1751855527",
+    "nombre": "ALISON CAROLINA",
+    "apellidos": "ALLAUCA IMACAÑA",
+    "correo": "alimalca7322376@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 118,
+    "paralelo": 144,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.164Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.164Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1003,
+  "fields": {
+    "cedula": "1727645663",
+    "nombre": "DENNIS JOEL",
+    "apellidos": "ANDRANGO ITAS",
+    "correo": "anitdejo674259@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 118,
+    "paralelo": 144,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.165Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.166Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1004,
+  "fields": {
+    "cedula": "1727646349",
+    "nombre": "LUIS JAVIER",
+    "apellidos": "ASIMBAYA CAIZA",
+    "correo": "ascaluja15183697@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 118,
+    "paralelo": 144,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.167Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.167Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1005,
+  "fields": {
+    "cedula": "1754342960",
+    "nombre": "JOSEPH ANDREW",
+    "apellidos": "CAIZA AMAGUAÑA",
+    "correo": "caamjoan13643884@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 118,
+    "paralelo": 144,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.167Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.168Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1006,
+  "fields": {
+    "cedula": "1727648360",
+    "nombre": "EDISON RAFAEL",
+    "apellidos": "CAIZAPASTO CARUA",
+    "correo": "cacaedra15825224@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 118,
+    "paralelo": 144,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.169Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.169Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1007,
+  "fields": {
+    "cedula": "1755258157",
+    "nombre": "GUSTAVO ALEJANDRO",
+    "apellidos": "CAMACHO GUAMAN",
+    "correo": "cagugual1436446@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 118,
+    "paralelo": 144,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.170Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.170Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1008,
+  "fields": {
+    "cedula": "1752256998",
+    "nombre": "ALANIS CAROLINA",
+    "apellidos": "CASA ANANGONO",
+    "correo": "caanalca15126230@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 118,
+    "paralelo": 144,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.171Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.171Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1009,
+  "fields": {
+    "cedula": "1727651224",
+    "nombre": "KERLY JOHANNA",
+    "apellidos": "CEPEDA VARGAS",
+    "correo": "cevakejo622759@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 118,
+    "paralelo": 144,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.172Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.172Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1010,
+  "fields": {
+    "cedula": "1754919411",
+    "nombre": "BRITHANY ANAHI",
+    "apellidos": "CRUZ CAIZA",
+    "correo": "crcabran13640414@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 118,
+    "paralelo": 144,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.173Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.173Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1011,
+  "fields": {
+    "cedula": "1754679890",
+    "nombre": "JHOSUE DAVID",
+    "apellidos": "DIAZ CEVALLOS",
+    "correo": "dicejhda5689858@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 118,
+    "paralelo": 144,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.174Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.174Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1012,
+  "fields": {
+    "cedula": "1755210687",
+    "nombre": "EMILIA FERNANDA",
+    "apellidos": "GOMEZ SALAZAR",
+    "correo": "gosaemfe1436118@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 118,
+    "paralelo": 144,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.176Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.176Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1013,
+  "fields": {
+    "cedula": "1756230171",
+    "nombre": "CRISTIAN JAVIER",
+    "apellidos": "GUAMAN CHANGOLUISA",
+    "correo": "guchcrja7308291@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 118,
+    "paralelo": 144,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.177Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.177Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1014,
+  "fields": {
+    "cedula": "1728421338",
+    "nombre": "BRITANIC SOFIA",
+    "apellidos": "LANCHIMBA MONGA",
+    "correo": "lamobrso15193817@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 118,
+    "paralelo": 144,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.178Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.178Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1015,
+  "fields": {
+    "cedula": "1727650309",
+    "nombre": "DAMARIS SARAHI",
+    "apellidos": "MOSQUERA FLORES",
+    "correo": "mofldasa14424313@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 118,
+    "paralelo": 144,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.179Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.179Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1016,
+  "fields": {
+    "cedula": "1755303250",
+    "nombre": "CAMILA JULIET",
+    "apellidos": "NAVAS PERALTA",
+    "correo": "napecaju5702157@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 118,
+    "paralelo": 144,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.180Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.180Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1017,
+  "fields": {
+    "cedula": "1727644997",
+    "nombre": "MAYKEL STEVEN",
+    "apellidos": "PACHUCHO PILLO",
+    "correo": "papimast15126093@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 118,
+    "paralelo": 144,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.181Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.181Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1018,
+  "fields": {
+    "cedula": "1755231097",
+    "nombre": "TATIANA ALEXANDRA",
+    "apellidos": "PALLO VEGA",
+    "correo": "pavetaal7316331@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 118,
+    "paralelo": 144,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.182Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.182Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1019,
+  "fields": {
+    "cedula": "1727644641",
+    "nombre": "BRITANY CAMILA",
+    "apellidos": "QUINATOA NARVAEZ",
+    "correo": "qunabrca7324515@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 118,
+    "paralelo": 144,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.183Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.183Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1020,
+  "fields": {
+    "cedula": "1752205995",
+    "nombre": "DANIEL ARMANDO",
+    "apellidos": "SUCONOTA MACIAS",
+    "correo": "sumadaar7309418@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 118,
+    "paralelo": 144,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.184Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.184Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1021,
+  "fields": {
+    "cedula": "2351016387",
+    "nombre": "MELANY MARITZA",
+    "apellidos": "TANDAZO BRAVO",
+    "correo": "tabrmema7100070@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 118,
+    "paralelo": 144,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.185Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.185Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1022,
+  "fields": {
+    "cedula": "1750547893",
+    "nombre": "AARON STEVE",
+    "apellidos": "TUPIZA OBACO",
+    "correo": "tuobaast12128096@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 118,
+    "paralelo": 144,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.186Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.186Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1023,
+  "fields": {
+    "cedula": "1750547992",
+    "nombre": "ARIEL ALEJANDRO",
+    "apellidos": "TUPIZA OBACO",
+    "correo": "tuobaral12128095@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 118,
+    "paralelo": 144,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.187Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.187Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1024,
+  "fields": {
+    "cedula": "0504683038",
+    "nombre": "MONICA ANDREYA",
+    "apellidos": "VEGA NAVARRETE",
+    "correo": "venamoan7308772@estudiantes2.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 118,
+    "paralelo": 144,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.188Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.188Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1025,
+  "fields": {
+    "cedula": "1755110671",
+    "nombre": "CHRISTOPHER SANTIAGO",
+    "apellidos": "CAIZA CAMBO",
+    "correo": "cacachsa7324054@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 118,
+    "paralelo": 145,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.189Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.189Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1026,
+  "fields": {
+    "cedula": "0650067929",
+    "nombre": "ESTEBAN VINICIO",
+    "apellidos": "CHICAIZA QUILISMAL",
+    "correo": "chquesvi7320251@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 118,
+    "paralelo": 145,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.189Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.189Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1027,
+  "fields": {
+    "cedula": "1728013812",
+    "nombre": "HENRY STEVEN",
+    "apellidos": "FIGUEROA VILLACIS",
+    "correo": "fivihest8337982@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 118,
+    "paralelo": 145,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.190Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.190Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1028,
+  "fields": {
+    "cedula": "1750681767",
+    "nombre": "MAJORIE ANAHI",
+    "apellidos": "GRANADA GUALOTUÑA",
+    "correo": "grgumaan15797054@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 118,
+    "paralelo": 145,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.191Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.191Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1029,
+  "fields": {
+    "cedula": "1755415120",
+    "nombre": "DEYVID JESUS",
+    "apellidos": "GUACAPIÑA COLA",
+    "correo": "gucodeje7302143@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 118,
+    "paralelo": 145,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.192Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.192Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1030,
+  "fields": {
+    "cedula": "1727503797",
+    "nombre": "SHIRLEY NAOMY",
+    "apellidos": "GUANOLUISA ROCHA",
+    "correo": "guroshna7324210@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 118,
+    "paralelo": 145,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.193Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.193Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1031,
+  "fields": {
+    "cedula": "1728776756",
+    "nombre": "ALEXIS JOEL",
+    "apellidos": "LUGE QUINATOA",
+    "correo": "luqualjo7324463@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 118,
+    "paralelo": 145,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.194Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.194Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1032,
+  "fields": {
+    "cedula": "1754926234",
+    "nombre": "MARJORIE SOLANGE",
+    "apellidos": "PAUTE UGSHA",
+    "correo": "paugmaso7324571@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 118,
+    "paralelo": 145,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.195Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.195Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1033,
+  "fields": {
+    "cedula": "1728476498",
+    "nombre": "MATIAS ALEJANDRO",
+    "apellidos": "PILA PAUCAR",
+    "correo": "pipamaal833141@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 118,
+    "paralelo": 145,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.196Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.196Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1034,
+  "fields": {
+    "cedula": "1755376496",
+    "nombre": "MATHIAS ALEXANDER",
+    "apellidos": "PUETATE PASQUEL",
+    "correo": "pupamaal7324790@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 118,
+    "paralelo": 145,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.197Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.197Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1035,
+  "fields": {
+    "cedula": "E002397493",
+    "nombre": "YEIDIMAR TERESA",
+    "apellidos": "RONDON ROMERO",
+    "correo": "roroyete10360589@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 118,
+    "paralelo": 145,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.197Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.198Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1036,
+  "fields": {
+    "cedula": "1752479764",
+    "nombre": "ANDERSON JOEL",
+    "apellidos": "SANGUCHO COLLAGUAZO",
+    "correo": "sacoanjo7324780@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 118,
+    "paralelo": 145,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.198Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.198Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1037,
+  "fields": {
+    "cedula": "1728672138",
+    "nombre": "STEVEN SEBASTIAN",
+    "apellidos": "SOLA BAUTISTA",
+    "correo": "sobastse7324685@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 118,
+    "paralelo": 145,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.199Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.199Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1038,
+  "fields": {
+    "cedula": "1754995460",
+    "nombre": "JOSELYN ESTEFANIA",
+    "apellidos": "TENELEMA MOROCHO",
+    "correo": "temojoes4469608@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 118,
+    "paralelo": 145,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.200Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.200Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1039,
+  "fields": {
+    "cedula": "1755304423",
+    "nombre": "KEVIN ALEXIS",
+    "apellidos": "TOAQUIZA TIGASI",
+    "correo": "totikeal1337870@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 118,
+    "paralelo": 145,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.201Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.201Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1040,
+  "fields": {
+    "cedula": "1754989869",
+    "nombre": "FRICSON JAIR",
+    "apellidos": "UVILLUS FONSECA",
+    "correo": "uvfofrja13742332@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 118,
+    "paralelo": 145,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.202Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.202Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1041,
+  "fields": {
+    "cedula": "1728527605",
+    "nombre": "JHORDAN MARLON",
+    "apellidos": "VILLACIS PILICITA",
+    "correo": "vipijhma7309440@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 118,
+    "paralelo": 145,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.203Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.203Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1042,
+  "fields": {
+    "cedula": "0606264984",
+    "nombre": "MAGALI NOEMI",
+    "apellidos": "YASACA LEMACHE",
+    "correo": "yalemano4473748@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 118,
+    "paralelo": 145,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.204Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.204Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1043,
+  "fields": {
+    "cedula": "1756160378",
+    "nombre": "ROMINA SHARID",
+    "apellidos": "YUNDA TORRES",
+    "correo": "yutorosh7324837@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 118,
+    "paralelo": 145,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.204Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.205Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1044,
+  "fields": {
+    "cedula": "1754168167",
+    "nombre": "MAROLYN AMANDA",
+    "apellidos": "ACEVEDO LOACHAMIN",
+    "correo": "aclomaam12126216@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 119,
+    "paralelo": 146,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.206Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.206Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1045,
+  "fields": {
+    "cedula": "1727502583",
+    "nombre": "JHONNY ALEXANDER",
+    "apellidos": "ALCIVAR SANTANA",
+    "correo": "alsajhal14405687@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 119,
+    "paralelo": 146,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.207Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.207Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1046,
+  "fields": {
+    "cedula": "1727502591",
+    "nombre": "JOSUE EMANUEL",
+    "apellidos": "ALCIVAR SANTANA",
+    "correo": "alsajoem14405484@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 119,
+    "paralelo": 146,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.208Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.208Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1047,
+  "fields": {
+    "cedula": "1087672997",
+    "nombre": "JULIETH ESTRELLITA",
+    "apellidos": "AZAIN CUASTUMAL",
+    "correo": "azcujues13650144@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 119,
+    "paralelo": 146,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.209Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.209Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1048,
+  "fields": {
+    "cedula": "0943338905",
+    "nombre": "DAYANNA ALEJANDRA",
+    "apellidos": "BURGOS TORRES",
+    "correo": "butodaal11789817@estudiantes2.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 119,
+    "paralelo": 146,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.209Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.209Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1049,
+  "fields": {
+    "cedula": "1728484559",
+    "nombre": "DANIEL MAURICIO",
+    "apellidos": "CAIZA CAIZATOA",
+    "correo": "cacadama15836413@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 119,
+    "paralelo": 146,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.210Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.210Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1050,
+  "fields": {
+    "cedula": "1755496633",
+    "nombre": "NANCY VERONICA",
+    "apellidos": "CAJILEMA AUCANZHALA",
+    "correo": "caaunave1437066@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 119,
+    "paralelo": 146,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.211Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.211Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1051,
+  "fields": {
+    "cedula": "1727650333",
+    "nombre": "SULAHY ANAHY",
+    "apellidos": "CAZA PADILLA",
+    "correo": "capasuan15839126@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 119,
+    "paralelo": 146,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.212Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.212Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1052,
+  "fields": {
+    "cedula": "1755597950",
+    "nombre": "MARTHA EDILEY",
+    "apellidos": "CEPEDA TENEMPAGUAY",
+    "correo": "cetemaed15882849@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 119,
+    "paralelo": 146,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.213Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.213Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1053,
+  "fields": {
+    "cedula": "1728034438",
+    "nombre": "JHONATHAN GABRIEL",
+    "apellidos": "CHASI OYOS",
+    "correo": "choyjhga477734@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 119,
+    "paralelo": 146,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.214Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.214Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1054,
+  "fields": {
+    "cedula": "1727688762",
+    "nombre": "CRISTOPHER STEV",
+    "apellidos": "CHICAIZA SARAGOSIN",
+    "correo": "chsacrst1111059@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 119,
+    "paralelo": 146,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.215Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.215Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1055,
+  "fields": {
+    "cedula": "1727938274",
+    "nombre": "NAYELI ALEJANDRA",
+    "apellidos": "CHILIG SANGUCHO",
+    "correo": "chsanaal619326@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 119,
+    "paralelo": 146,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.216Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.216Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1056,
+  "fields": {
+    "cedula": "2350807893",
+    "nombre": "MARCO ANTONIO",
+    "apellidos": "CRUZ GAVILANES",
+    "correo": "crgamaan3326450@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 119,
+    "paralelo": 146,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.216Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.217Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1057,
+  "fields": {
+    "cedula": "E003877146",
+    "nombre": "BARBARA BRANKELYS",
+    "apellidos": "DELGADO MANZANO",
+    "correo": "demababr12997998@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 119,
+    "paralelo": 146,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.217Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.217Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1058,
+  "fields": {
+    "cedula": "1727652479",
+    "nombre": "JHOSTYN VLADIMIR",
+    "apellidos": "ERAZO VARGAS",
+    "correo": "ervajhvl15230006@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 119,
+    "paralelo": 146,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.218Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.218Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1059,
+  "fields": {
+    "cedula": "1727850123",
+    "nombre": "JIMMY DAVID",
+    "apellidos": "GONZALEZ MOSQUERA",
+    "correo": "gomojida7325993@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 119,
+    "paralelo": 146,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.219Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.219Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1060,
+  "fields": {
+    "cedula": "1755320783",
+    "nombre": "MICAELA CAROLINA",
+    "apellidos": "HIDALGO VELASCO",
+    "correo": "hivemica7326824@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 119,
+    "paralelo": 146,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.220Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.220Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1061,
+  "fields": {
+    "cedula": "1728318955",
+    "nombre": "SAMIRA FELISA",
+    "apellidos": "MANOSALVAS TAIMAL",
+    "correo": "matasafe8308871@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 119,
+    "paralelo": 146,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.221Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.221Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1062,
+  "fields": {
+    "cedula": "1755438718",
+    "nombre": "DILAN MATEO",
+    "apellidos": "MEJIA GUAILLAGUAMAN",
+    "correo": "megudima1524325@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 119,
+    "paralelo": 146,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.222Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.222Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1063,
+  "fields": {
+    "cedula": "1755717251",
+    "nombre": "KARLY DANIELA",
+    "apellidos": "MUELA AMENDAÑO",
+    "correo": "muamkada625277@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 119,
+    "paralelo": 146,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.223Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.223Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1064,
+  "fields": {
+    "cedula": "1728587336",
+    "nombre": "DERECK LEONEL",
+    "apellidos": "MURILLO BASTIDAS",
+    "correo": "mubadele694899@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 119,
+    "paralelo": 146,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.224Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.224Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1065,
+  "fields": {
+    "cedula": "1727060889",
+    "nombre": "MATIAS SEBASTIAN",
+    "apellidos": "ORTIZ AYALA",
+    "correo": "oraymase5199434@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 119,
+    "paralelo": 146,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.225Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.225Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1066,
+  "fields": {
+    "cedula": "1755329156",
+    "nombre": "JUAN FERNANDO",
+    "apellidos": "PALACIOS MOLINA",
+    "correo": "pamojufe7326985@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 119,
+    "paralelo": 146,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.225Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.225Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1067,
+  "fields": {
+    "cedula": "1850054568",
+    "nombre": "JUSTIN ALEXIS",
+    "apellidos": "PILLO CHANGO",
+    "correo": "pichjual7336524@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 119,
+    "paralelo": 146,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.226Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.226Z"
+  }
+},
+{
+  "model": "padron.padronelectoral",
+  "pk": 1068,
+  "fields": {
+    "cedula": "1754034971",
+    "nombre": "NEIVY JOSUE",
+    "apellidos": "QUIJIJE CHAVEZ",
+    "correo": "quchnejo1539038@estudiantes.edu.ec",
+    "telefono": null,
+    "periodo": 26,
+    "grado": 119,
+    "paralelo": 146,
+    "estado": "activo",
+    "fecha_registro": "2025-10-21T17:46:36.227Z",
+    "fecha_actualizacion": "2025-10-21T17:46:36.227Z"
+  }
+}
+]

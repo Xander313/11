@@ -1,0 +1,849 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Estilos para las iniciales de los docentes -->
+<style>
+    .docente-iniciales {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 36px;
+        font-weight: bold;
+        margin: 0 auto 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .docente-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .docente-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Estilos para la sección de Historia */
+    .historia-card-container {
+        border-radius: 15px;
+        overflow: hidden;
+    }
+
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .historia-scroll-content {
+        scrollbar-width: thin;
+        scrollbar-color: #667eea #f1f1f1;
+    }
+
+    .historia-scroll-content::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .historia-scroll-content::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+
+    .historia-scroll-content::-webkit-scrollbar-thumb {
+        background: #667eea;
+        border-radius: 10px;
+    }
+
+    .historia-scroll-content::-webkit-scrollbar-thumb:hover {
+        background: #764ba2;
+    }
+
+    /* Timeline Styles */
+    .historia-timeline {
+        position: relative;
+    }
+
+    .timeline-item {
+        position: relative;
+        padding-left: 40px;
+        margin-bottom: 30px;
+        border-left: 2px solid #e9ecef;
+    }
+
+    .timeline-item:last-child {
+        border-left: 2px solid transparent;
+    }
+
+    .timeline-marker {
+        position: absolute;
+        left: -8px;
+        top: 8px;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        border: 3px solid #fff;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .timeline-content {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+        margin-left: 15px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        transition: all 0.3s ease;
+    }
+
+    .timeline-content:hover {
+        transform: translateX(5px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .timeline-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        flex-wrap: wrap;
+    }
+
+    .timeline-title {
+        margin: 0;
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+
+    .timeline-date {
+        font-size: 0.8rem;
+    }
+
+    .timeline-description {
+        color: #6c757d;
+        margin-bottom: 15px;
+        line-height: 1.6;
+    }
+
+    .timeline-details {
+        background: #fff;
+        padding: 15px;
+        border-radius: 8px;
+        border-left: 4px solid #667eea;
+    }
+
+    .timeline-details ul {
+        margin: 0;
+        padding-left: 20px;
+    }
+
+    .timeline-details li {
+        margin-bottom: 5px;
+        color: #495057;
+    }
+
+    .timeline-achievements .achievement-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+        padding: 8px;
+        background: #fff;
+        border-radius: 6px;
+    }
+
+    /* Achievement Cards */
+    .achievement-card {
+        transition: all 0.3s ease;
+        border: 1px solid #e9ecef;
+    }
+
+    .achievement-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        border-color: #667eea;
+    }
+
+    .achievement-number {
+        font-size: 2.5rem;
+        margin: 10px 0;
+    }
+
+    .achievement-text {
+        font-weight: 500;
+        color: #6c757d;
+    }
+
+    /* Mission and Vision Cards */
+    .mission-card, .vision-card {
+        transition: all 0.3s ease;
+        background: #fff;
+    }
+
+    .mission-card:hover, .vision-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        border-color: #667eea !important;
+    }
+
+    /* Section Titles */
+    .section-title {
+        font-size: 1.8rem;
+        font-weight: 600;
+        margin-bottom: 2rem;
+        color: #495057;
+    }
+
+    /* Color classes */
+    .text-purple {
+        color: #6f42c1 !important;
+    }
+
+    .bg-purple {
+        background-color: #6f42c1 !important;
+    }
+
+    /* Historia main icon */
+    .historia-main-icon {
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.05);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .timeline-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .historia-scroll-content {
+            max-height: 500px;
+        }
+        
+        .achievement-number {
+            font-size: 2rem;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+        }
+    }
+</style>
+
+<!-- ***** Nosotros Start ***** -->
+<section class="section nosotros-section" data-section="section-nosotros">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center mb-5">
+                <div class="section-heading">
+                    <h2 class="gradient-text">Sobre Nosotros</h2>
+                    <div class="line-dec"></div>
+                    <p class="subtitle">Conoce más sobre nuestra institución educativa</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Pestañas de navegación -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="nosotros-tabs nav nav-fill mb-4" id="nosotrosTabs" role="tablist">
+                    <button class="nav-link-custom active" id="historia-tab" data-bs-toggle="tab" data-bs-target="#historia" type="button" role="tab" aria-controls="historia" aria-selected="true">
+                        <i class="fa fa-history me-2"></i>Nuestra Historia
+                    </button>
+                    <button class="nav-link-custom" id="autoridades-tab" data-bs-toggle="tab" data-bs-target="#autoridades" type="button" role="tab" aria-controls="autoridades" aria-selected="false">
+                        <i class="fa fa-users me-2"></i>Autoridades
+                    </button>
+                    
+                    
+                </div>
+                
+                <!-- Contenido de las pestañas -->
+                <div class="nosotros-tab-content tab-content" id="nosotrosTabsContent">
+                    <!-- Pestaña de Historia -->
+                    <div class="tab-pane fade show active" id="historia" role="tabpanel" aria-labelledby="historia-tab">
+                        <div class="row">
+                            <div class="col-12">
+                                <!-- Card Principal de Historia -->
+                                <div class="card historia-card-container shadow-lg border-0">
+                                    <div class="card-header bg-gradient-primary text-white py-4">
+                                        <div class="row align-items-center">
+                                            <div class="col-md-8">
+                                                <h3 class="mb-0 fw-bold">
+                                                    <i class="fa fa-history me-3"></i>
+                                                    Nuestra Historia
+                                                </h3>
+                                                <p class="mb-0 mt-2 opacity-90">Un legado de excelencia educativa desde 1947</p>
+                                            </div>
+                                            <div class="col-md-4 text-end">
+                                                <div class="historia-year-badge">
+                                                    <span class="badge bg-light text-primary fs-4 fw-bold px-4 py-2">1947 - 2025</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="card-body p-0">
+                                        <!-- Contenido Scrolleable -->
+                                        <div class="historia-scroll-content" style="max-height: 600px; overflow-y: auto; padding: 30px;">
+                                            
+                                            <!-- Presentación Principal -->
+                                            <div class="historia-card mb-4 p-4 bg-primary text-white rounded">
+                                                <h5 class="text-white mb-3">
+                                                    <i class="fa fa-heart me-2"></i>
+                                                    Nuestra Querida Escuela Riobamba
+                                                </h5>
+                                                <p class="mb-0 lead">
+                                                    Hoy nos reunimos no solo para recordar, sino para honrar el camino recorrido por una institución que ha sido cuna de sueños, aprendizajes y memorias imborrables: nuestra querida Escuela Riobamba.
+                                                </p>
+                                            </div>
+
+                                            <!-- Legado Generacional -->
+                                            <div class="historia-card mb-4 p-4 bg-light rounded">
+                                                <h5 class="text-info mb-3">
+                                                    <i class="fa fa-users me-2"></i>
+                                                    Legado Generacional
+                                                </h5>
+                                                <p class="mb-0">
+                                                    Hablar de la Escuela Riobamba es hablar de generaciones que crecieron entre sus aulas, de maestros que sembraron conocimientos con amor y de una comunidad que encontró en ella un verdadero hogar educativo.
+                                                </p>
+                                            </div>
+
+                                            <!-- Información Institucional -->
+                                            <div class="historia-card mb-4 p-4 bg-light rounded">
+                                                <h5 class="text-success mb-3">
+                                                    <i class="fa fa-map-marker-alt me-2"></i>
+                                                    Institución Educativa Fiscal
+                                                </h5>
+                                                <p class="mb-0">
+                                                    La escuela Riobamba es una institución educativa fiscal, fundada a mediados del siglo XX de manera específica en 1947 y se encuentra ubicada en la PANAMERICANA SUR Km 16 BARRIO LA VICTORIA, al sur de la ciudad de Quito. A lo largo de los años, ha evolucionado y ampliado su oferta educativa, adaptándose a las necesidades de los moradores del barrio.
+                                                </p>
+                                            </div>
+
+                                            <!-- Compromiso Actual -->
+                                            <div class="historia-card mb-4 p-4 bg-light rounded">
+                                                <h5 class="text-warning mb-3">
+                                                    <i class="fa fa-graduation-cap me-2"></i>
+                                                    Al Servicio de la Sociedad
+                                                </h5>
+                                                <p class="mb-0">
+                                                    Actualmente la escuela Riobamba se caracteriza por ser una institución educativa al servicio de la sociedad y, por ende, sigue siendo una opción educativa importante para muchas familias en el sur de Quito. Ya que su ubicación es estratégica y su compromiso con la educación básica la convierten en una institución relevante.
+                                                </p>
+                                            </div>
+
+                                                <div class="historia-card mb-4 p-4 bg-light rounded">
+                                                    <h5 class="text-primary mb-3">
+                                                        <i class="fa fa-hammer me-2"></i>
+                                                        Fundación y Construcción (1947)
+                                                    </h5>
+                                                    <p class="mb-3">
+                                                        Hoy es preciso conmemorar su historia y su fundación, recordando los inicios de la escuela, como primer elemento contar con el terreno y la infraestructura para su funcionamiento. El terreno fue propiedad del Municipio de Quito y luego cedido para el Ministerio de Educación con el fin de construir la Escuela.
+                                                    </p>
+                                                    <p class="mb-0">
+                                                        La construcción del edificio fue realizada con el apoyo común entre el Ministerio de Educación, Consejo Provincial de Pichincha y la participación de los moradores del barrio, quienes gentilmente colaboraron con materiales pétreo y a través de las mingas realizaron la construcción de dicha institución educativa.
+                                                    </p>
+                                                </div>
+
+                                                <!-- Primeros Años y Autoridades -->
+                                                <div class="historia-card mb-4 p-4 bg-light rounded">
+                                                    <h5 class="text-success mb-3">
+                                                        <i class="fa fa-users me-2"></i>
+                                                        Primeras Autoridades
+                                                    </h5>
+                                                    <p class="mb-3">
+                                                        Conforme que iba avanzando el crecimiento de la escuela, el talento humano era fundamental para su desarrollo y fortalecimiento tanto en la parte administrativa y como académicamente.
+                                                    </p>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="autoridad-inicial mb-3">
+                                                                <strong class="text-primary">Srta. Carmela Arellano</strong><br>
+                                                                <small class="text-muted">Primera directora de la escuela Riobamba</small>
+                                                            </div>
+                                                            <div class="autoridad-inicial mb-3">
+                                                                <strong class="text-primary">Sr. Floresmilo Pérez</strong><br>
+                                                                <small class="text-muted">Primer presidente del comité de padres de familia</small>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="autoridad-inicial mb-3">
+                                                                <strong class="text-primary">Srta. Eva Veintimilla</strong><br>
+                                                                <small class="text-muted">Autoridad del plantel</small>
+                                                            </div>
+                                                            <div class="autoridad-inicial mb-3">
+                                                                <strong class="text-primary">Srta. Flor López</strong><br>
+                                                                <small class="text-muted">Autoridad del plantel</small>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Era de Rafael Amaya (1965) -->
+                                                <div class="historia-card mb-4 p-4 bg-light rounded">
+                                                    <h5 class="text-warning mb-3">
+                                                        <i class="fa fa-user-tie me-2"></i>
+                                                        Era de Rafael Amaya (1965)
+                                                    </h5>
+                                                    <p class="mb-3">
+                                                        Posteriormente, el primero de junio de 1965 el señor Rafael Amaya fue delegado como director del plantel y como primeros colaboradores fueron la Srta. Isabel Zambrano y sr. Luis Escobar, inmediatamente se incorpora al personal docente el sr. Marcelo Zambrano en reemplazo de la Srta. Isabel Zambrano, también llegaron por esa época el sr. Marco Lasso y el sr. Marcelo Cortes.
+                                                    </p>
+                                                    <div class="equipo-docente-1965">
+                                                        <strong class="text-primary">Equipo Docente 1965-1970s:</strong>
+                                                        <div class="row mt-2">
+                                                            <div class="col-md-6">
+                                                                <ul class="list-unstyled">
+                                                                    <li><i class="fa fa-user text-warning me-2"></i>Rafael Amaya (Director)</li>
+                                                                    <li><i class="fa fa-user text-warning me-2"></i>Isabel Zambrano</li>
+                                                                    <li><i class="fa fa-user text-warning me-2"></i>Luis Escobar</li>
+                                                                </ul>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <ul class="list-unstyled">
+                                                                    <li><i class="fa fa-user text-warning me-2"></i>Marcelo Zambrano</li>
+                                                                    <li><i class="fa fa-user text-warning me-2"></i>Marco Lasso</li>
+                                                                    <li><i class="fa fa-user text-warning me-2"></i>Marcelo Cortes</li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Expansión (1966-1968) -->
+                                                <div class="historia-card mb-4 p-4 bg-light rounded">
+                                                    <h5 class="text-info mb-3">
+                                                        <i class="fa fa-expand-arrows-alt me-2"></i>
+                                                        Expansión y Crecimiento (1966-1968)
+                                                    </h5>
+                                                    <p class="mb-3">
+                                                        La ampliación de nuestra institución se consiguió gracias a las gestiones realizadas por el señor director Rafael Amaya y personal docente en el período del Dr. Otto Arosemena en el plan "una escuela por día" 1966 a 1968.
+                                                    </p>
+                                                    <div class="expansion-details p-3 bg-white rounded border-start border-info border-3">
+                                                        <p class="mb-2">
+                                                            <strong>Ampliación del terreno:</strong> Para que dicha obra se realice el director logró primeramente la ampliación de ½ hectárea de terreno, la misma que fue donada por el sr. Marcelo Rúales, secretario de la fundación Matilde Álvarez, cuyo tramo consta con el número 50 en el año 1968.
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Década de 1970 - Consolidación -->
+                                                <div class="historia-card mb-4 p-4 bg-light rounded">
+                                                    <h5 class="text-success mb-3">
+                                                        <i class="fa fa-users-cog me-2"></i>
+                                                        Consolidación del Equipo Docente (1969-1970)
+                                                    </h5>
+                                                    <p class="mb-3">
+                                                        En 1969 llega a la escuela la Sra. Maruja Vélez de Cueva para incorporarse al personal docente y al año siguiente ocupando vacantes de la escuela se unen al grupo las Srtas. Josefina Zurita y Betty Peñafiel.
+                                                    </p>
+                                                    <div class="equipo-consolidado p-3 bg-white rounded">
+                                                        <strong class="text-success">Personal Docente Consolidado (1970):</strong>
+                                                        <div class="row mt-2">
+                                                            <div class="col-md-6">
+                                                                <ul class="list-unstyled">
+                                                                    <li><i class="fa fa-star text-success me-2"></i>Rafael Amaya (Director)</li>
+                                                                    <li><i class="fa fa-chalkboard-teacher text-success me-2"></i>Maruja Vélez de Cueva</li>
+                                                                    <li><i class="fa fa-chalkboard-teacher text-success me-2"></i>Josefina Zurita</li>
+                                                                </ul>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <ul class="list-unstyled">
+                                                                    <li><i class="fa fa-chalkboard-teacher text-success me-2"></i>Betty Peñafiel</li>
+                                                                    <li><i class="fa fa-chalkboard-teacher text-success me-2"></i>Marcelo Cortes</li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Renovaciones y Mejoras -->
+                                                <div class="historia-card mb-4 p-4 bg-light rounded">
+                                                    <h5 class="text-warning mb-3">
+                                                        <i class="fa fa-tools me-2"></i>
+                                                        Renovaciones y Mejoras de Infraestructura
+                                                    </h5>
+                                                    <p class="mb-3">
+                                                        Con el pasar de los años como el edificio antiguo estaba en deplorables condiciones, el personal docente realizó gestiones y se arregló las aulas, cambiando pisos, tumbados, pintado de paredes y a la vez dotando de mobiliario adecuado.
+                                                    </p>
+                                                    <div class="mejoras-realizadas">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="mejora-item d-flex align-items-center mb-2">
+                                                                    <i class="fa fa-hammer text-warning me-3"></i>
+                                                                    <span>Cambio de pisos</span>
+                                                                </div>
+                                                                <div class="mejora-item d-flex align-items-center mb-2">
+                                                                    <i class="fa fa-paint-brush text-warning me-3"></i>
+                                                                    <span>Pintado de paredes</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="mejora-item d-flex align-items-center mb-2">
+                                                                    <i class="fa fa-building text-warning me-3"></i>
+                                                                    <span>Reparación de tumbados</span>
+                                                                </div>
+                                                                <div class="mejora-item d-flex align-items-center mb-2">
+                                                                    <i class="fa fa-chair text-warning me-3"></i>
+                                                                    <span>Mobiliario adecuado</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Era Actual - MSC. José María Guamán (2015) -->
+                                                <div class="historia-card mb-4 p-4 bg-primary text-white rounded">
+                                                    <h5 class="text-white mb-3">
+                                                        <i class="fa fa-graduation-cap me-2"></i>
+                                                        Era Actual - MSC. José María Guamán (2015 - Presente)
+                                                    </h5>
+                                                    <p class="mb-3">
+                                                        En agosto del 2015 llega a la institución educativa el actual director MSC. José María Guamán el cual lideró esfuerzos para mejorar las instalaciones de la escuela, incluyendo gradas, viseras y otras obras en beneficio de la comunidad educativa.
+                                                    </p>
+                                                    <div class="estadisticas-actuales bg-white text-dark p-3 rounded">
+                                                        <strong class="text-primary mb-2 d-block">Estadísticas Actuales:</strong>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="stat-item d-flex align-items-center mb-2">
+                                                                    <i class="fa fa-users text-primary me-3 fs-4"></i>
+                                                                    <div>
+                                                                        <strong class="text-primary">1,500</strong><br>
+                                                                        <small class="text-muted">Estudiantes (ambas jornadas)</small>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="stat-item d-flex align-items-center mb-2">
+                                                                    <i class="fa fa-chalkboard-teacher text-primary me-3 fs-4"></i>
+                                                                    <div>
+                                                                        <strong class="text-primary">70</strong><br>
+                                                                        <small class="text-muted">Docentes capacitados</small>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Legado y Reflexión Final -->
+                                                <div class="historia-card mb-4 p-4 bg-gradient-success text-white rounded">
+                                                    <h5 class="text-white mb-3">
+                                                        <i class="fa fa-heart me-2"></i>
+                                                        Legado y Reflexión (78 Años de Historia)
+                                                    </h5>
+                                                    <p class="mb-3">
+                                                        Han transcurrido muchos años desde que fue creada y por estas aulas han pasado estudiantes, profesores, y personas encargadas de los distintos servicios, que forman parte de la historia de nuestra institución; cada una de estas paredes conserva muchos recuerdos de clases, recreos, exámenes, fiestas, actos solidarios y culturales.
+                                                    </p>
+                                                    <p class="mb-3">
+                                                        Es muy grande la dedicación, el esfuerzo, el cariño, la ayuda, los valores y los lazos establecidos en la Escuela; pues es una institución abierta al pensamiento crítico, al conocimiento, a la investigación, a la cultura, a la creatividad y a la participación democrática.
+                                                    </p>
+                                                    <div class="principios-institucionales bg-white text-dark p-3 rounded">
+                                                        <strong class="text-success mb-2 d-block">Nuestros Principios:</strong>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="principio-item mb-2">
+                                                                    <i class="fa fa-check-circle text-success me-2"></i>
+                                                                    <span>Fiel a nuestros principios</span>
+                                                                </div>
+                                                                <div class="principio-item mb-2">
+                                                                    <i class="fa fa-check-circle text-success me-2"></i>
+                                                                    <span>Cumplimiento educativo</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="principio-item mb-2">
+                                                                    <i class="fa fa-check-circle text-success me-2"></i>
+                                                                    <span>Compromiso social</span>
+                                                                </div>
+                                                                <div class="principio-item mb-2">
+                                                                    <i class="fa fa-check-circle text-success me-2"></i>
+                                                                    <span>Responsabilidad legal</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Mensaje Final -->
+                                                <div class="historia-card mb-4 p-4 bg-dark text-white rounded text-center">
+                                                    <h5 class="text-white mb-3">
+                                                        <i class="fa fa-quote-left me-2"></i>
+                                                        Mensaje Final
+                                                    </h5>
+                                                    <p class="mb-0 fst-italic">
+                                                        "Finalizo, con profunda gratitud y orgullo, evocamos los años de esfuerzo, entrega y compromiso que han dado a una institución que siguen marcando el rumbo de muchas infancias en Quito: la Escuela Riobamba."
+                                                    </p>
+                                                </div>
+                                        </div>
+                                        
+                                        <!-- Footer de la Card -->
+                                        <div class="card-footer bg-light text-center py-3">
+                                            <small class="text-muted">
+                                                <i class="fa fa-calendar me-1"></i>
+                                                Fundada en 1947 • Más de 78 años formando futuro
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Pestaña de Autoridades -->
+                    <div class="tab-pane fade" id="autoridades" role="tabpanel" aria-labelledby="autoridades-tab">
+                        <div class="row">
+                            <div class="col-md-12 text-center mb-5">
+                                <h3 class="mb-3">Nuestro Equipo Directivo</h3>
+                                <p class="lead text-muted">Conoce al equipo de liderazgo que guía nuestra institución hacia la excelencia educativa</p>
+                                <div class="divider-custom">
+                                    <div class="divider-custom-line"></div>
+                                    <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                                    <div class="divider-custom-line"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row justify-content-center">
+                            <!-- Rector -->
+                            <div class="col-lg-4 col-md-6 mb-4">
+                                <div class="autoridad-card">
+                                    <div class="autoridad-img">
+                                        <div class="avatar-container">
+                                            <img src="{% static 'images/rector.jpg' %}" alt="Rector" class="img-fluid autoridad-foto" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                            <div class="avatar-default" style="background-color: #4e73df;">
+                                                <span>CA</span>
+                                            </div>
+                                        </div>
+                                        <div class="social-links">
+                                            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                                            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                                            <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                                            <a href="#" class="social-link"><i class="fas fa-envelope"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="autoridad-info">
+                                        <h4>Dr. Carlos Andrade</h4>
+                                        <span class="cargo">Rector</span>
+                                        <p class="mb-0">Máxima autoridad académica y administrativa de la institución.</p>
+                                        <div class="autoridad-detalle">
+                                            <p><i class="fas fa-graduation-cap me-2"></i>PhD en Educación - Universidad Central</p>
+                                            <p><i class="fas fa-award me-2"></i>Premio Nacional a la Excelencia Educativa 2020</p>
+                                            <p><i class="fas fa-envelope me-2"></i>rector@colegioejemplo.edu.ec</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Vicerrector Académico -->
+                            <div class="col-lg-4 col-md-6 mb-4">
+                                <div class="autoridad-card">
+                                    <div class="autoridad-img">
+                                        <div class="avatar-container">
+                                            <img src="{% static 'images/vicerrector.jpg' %}" alt="Vicerrector Académico" class="img-fluid autoridad-foto" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                            <div class="avatar-default" style="background-color: #1cc88a;">
+                                                <span>AM</span>
+                                            </div>
+                                        </div>
+                                        <div class="social-links">
+                                            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                                            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                                            <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                                            <a href="#" class="social-link"><i class="fas fa-envelope"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="autoridad-info">
+                                        <h4>MSc. Ana Mendoza</h4>
+                                        <span class="cargo">Vicerrectora Académica</span>
+                                        <p class="mb-0">Responsable de la gestión pedagógica y calidad educativa.</p>
+                                        <div class="autoridad-detalle">
+                                            <p><i class="fas fa-graduation-cap me-2"></i>Máster en Pedagogía - Universidad Andina</p>
+                                            <p><i class="fas fa-award me-2"></i>Mejor Docente 2019 - Ministerio de Educación</p>
+                                            <p><i class="fas fa-envelope me-2"></i>vicerrectoria@colegioejemplo.edu.ec</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Vicerrector Administrativo -->
+                            <div class="col-lg-4 col-md-6 mb-4">
+                                <div class="autoridad-card">
+                                    <div class="autoridad-img">
+                                        <div class="avatar-container">
+                                            <img src="{% static 'images/administrativo.jpg' %}" alt="Vicerrector Administrativo" class="img-fluid autoridad-foto" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                            <div class="avatar-default" style="background-color: #f6c23e;">
+                                                <span>RS</span>
+                                            </div>
+                                        </div>
+                                        <div class="social-links">
+                                            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                                            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                                            <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                                            <a href="#" class="social-link"><i class="fas fa-envelope"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="autoridad-info">
+                                        <h4>Econ. Roberto Salazar</h4>
+                                        <span class="cargo">Vicerrector Administrativo</span>
+                                        <p class="mb-0">Encargado de la gestión de recursos y finanzas institucionales.</p>
+                                        <div class="autoridad-detalle">
+                                            <p><i class="fas fa-graduation-cap me-2"></i>Economía - ESPE</p>
+                                            <p><i class="fas fa-award me-2"></i>Especialista en Gestión Educativa</p>
+                                            <p><i class="fas fa-envelope me-2"></i>viceadministrativo@colegioejemplo.edu.ec</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Secretario General 
+                            <div class="col-lg-4 col-md-6 mb-4">
+                                <div class="autoridad-card">
+                                    <div class="autoridad-img">
+                                        <div class="avatar-container">
+                                            <img src="{% static 'images/secretario.jpg' %}" alt="Secretario General" class="img-fluid autoridad-foto" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                            <div class="avatar-default" style="background-color: #e74a3b;">
+                                                <span>MG</span>
+                                            </div>
+                                        </div>
+                                        <div class="social-links">
+                                            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                                            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                                            <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                                            <a href="#" class="social-link"><i class="fas fa-envelope"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="autoridad-info">
+                                        <h4>Ab. María González</h4>
+                                        <span class="cargo">Secretaria General</span>
+                                        <p class="mb-0">Responsable de la documentación oficial y trámites legales.</p>
+                                        <div class="autoridad-detalle">
+                                            <p><i class="fas fa-graduation-cap me-2"></i>Derecho - Universidad Central</p>
+                                            <p><i class="fas fa-award me-2"></i>Especialista en Derecho Educativo</p>
+                                            <p><i class="fas fa-envelope me-2"></i>secretaria@colegioejemplo.edu.ec</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                          Jefe de Bienestar Estudiantil 
+                            <div class="col-lg-4 col-md-6 mb-4">
+                                <div class="autoridad-card">
+                                    <div class="autoridad-img">
+                                        <div class="avatar-container">
+                                            <img src="{% static 'images/bienestar.jpg' %}" alt="Jefe de Bienestar" class="img-fluid autoridad-foto" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                            <div class="avatar-default" style="background-color: #36b9cc;">
+                                                <span>PL</span>
+                                            </div>
+                                        </div>
+                                        <div class="social-links">
+                                            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                                            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                                            <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                                            <a href="#" class="social-link"><i class="fas fa-envelope"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="autoridad-info">
+                                        <h4>Psic. Patricia López</h4>
+                                        <span class="cargo">Jefa de Bienestar Estudiantil</span>
+                                        <p class="mb-0">Encargada del desarrollo integral y bienestar de los estudiantes.</p>
+                                        <div class="autoridad-detalle">
+                                            <p><i class="fas fa-graduation-cap me-2"></i>Psicología Clínica - PUCE</p>
+                                            <p><i class="fas fa-award me-2"></i>Especialista en Educación Inclusiva</p>
+                                            <p><i class="fas fa-envelope me-2"></i>bienestar@colegioejemplo.edu.ec</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                           Coordinador Académico 
+                            <div class="col-lg-4 col-md-6 mb-4">
+                                <div class="autoridad-card">
+                                    <div class="autoridad-img">
+                                        <div class="avatar-container">
+                                            <img src="{% static 'images/coordinador.jpg' %}" alt="Coordinador Académico" class="img-fluid autoridad-foto" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                            <div class="avatar-default" style="background-color: #6f42c1;">
+                                                <span>JR</span>
+                                            </div>
+                                        </div>
+                                        <div class="social-links">
+                                            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                                            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                                            <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                                            <a href="#" class="social-link"><i class="fas fa-envelope"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="autoridad-info">
+                                        <h4>Lic. Juan Ramírez</h4>
+                                        <span class="cargo">Coordinador Académico</span>
+                                        <p class="mb-0">Responsable de la planificación y seguimiento académico.</p>
+                                        <div class="autoridad-detalle">
+                                            <p><i class="fas fa-graduation-cap me-2"></i>Lic. en Ciencias de la Educación</p>
+                                            <p><i class="fas fa-award me-2"></i>Magíster en Planificación Educativa</p>
+                                            <p><i class="fas fa-envelope me-2"></i>coordinacion@colegioejemplo.edu.ec</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        -->
+                        <!-- <div class="row mt-5">
+                            <div class="col-md-12 text-center">
+                                <div class="frase-inspiradora">
+                                    <i class="fas fa-quote-left"></i>
+                                    <p class="mb-0">"Nuestro compromiso es ofrecer una educación de calidad que forme ciudadanos íntegros, críticos y comprometidos con el desarrollo de nuestra sociedad."</p>
+                                    <p class="firma">- Equipo Directivo</p>
+                                </div>
+                            </div>
+                        </div>
+                        -->
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ***** Nosotros End ***** -->
+
+<!-- Scripts específicos para la página de Nosotros -->
+<script>
+    // Inicialización de las pestañas
+    document.addEventListener('DOMContentLoaded', function() {
+        // Inicializar tooltips de Bootstrap
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+        
+        // Inicializar pestañas usando la API de Bootstrap 5
+        var tabEls = document.querySelectorAll('button[data-bs-toggle="tab"]');
+        tabEls.forEach(function(tabEl) {
+            tabEl.addEventListener('click', function(event) {
+                event.preventDefault();
+                var tab = new bootstrap.Tab(tabEl);
+                tab.show();
+            });
+        });
+        
+        // Mostrar la pestaña activa al cargar la página (Nuestra Historia por defecto)
+        var historiaTab = document.getElementById('historia-tab');
+        if (historiaTab) {
+            // Remover la clase 'fade' y agregar 'show active' al contenido de la pestaña
+            var historiaContent = document.getElementById('historia');
+            if (historiaContent) {
+                historiaContent.classList.remove('fade');
+                historiaContent.classList.add('show', 'active');
+            }
+            
+            // Activar el tab correspondiente
+            var tab = new bootstrap.Tab(historiaTab);
+            tab.show();
+        }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,276 @@
+:root {
+  /* Paleta de colores principal */
+  --color-primary: #0c1228;    /* Azul oscuro principal */
+  --color-secondary: #1a2a5f;  /* Azul un poco más claro */
+  --color-accent: #4a90e2;     /* Azul claro para acentos */
+  --color-text: #ffffff;       /* Texto blanco */
+  --color-text-secondary: #e0e0e0; /* Texto gris claro */
+  --color-card: #1a1f3a;       /* Fondo de tarjetas */
+  --color-success: #28a745;    /* Verde para éxito */
+  --color-warning: #ffc107;    /* Amarillo para advertencias */
+  --color-danger: #dc3545;     /* Rojo para errores */
+  --color-light: #f8f9fa;      /* Fondo claro */
+  --color-dark: #343a40;       /* Texto oscuro */
+  
+  /* Sombras */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 6px 12px rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.2);
+  
+  /* Bordes */
+  --border-radius: 8px;
+  --border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Estilos base */
+body {
+  background-color: var(--color-primary);
+  color: var(--color-text);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+}
+
+/* Encabezados */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-text);
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+/* Enlaces */
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: lighten(var(--color-accent), 10%);
+  text-decoration: none;
+}
+
+/* Tarjetas */
+.card {
+  background-color: var(--color-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 1.5rem;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Botones */
+.btn {
+  border-radius: var(--border-radius);
+  padding: 0.5rem 1.25rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.btn-primary {
+  background-color: var(--color-accent);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: darken(#4a90e2, 10%);
+  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+  transform: translateY(-2px);
+}
+
+.btn-outline-primary {
+  border: 1px solid var(--color-accent);
+  color: var(--color-accent);
+  background: transparent;
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--color-accent);
+  color: white;
+  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+}
+
+/* Modales */
+.modal-content {
+  background-color: var(--color-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-lg);
+  color: var(--color-text);
+}
+
+.modal-header {
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--color-secondary);
+}
+
+.modal-title {
+  color: var(--color-text) !important;
+}
+
+.modal-body {
+  color: var(--color-text-secondary);
+  background-color: var(--color-card);
+}
+
+.modal-footer {
+  border-top: 1px solid var(--border-color);
+  background-color: var(--color-secondary);
+}
+
+/* Formularios */
+.form-control {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  color: var(--color-text);
+  border-radius: var(--border-radius);
+  padding: 0.5rem 0.75rem;
+}
+
+.form-control:focus {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: var(--color-accent);
+  color: var(--color-text);
+  box-shadow: 0 0 0 0.2rem rgba(74, 144, 226, 0.25);
+}
+
+/* Tablas */
+.table {
+  color: var(--color-text);
+  background-color: var(--color-card);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+
+.table thead th {
+  background-color: var(--color-secondary);
+  border-bottom: 2px solid var(--border-color);
+}
+
+.table td, .table th {
+  border-top: 1px solid var(--border-color);
+  padding: 0.75rem;
+  vertical-align: middle;
+}
+
+/* Alertas */
+.alert {
+  border-radius: var(--border-radius);
+  border: none;
+  color: white;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.alert-primary {
+  background-color: var(--color-accent);
+}
+
+.alert-success {
+  background-color: var(--color-success);
+}
+
+.alert-warning {
+  background-color: var(--color-warning);
+  color: var(--color-dark);
+}
+
+.alert-danger {
+  background-color: var(--color-danger);
+}
+
+/* Secciones */
+.section {
+  padding: 4rem 0;
+  position: relative;
+}
+
+/* Barra de navegación */
+.navbar {
+  background-color: var(--color-primary) !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 0.75rem 1.5rem;
+}
+
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--color-text) !important;
+}
+
+.nav-link {
+  color: var(--color-text-secondary) !important;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  margin: 0 0.25rem;
+  border-radius: var(--border-radius);
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover, .nav-link.active {
+  color: var(--color-text) !important;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Pie de página */
+.footer {
+  background-color: var(--color-secondary);
+  color: var(--color-text-secondary);
+  padding: 3rem 0 1.5rem;
+  margin-top: 3rem;
+}
+
+.footer a {
+  color: var(--color-text-secondary);
+  transition: color 0.3s ease;
+}
+
+.footer a:hover {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+/* Utilidades */
+.text-primary {
+  color: var(--color-accent) !important;
+}
+
+.bg-primary {
+  background-color: var(--color-primary) !important;
+}
+
+.bg-secondary {
+  background-color: var(--color-secondary) !important;
+}
+
+.bg-accent {
+  background-color: var(--color-accent) !important;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .section {
+    padding: 2.5rem 0;
+  }
+  
+  .card {
+    margin-bottom: 1rem;
+  }
+}

@@ -1,0 +1,350 @@
+{% extends 'plantilla.html' %}
+{% load static %}
+
+{% block scripts %}
+<script>
+    // Función para confirmar la exportación a PDF
+    function confirmarExportacionPDF() {
+        Swal.fire({
+            title: '¿Exportar credenciales a PDF?',
+            text: 'Se generará un archivo PDF con todas las credenciales mostradas en la tabla. ¿Desea continuar?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '<i class="fas fa-file-export"></i> Exportar',
+            cancelButtonText: '<i class="fas fa-times"></i> Cancelar',
+            showLoaderOnConfirm: true,
+            allowOutsideClick: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "{% url 'exportar_credenciales_pdf' %}";
+            }
+        });
+    }
+
+    // Función para manejar la selección de todos los checkboxes
+    function toggleAllCheckboxes(checkbox) {
+        const isChecked = checkbox.checked;
+        // Usamos el API de DataTables para obtener todas las filas visibles
+        const table = $('#tablaCredenciales').DataTable();
+        table.$('input[name="credenciales"]').prop('checked', isChecked).trigger('change');
+    }
+
+    // Función para actualizar el estado del checkbox "Seleccionar todos"
+    function updateSelectAllCheckbox() {
+        const table = $('#tablaCredenciales').DataTable();
+        const allChecked = table.$('input[name="credenciales"]:checked').length === table.$('input[name="credenciales"]').length;
+        $('#selectAll').prop('checked', allChecked);
+    }
+
+    // Función para inicializar DataTables de manera segura
+    function initDataTables() {
+        jQuery(function($) {
+            var $table = $('#tablaCredenciales');
+            
+            if (!$.fn.DataTable) {
+                console.error('DataTables no está cargado');
+                return;
+            }
+            
+            if ($.fn.DataTable.isDataTable($table)) {
+                $table.DataTable().destroy();
+            }
+            
+            var dataTable = $table.DataTable({
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                },
+                responsive: true,
+                pageLength: 10,
+                lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, 'Todos']],
+                columnDefs: [
+                    { orderable: false, targets: [0, 5] },
+                    { searchable: false, targets: [0, 5] }
+                ],
+                order: [[1, 'asc']],
+                scrollX: true,
+                drawCallback: function() {
+                    // Inicializar eventos después de que DataTables haya dibujado la tabla
+                    initEvents();
+                }
+            });
+
+            // Inicializar eventos
+            function initEvents() {
+                // Evento para el checkbox "Seleccionar todos"
+                $('#selectAll').off('change').on('change', function() {
+                    const isChecked = $(this).is(':checked');
+                    dataTable.$('input[name="credenciales"]').prop('checked', isChecked);
+                });
+
+                // Evento para los checkboxes individuales
+                dataTable.$('input[name="credenciales"]').off('change').on('change', function() {
+                    updateSelectAllCheckbox();
+                });
+
+                // Evento para los botones de mostrar/ocultar contraseña
+                $('.password-toggle').off('click').on('click', function() {
+                    const row = $(this).closest('tr');
+                    const passwordText = row.find('.password-text');
+                    const passwordHidden = row.find('.password-hidden');
+                    
+                    const isVisible = passwordText.is(':visible');
+                    passwordText.toggle();
+                    passwordHidden.toggle();
+                    
+                    $(this).toggleClass('la-eye', !isVisible);
+                    $(this).toggleClass('la-eye-slash', isVisible);
+                });
+
+                // Ocultar contraseñas por defecto
+                $('.password-text').hide();
+            }
+
+            // Inicializar eventos por primera vez
+            initEvents();
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initDataTables);
+    } else {
+        initDataTables();
+    }
+
+    // Función para mostrar mensajes con Izitoast
+    function showMessage(type, message) {
+        iziToast[type]({
+            title: '',
+            message: message,
+            position: 'topRight',
+            timeout: 5000,
+            closeOnClick: true,
+            pauseOnHover: true
+        });
+    }
+
+    // Inicializar DataTables cuando el documento esté listo
+    document.addEventListener('DOMContentLoaded', function() {
+        try {
+            var messagesJson = '{{ messages_json|default:"[]" }}';
+            var messages = messagesJson ? JSON.parse(messagesJson) : [];
+            
+            messages.forEach(function(msg) {
+                var toastType = msg.tags || 'info';
+                var finalType = {
+                    'success': 'success',
+                    'error': 'error',
+                    'warning': 'warning',
+                    'info': 'info'
+                }[toastType] || 'info';
+                
+                iziToast[finalType]({
+                    title: '',
+                    message: msg.message,
+                    position: 'topRight',
+                    timeout: 5000,
+                    closeOnClick: true,
+                    pauseOnHover: true
+                });
+            });
+        } catch (error) {
+            console.error('Error al procesar mensajes:', error);
+        }
+    });
+
+    // Control de visibilidad de contraseñas
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.password-toggle').forEach(function(button) {
+            button.addEventListener('click', function() {
+                const row = this.closest('tr');
+                const passwordText = row.querySelector('.password-text');
+                const passwordHidden = row.querySelector('.password-hidden');
+                
+                const isVisible = passwordText.style.display === 'inline';
+                passwordText.style.display = isVisible ? 'none' : 'inline';
+                passwordHidden.style.display = isVisible ? 'inline' : 'none';
+                
+                if (this.classList.contains('la-eye')) {
+                    this.classList.remove('la-eye');
+                    this.classList.add('la-eye-slash');
+                } else {
+                    this.classList.remove('la-eye-slash');
+                    this.classList.add('la-eye');
+                }
+            });
+        });
+    });
+</script>
+{% endblock scripts %}
+
+{% block contenido %}
+<div class="card mb-3">
+  <div class="card-body bg-light text-center">
+    <h5 class="card-title mb-3"><strong>Gestión Académica</strong></h5>
+    <p class="card-text mb-4">
+      Administración de credenciales de acceso al sistema.
+    </p>
+  </div>
+  <nav class="navbar navbar-light bg-light border rounded shadow-sm">
+    <div class="container-fluid justify-content-around">
+      <a href="{% url 'listar_grados' %}" class="text-decoration-none text-center">
+        <i class="la la-graduation-cap text-muted fs-2 d-block"></i>
+        <div>
+          <strong class="d-block">Grados</strong>
+          <small class="text-muted">Crear, editar, eliminar</small>
+        </div>
+      </a>
+      <a href="{% url 'listar_paralelos' %}" class="text-decoration-none text-center">
+        <i class="la la-sitemap text-muted fs-2 d-block"></i>
+        <div>
+          <strong class="d-block">Paralelos</strong>
+          <small class="text-muted">Gestionar paralelos</small>
+        </div>
+      </a>
+      <a href="{% url 'gestion_padron' %}" class="text-decoration-none text-center">
+        <i class="la la-users text-muted fs-2 d-block"></i>
+        <div>
+          <strong class="d-block">Padrón</strong>
+          <small class="text-muted">Estudiantes</small>
+        </div>
+      </a>
+      <a href="{% url 'generar_credenciales' %}" class="text-decoration-none text-center position-relative">
+        <div>
+          <i class="la la-key text-primary fs-2 d-block"></i>
+          <span class="position-absolute" style="top: -15px; right: 70%; z-index: 1000;">
+            <i class="fas fa-hand-point-left" style="font-size: 2rem; transform: scaleX(1) rotate(-30deg); color: #1cbed3e6;"></i>
+          </span>
+          <div>
+            <strong class="d-block">Credenciales</strong>
+            <small class="text-muted">Accesos</small>
+          </div>
+        </div>
+      </a>
+    </div>
+  </nav>
+</div>
+
+<section id="listar-credenciales" class="row match-height">
+    <div class="col-sm-12">
+        <div class="card">
+                <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+                    <div class="d-flex align-items-center">
+                        <h4 class="card-title mb-2 mb-md-0">Credenciales de Acceso</h4>
+                        
+                    </div>
+                    <div class="d-flex align-items-center">
+                        
+                        <a href="{% url 'gestion_padron' %}" class="btn btn-primary btn-sm">
+                            <i class="la la-arrow-left"></i> Volver
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card-content">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <form id="formEnviarCorreos" method="post" action="{% url 'enviar_credenciales' %}" class="needs-validation" novalidate>
+                                {% csrf_token %}
+                                <div class="d-flex justify-content-between mb-3">
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="confirmarExportacionPDF()">
+                                        <i class="la la-file-pdf"></i> Exportar a PDF
+                                    </button>
+                                    <div>
+                                        <button type="submit" class="btn btn-success btn-sm">
+                                            <i class="la la-envelope"></i> Enviar correos seleccionados
+                                        </button>
+                                    </div>
+                                </div>
+                                <table class="table table-bordered" id="tablaCredenciales">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="selectAll" onclick="toggleAllCheckboxes(this)" title="Seleccionar/deseleccionar todos">
+                                                    <label class="form-check-label" for="selectAll">Todos</label>
+                                                </div>
+                                            </th>
+                                            <th>Nombre</th>
+                                            <th>Cédula (Usuario)</th>
+                                            <th>Correo</th>
+                                            <th>Estado</th>
+                                            <th>Contraseña</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for credencial in credenciales %}
+                                        <tr>
+                                            <td>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="credenciales" value="{{ credencial.id }}" id="credencial_{{ credencial.id }}" onclick="updateSelectAllCheckbox()">
+                                                    <label class="form-check-label" for="credencial_{{ credencial.id }}"></label>
+                                                </div>
+                                            </td>
+                                            <td>{{ credencial.nombre }}</td>
+                                            <td>{{ credencial.cedula }}</td>
+                                            <td>{{ credencial.correo }}</td>
+                                            <td>
+                                                <!-- Depuración: {{ credencial.get_estado_display|default:'SIN_ESTADO' }} ({{ credencial.estado|default:'NONE' }}) -->
+                                                {% with estado=credencial.estado|default:'activo' %}
+                                                <span class="badge {% if estado == 'cambiada' %}bg-success{% else %}bg-primary{% endif %} p-2" style="min-width: 120px; display: inline-block;">
+                                                    {% if estado == 'activo' %}
+                                                        <i class="fas fa-check-circle me-1"></i> Activo
+                                                    {% elif estado == 'inactivo' %}
+                                                        <i class="fas fa-times-circle me-1"></i> Inactivo
+                                                    {% elif estado == 'cambiada' %}
+                                                        <i class="fas fa-key me-1"></i> Contraseña Cambiada
+                                                    {% else %}
+                                                        <i class="fas fa-question-circle me-1"></i> {{ estado|capfirst }}
+                                                    {% endif %}
+                                                </span>
+                                                {% endwith %}
+                                            </td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <span class="password-text" style="display: none;">{{ credencial.contrasena }}</span>
+                                                    <span class="password-hidden">••••••••</span>
+                                                    <button type="button" class="btn btn-link p-0 ms-2" title="Mostrar/Ocultar contraseña">
+                                                        <i class="la la-eye password-toggle" data-credencial-id="{{ credencial.id }}"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock contenido %}
+
+
+
+{% block extra_js %}
+<script>
+// Función para validar el formulario
+document.addEventListener('DOMContentLoaded', function() {
+    const forms = document.querySelectorAll('.needs-validation');
+    Array.prototype.slice.call(forms).forEach(function(form) {
+        form.addEventListener('submit', function(event) {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        }, false);
+    });
+
+});
+
+
+</script>
+{% endblock extra_js %}
+
+

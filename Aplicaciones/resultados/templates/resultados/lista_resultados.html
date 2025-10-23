@@ -1,0 +1,104 @@
+{% extends "plantilla.html" %}
+{% load static %}
+{% block contenido %}
+<br>
+<div class="card mb-3">
+    <div class="card-body bg-light text-center">
+        <h5 class="card-title mb-3"><strong>Resultados Electorales</strong></h5>
+        <p class="card-text mb-4">
+            Consulta y visualiza los resultados de los procesos electorales.
+        </p>
+    </div>
+    <nav class="navbar navbar-light bg-light border rounded shadow-sm">
+        <div class="container-fluid justify-content-around">
+            <a href="{% url 'lista_resultados' %}" class="text-decoration-none text-center position-relative">
+                <div class="position-relative">
+                    <i class="la la-chart-bar text-primary fs-2 d-block"></i>
+                    <span class="position-absolute" style="top: -15px; right: 70%; z-index: 1000;">
+                        <i class="fas fa-hand-point-left" style="font-size: 2rem; transform: scaleX(1) rotate(-30deg); color: #1cbed3e6;"></i>
+                    </span>
+                </div>
+                <div>
+                    <strong class="d-block">Resultados</strong>
+                    <small class="text-muted">Ver procesos electorales</small>
+                </div>
+            </a>
+            <!--
+            <a href="#" class="text-decoration-none text-center">
+                <i class="la la-file-text text-muted fs-2 d-block"></i>
+                <div>
+                    <strong class="d-block">Reportes</strong>
+                    <small class="text-muted">Generar reportes</small>
+                </div>
+            </a>
+            <a href="#" class="text-decoration-none text-center">
+                <i class="la la-download text-muted fs-2 d-block"></i>
+                <div>
+                    <strong class="d-block">Exportar</strong>
+                    <small class="text-muted">Descargar datos</small>
+                </div>
+            </a>
+        </div>
+        -->
+    </nav>
+</div>
+
+<!-- Sección principal con estilo de padrón -->
+<section id="listar-resultados" class="row match-height">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+                <h4 class="card-title mb-2 mb-md-0">{{ titulo }}</h4>
+                <div class="d-flex flex-column flex-md-row align-items-stretch justify-content-md-end">
+                    <button type="button" class="btn btn-outline-primary" onclick="window.location.reload()">
+                        <i class="la la-refresh"></i> Actualizar
+                    </button>
+                </div>
+            </div>
+
+            <div class="card-content">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="tablaResultados" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Proceso Electoral</th>
+                                    <th>Fecha</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                    <tbody>
+                        {% for proceso in procesos %}
+                        <tr>
+                            <td>{{ proceso.nombre }}</td>
+                            <td>{{ proceso.created_at|date:"d/m/Y H:i" }}</td>
+                            <td>
+                                {% if proceso.estado == 'activo' %}
+                                    <span class="badge badge-success">Activo</span>
+                                {% elif proceso.estado == 'finalizado' %}
+                                    <span class="badge badge-secondary">Finalizado</span>
+                                {% else %}
+                                    <span class="badge badge-warning">{{ proceso.estado|title }}</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{% url 'resultados_votacion' proceso.id %}" class="btn btn-primary btn-sm">
+                                    <i class="ft-bar-chart-2"></i> Ver Resultados
+                                </a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4" class="text-center">No hay procesos electorales registrados.</td>
+                        </tr>
+                        {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

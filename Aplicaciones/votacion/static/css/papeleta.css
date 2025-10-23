@@ -1,0 +1,305 @@
+/* Estilos generales */
+:root {
+    --primary-color: #4a6cf7;
+    --secondary-color: #6c757d;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --light-color: #f8f9fa;
+    --dark-color: #343a40;
+    --border-radius: 12px;
+    --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    --transition: all 0.3s ease;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f5f7ff;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Contenedor principal */
+.voting-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+/* Encabezado */
+.header-card {
+    background: linear-gradient(135deg, #4a6cf7 0%, #2541b2 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    margin-bottom: 2rem;
+    text-align: center;
+    box-shadow: var(--box-shadow);
+}
+
+.header-card h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.header-card p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+/* Grid de listas */
+.list-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+/* Tarjeta de lista */
+.list-item {
+    position: relative;
+}
+
+.list-card {
+    background: white;
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: var(--transition);
+    border: 2px solid transparent;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-shadow: var(--box-shadow);
+}
+
+.list-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.list-card.selected {
+    border-color: var(--primary-color);
+    background-color: #f8f9ff;
+}
+
+/* Encabezado de la lista */
+.list-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.list-logo {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1rem;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border: 2px solid #eee;
+}
+
+.list-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.list-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0.5rem 0;
+    color: var(--dark-color);
+}
+
+.list-slogan {
+    font-size: 0.9rem;
+    color: var(--secondary-color);
+    font-style: italic;
+    margin: 0;
+}
+
+/* Grid de candidatos */
+.candidates-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 1rem;
+    margin-top: auto;
+}
+
+.candidate-item {
+    text-align: center;
+}
+
+.candidate-photo {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    margin: 0 auto 0.5rem;
+    overflow: hidden;
+    border: 2px solid #eee;
+}
+
+.candidate-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.candidate-role {
+    font-size: 0.75rem;
+    color: var(--secondary-color);
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Opciones de voto */
+.voting-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.voting-option {
+    background: white;
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+    border: 2px solid #eee;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.voting-option:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--box-shadow);
+}
+
+.voting-option.selected {
+    border-color: var(--primary-color);
+    background-color: #f8f9ff;
+}
+
+.voting-option i {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+.voting-option h3 {
+    font-size: 1.1rem;
+    margin: 0 0 0.5rem;
+    color: var(--dark-color);
+}
+
+.voting-option p {
+    font-size: 0.9rem;
+    color: var(--secondary-color);
+    margin: 0;
+}
+
+/* Botones */
+.btn-vote {
+    padding: 0.75rem 2rem;
+    font-weight: 500;
+    border-radius: 50px;
+    font-size: 1rem;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-vote i {
+    margin-right: 0.5rem;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: #3a5bd9;
+    border-color: #3a5bd9;
+    transform: translateY(-2px);
+}
+
+.btn-outline-secondary {
+    color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+.btn-outline-secondary:hover {
+    background-color: #e9ecef;
+    color: var(--dark-color);
+    transform: translateY(-2px);
+}
+
+/* Badge de selección */
+.selected-badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: var(--primary-color);
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.list-card.selected .selected-badge,
+.voting-option.selected .selected-badge {
+    opacity: 1;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .list-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .voting-options {
+        grid-template-columns: 1fr;
+    }
+    
+    .header-card h1 {
+        font-size: 1.75rem;
+    }
+    
+    .header-card p {
+        font-size: 1.1rem;
+    }
+}
+
+/* Efectos de carga */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.list-item, .voting-option {
+    animation: fadeIn 0.5s ease-out forwards;
+    opacity: 0;
+}
+
+/* Retraso para la animación de cada elemento */
+.list-item:nth-child(1) { animation-delay: 0.1s; }
+.list-item:nth-child(2) { animation-delay: 0.2s; }
+.list-item:nth-child(3) { animation-delay: 0.3s; }
+.voting-option:nth-child(1) { animation-delay: 0.4s; }
+.voting-option:nth-child(2) { animation-delay: 0.5s; }

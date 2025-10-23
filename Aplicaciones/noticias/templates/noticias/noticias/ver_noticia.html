@@ -1,0 +1,185 @@
+{% extends 'plantilla.html' %}
+{% load static %}
+
+{% block contenido %}
+<div class="container-fluid">
+    <!-- Incluir barra de navegación -->
+    {% include 'noticias/partials/_navegacion_noticias.html' %}
+    
+    <div class="container">
+    <div class="row justify-content-center">
+        <!-- Contenido principal de la noticia -->
+        <div class="col-lg-8">
+            <div class="card shadow-sm mb-4">
+                {% if noticia.imagen %}
+                <img src="{{ noticia.imagen.url }}" class="card-img-top" alt="{{ noticia.titulo }}" style="max-height: 400px; object-fit: cover;">
+                {% endif %}
+                
+                <div class="card-body">
+                    <!-- Encabezado con categoría y estado -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        {% if noticia.categoria %}
+                        <span class="badge badge-primary">{{ noticia.categoria.nombre }}</span>
+                        {% endif %}
+                        <span class="badge {% if noticia.estado == 'publicado' %}badge-success{% elif noticia.estado == 'borrador' %}badge-warning{% else %}badge-secondary{% endif %}">
+                            {{ noticia.get_estado_display }}
+                        </span>
+                    </div>
+                    
+                    <!-- Título -->
+                    <h1 class="card-title mb-3">{{ noticia.titulo }}</h1>
+                    
+                    <!-- Fecha y visitas -->
+                    <div class="d-flex justify-content-between text-muted mb-4">
+                        <div>
+                            <i class="la la-calendar"></i> {{ noticia.fecha_publicacion|date:"d M Y" }}
+                            {% if noticia.fecha_actualizacion %}
+                            <span class="ml-2">
+                                <i class="la la-edit"></i> Actualizado: {{ noticia.fecha_actualizacion|date:"d M Y" }}
+                            </span>
+                            {% endif %}
+                        </div>
+                        <div>
+                            <i class="la la-eye"></i> {{ contador_visitas|default:1 }} {% if contador_visitas == 1 %}visita{% else %}visitas{% endif %}
+                        </div>
+                    </div>
+                    
+                    <!-- Resumen destacado -->
+                    {% if noticia.resumen %}
+                    <div class="alert alert-light border" role="alert">
+                        <h5 class="font-weight-bold">Resumen:</h5>
+                        <p class="mb-0">{{ noticia.resumen }}</p>
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Contenido -->
+                    <div class="card-text mb-4">
+                        {{ noticia.contenido|linebreaks }}
+                    </div>
+                    
+                    <!-- Acciones -->
+                    <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+                        <div>
+                            <a href="{% url 'noticias:editar_noticia' noticia.id %}" class="btn btn-outline-primary">
+                                <i class="la la-edit"></i> Editar
+                            </a>
+                            <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#modalEliminarNoticia">
+                                <i class="la la-trash"></i> Eliminar
+                            </button>
+                        </div>
+                        <a href="{% url 'noticias:listar_noticias' %}" class="btn btn-link">
+                            <i class="la la-arrow-left"></i> Volver al listado
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Barra lateral -->
+        <div class="col-lg-4">
+            <!-- Tarjeta de noticias relacionadas -->
+            {% if noticias_relacionadas %}
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="la la-newspaper"></i> Noticias Relacionadas
+                    </h5>
+                </div>
+                <div class="list-group list-group-flush">
+                    {% for relacionada in noticias_relacionadas %}
+                    <a href="{% url 'noticias:ver_noticia' relacionada.id %}" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">{{ relacionada.titulo|truncatechars:50 }}</h6>
+                        </div>
+                        <small class="text-muted">
+                            <i class="la la-calendar"></i> {{ relacionada.fecha_publicacion|date:"d M Y" }}
+                        </small>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Tarjeta de información adicional -->
+            <div class="card shadow-sm">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">
+                        <i class="la la-info-circle"></i> Información
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <dl class="mb-0">
+                        <dt>Estado:</dt>
+                        <dd>
+                            <span class="badge {% if noticia.estado == 'publicado' %}badge-success{% elif noticia.estado == 'borrador' %}badge-warning{% else %}badge-secondary{% endif %} badge-pill">
+                                {{ noticia.get_estado_display }}
+                            </span>
+                        </dd>
+                        <dt class="mt-2">Creado:</dt>
+                        <dd>{{ noticia.fecha_creacion|date:"d/m/Y H:i" }}</dd>
+                        {% if noticia.fecha_actualizacion %}
+                        <dt class="mt-2">Actualizado:</dt>
+                        <dd>{{ noticia.fecha_actualizacion|date:"d/m/Y H:i" }}</dd>
+                        {% endif %}
+                        <dt class="mt-2">Visitas:</dt>
+                        <dd>{{ contador_visitas|default:1 }}</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de confirmación para eliminar -->
+<div class="modal fade" id="modalEliminarNoticia" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmar eliminación</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro de que deseas eliminar la noticia "{{ noticia.titulo }}"?
+                <p class="text-danger mt-2">
+                    <i class="la la-warning"></i> Esta acción no se puede deshacer y se eliminarán todas las imágenes asociadas.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <form action="{% url 'noticias:eliminar_noticia' noticia.id %}" method="POST" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">
+                        <i class="la la-trash"></i> Eliminar
+                    </button>
+                </form>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+<script>
+    $(document).ready(function() {
+        // Inicializar tooltips
+        $('[data-toggle="tooltip"]').tooltip();
+        
+        // Inicializar los modales de las imágenes
+        $('.img-thumbnail').on('click', function(e) {
+            e.preventDefault();
+            var src = $(this).attr('src');
+            $('#imagenModal .modal-body img').attr('src', src);
+            $('#imagenModal').modal('show');
+        });
+    });
+</script>
+{% endblock %}

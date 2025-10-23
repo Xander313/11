@@ -1,0 +1,26 @@
+[
+{
+  "model": "padron.grado",
+  "pk": 117,
+  "fields": {
+    "nombre": "1 ER",
+    "periodo": 26
+  }
+},
+{
+  "model": "padron.grado",
+  "pk": 118,
+  "fields": {
+    "nombre": "1 ER BGU",
+    "periodo": 26
+  }
+},
+{
+  "model": "padron.grado",
+  "pk": 119,
+  "fields": {
+    "nombre": "2DO BGU",
+    "periodo": 26
+  }
+}
+]

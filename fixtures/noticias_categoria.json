@@ -1,0 +1,32 @@
+[
+{
+  "model": "noticias.categoria",
+  "pk": 1,
+  "fields": {
+    "nombre": "DEPORTE",
+    "descripcion": "NUEVOS DEPORTES ESTE LUNES",
+    "fecha_creacion": "2025-07-04T06:01:58.995Z",
+    "activo": true
+  }
+},
+{
+  "model": "noticias.categoria",
+  "pk": 2,
+  "fields": {
+    "nombre": "CAMPEONATO INTERCOLEGIALES",
+    "descripcion": "CONVOCATORIA",
+    "fecha_creacion": "2025-07-04T07:02:54.372Z",
+    "activo": true
+  }
+},
+{
+  "model": "noticias.categoria",
+  "pk": 3,
+  "fields": {
+    "nombre": "ELECCIONES DE CONSEJO ESTUDIANTIL",
+    "descripcion": "ATENTOS",
+    "fecha_creacion": "2025-07-05T03:22:34.881Z",
+    "activo": true
+  }
+}
+]

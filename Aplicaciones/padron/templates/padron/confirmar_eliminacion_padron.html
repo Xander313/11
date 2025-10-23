@@ -1,0 +1,43 @@
+{% extends 'plantilla.html' %}
+
+{% block contenido %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header bg-danger text-white">
+            <h4 class="mb-0">
+                <i class="fas fa-exclamation-triangle"></i> Confirmar Eliminación del Padrón Electoral
+            </h4>
+        </div>
+        <div class="card-body">
+            <div class="alert alert-warning">
+                <h5 class="alert-heading">¡Precaución!</h5>
+                <p class="mb-0">Estás a punto de eliminar <strong>TODOS</strong> los registros del padrón electoral. Esta acción no se puede deshacer.</p>
+            </div>
+
+            <div class="alert alert-info">
+                <h5>Resumen de lo que se eliminará:</h5>
+                <ul class="mb-0">
+                    <li><strong>{{ total_estudiantes }}</strong> estudiantes del padrón electoral</li>
+                    <li>Grados y paralelos que ya no estén siendo utilizados</li>
+                </ul>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <form method="post" action="{% url 'eliminar_todo_el_padron' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-lg btn-block">
+                            <i class="fas fa-trash-alt"></i> Confirmar Eliminación
+                        </button>
+                    </form>
+                </div>
+                <div class="col-md-6">
+                    <a href="{% url 'gestion_padron' %}" class="btn btn-secondary btn-lg btn-block">
+                        <i class="fas fa-arrow-left"></i> Cancelar y Volver
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

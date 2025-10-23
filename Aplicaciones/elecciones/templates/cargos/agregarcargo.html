@@ -1,0 +1,461 @@
+{% extends "plantilla.html" %}
+{% load static %}
+{% block contenido %}
+
+<style>
+  /* Estilos para los botones de acción */
+  .btn-action {
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    margin: 0 2px;
+    font-size: 0.75rem;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .btn-action i {
+    transition: transform 0.3s ease;
+  }
+  
+  .btn-action:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  }
+  
+  .btn-action:hover i {
+    transform: scale(1.2);
+  }
+  
+  .btn-action:active {
+    transform: translateY(0);
+  }
+  
+  .btn-edit {
+    background-color: #6b0cd7; /* Color morado */
+  }
+  
+  .btn-edit:hover {
+    background-color: #5a0bb8; /* Morado oscuro */
+  }
+  
+  /* Efecto de ondas al hacer clic */
+  .btn-action:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.5);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1, 1) translate(-50%, -50%);
+    transform-origin: 50% 50%;
+  }
+  
+  .btn-action:focus:not(:active)::after {
+    animation: ripple 0.6s ease-out;
+  }
+  
+  @keyframes ripple {
+    0% {
+      transform: scale(0, 0);
+      opacity: 0.5;
+    }
+    100% {
+      transform: scale(20, 20);
+      opacity: 0;
+    }
+  }
+  
+  /* Mejora en las tarjetas */
+  .card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  }
+  
+  /* Estilos para los botones de la tabla */
+  .action-buttons {
+    gap: 0.25rem;
+  }
+</style>
+<br>
+<div class="card mb-3">
+  <div class="card-body bg-light text-center">
+    <h5 class="card-title mb-3"><strong>Gestión Electoral</strong></h5>
+    <p class="card-text mb-4">
+      Administración de listas y cargos para elecciones estudiantiles.
+    </p>
+  </div>
+  <nav class="navbar navbar-light bg-light border rounded shadow-sm">
+    <div class="container-fluid justify-content-around">
+      <a href="{% url 'listar_listas' %}" class="text-decoration-none text-center">
+        <i class="la la-list-ol text-muted fs-2 d-block"></i>
+        <div>
+          <strong class="d-block">Listas</strong>
+          <small class="text-muted">Gestionar listas</small>
+        </div>
+      </a>
+      <a href="{% url 'listar_cargos' %}" class="text-decoration-none text-center position-relative">
+        <div>
+          <i class="la la-briefcase text-primary fs-2 d-block"></i>
+          <span class="position-absolute" style="top: -15px; right: 70%; z-index: 1000;">
+            <i class="fas fa-hand-point-left" style="font-size: 2rem; transform: scaleX(1) rotate(-30deg); color: #1cbed3e6;"></i>
+          </span>
+          <div>
+            <strong class="d-block">Cargos</strong>
+            <small class="text-muted">Gestionar cargos</small>
+          </div>
+        </div>
+      </a>
+      <a href="{% url 'listar_candidatos' %}" class="text-decoration-none text-center">
+        <i class="la la-users text-muted fs-2 d-block"></i>
+        <div>
+          <strong class="d-block">Candidatos</strong>
+          <small class="text-muted">Gestionar candidatos</small>
+        </div>
+      </a>
+    </div>
+  </nav>
+</div>
+
+<!-- Sección de Cargos -->
+<section id="agregar-cargo" class="row match-height">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-white text-dark">
+                    <h4 class="mb-0">{% if cargo %}Editar Cargo{% else %}Agregar Nuevo Cargo{% endif %}</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{% if cargo %}{% url 'editar_cargo' cargo.id %}{% else %}{% url 'nuevo_cargo' %}{% endif %}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="nombre_cargo" class="form-label">Nombre del Cargo</label>
+                            <input type="text" class="form-control" id="nombre_cargo" name="nombre_cargo" value="{{ cargo.nombre_cargo|default:'' }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="descripcion" class="form-label">Descripción (Opcional)</label>
+                            <textarea class="form-control" id="descripcion" name="descripcion" rows="3">{{ cargo.descripcion|default:'' }}</textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="periodo" class="form-label">Período</label>
+                            <select class="form-select" id="periodo" name="periodo" required>
+                                {% for periodo in periodos %}
+                                    <option value="{{ periodo.id }}" {% if periodo == cargo.periodo or periodo == periodo_actual %}selected{% endif %}>
+                                        {{ periodo.nombre }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            {% if cargo %}
+                                <a href="{% url 'listar_cargos' %}" class="btn btn-secondary mr-2">
+                                    <i class="fas fa-times me-1"></i> Cancelar
+                                </a>
+                            {% endif %}
+                            <button type="submit" class="btn btn-primary">
+                                {% if cargo %}
+                                    <i class="fas fa-save me-1"></i> Actualizar
+                                {% else %}
+                                    <i class="fas fa-plus me-1"></i> Crear
+                                {% endif %}
+                                Cargo
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-white text-dark">
+                    <h4 class="mb-0">Cargos Registrados</h4>
+                </div>
+                <div class="card-body">
+                    {% if cargos %}
+                        <div class="card">
+                            <div class="card-header bg-white text-dark">
+                                <h4 class="card-title mb-0">Lista de Cargos</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="tablaCargos" class="table table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Nombre</th>
+                                                <th>Período</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                    {% for cargo in cargos %}
+                                    <tr>
+                                        <td>{{ cargo.nombre_cargo }}</td>
+                                        <td>{{ cargo.periodo.nombre }}</td>
+                                        <td>
+                                            
+                                             
+                                            <div class="d-flex justify-content-center">
+                                                <!-- Botón para editar -->
+                                                <a href="{% url 'editar_cargo' cargo.id %}" 
+                                                   class="btn btn-sm btn-outline-primary mx-1"
+                                                   title="Editar"
+                                                   data-toggle-tooltip="tooltip"
+                                                   data-placement="top">
+                                                    <i class="la la-edit"></i>
+                                                </a>
+
+                                                <!-- Botón para eliminar -->
+                                                <button type="button" 
+                                                        class="btn btn-sm btn-outline-danger mx-1 btn-delete"
+                                                        data-cargo-id="{{ cargo.id }}" 
+                                                        data-cargo-nombre="{{ cargo.nombre_cargo|escapejs }}"
+                                                        title="Eliminar"
+                                                        data-toggle-tooltip="tooltip"
+                                                        data-placement="top">
+                                                    <i class="la la-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="alert alert-info text-center">
+                                No hay cargos registrados.
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<script>
+    // Función para inicializar DataTables de manera segura
+    function initDataTables() {
+        // Usar jQuery.ready para asegurar que el DOM esté completamente cargado
+        jQuery(function($) {
+            var $table = $('#tablaCargos');
+
+            // Verificar si DataTables está disponible
+            if (!$.fn.DataTable) {
+                console.error('DataTables no está cargado');
+                return;
+            }
+
+            // Destruir cualquier instancia de DataTable existente
+            if ($.fn.DataTable.isDataTable($table)) {
+                $table.DataTable().destroy();
+            }
+
+            // Inicializar DataTable
+            $table.DataTable({
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                },
+                responsive: true,
+                pageLength: 10,
+                lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, 'Todos']],
+                // Asegurar que la tabla se renderice correctamente
+                drawCallback: function() {
+                    console.log('DataTable renderizada');
+                }
+            });
+
+            console.log('DataTables inicializada correctamente');
+        });
+    }
+
+    // Inicializar DataTables cuando el documento esté listo
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initDataTables);
+    } else {
+        initDataTables();
+    }
+</script>
+
+<script>
+    // Función para mostrar mensajes con Izitoast
+    function showMessage(type, message) {
+        iziToast[type]({
+            title: '',
+            message: message,
+            position: 'topRight',
+            timeout: 5000,
+            closeOnClick: true,
+            pauseOnHover: true
+        });
+    }
+
+    // Función para confirmar la eliminación de un cargo
+    function confirmarEliminacion(cargoId, cargoNombre) {
+        // Asegurarse de que el nombre del cargo sea seguro para usar en JavaScript
+        cargoNombre = cargoNombre || 'este cargo';
+        
+        Swal.fire({
+            title: '¿Está seguro?',
+            text: '¿Desea eliminar el cargo "' + cargoNombre + '"?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar',
+            customClass: {
+                confirmButton: 'btn btn-danger me-2',
+                cancelButton: 'btn btn-secondary'
+            },
+            buttonsStyling: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Crear formulario dinámico
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = `/cargo/eliminar/${cargoId}/`;
+                
+                // Agregar token CSRF
+                const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                const csrfInput = document.createElement('input');
+                csrfInput.type = 'hidden';
+                csrfInput.name = 'csrfmiddlewaretoken';
+                csrfInput.value = csrfToken;
+                form.appendChild(csrfInput);
+                
+                // Mostrar mensaje de carga
+                Swal.fire({
+                    title: 'Eliminando...',
+                    text: 'Por favor espere',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+                
+                // Agregar formulario al cuerpo y enviar
+                document.body.appendChild(form);
+                form.submit();
+            }
+        });
+    }
+
+    // Inicializar tooltips de Bootstrap y manejador de clic para eliminar
+    document.addEventListener('DOMContentLoaded', function() {
+        // Manejador de clic para los botones de eliminar
+        document.addEventListener('click', function(e) {
+            const btnEliminar = e.target.closest('.btn-delete');
+            if (btnEliminar) {
+                e.preventDefault();
+                const cargoId = btnEliminar.getAttribute('data-cargo-id');
+                const cargoNombre = btnEliminar.getAttribute('data-cargo-nombre');
+                confirmarEliminacion(cargoId, cargoNombre);
+            }
+        });
+        
+        // Inicializar tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+        
+        // Verificar si hay mensajes de Django para mostrar
+        try {
+            var messagesJson = '{{ messages_json|default:"[]" }}';
+            console.log('Mensajes recibidos:', messagesJson);
+            
+            var messages = messagesJson ? JSON.parse(messagesJson) : [];
+            
+            messages.forEach(function(msg) {
+                var toastType = msg.tags || 'info';
+                
+                // Mapear tags de Django a tipos de iziToast
+                var toastMapping = {
+                    'success': 'success',
+                    'error': 'error',
+                    'warning': 'warning',
+                    'info': 'info'
+                };
+                
+                var finalType = toastMapping[toastType] || 'info';
+                
+                iziToast[finalType]({
+                    title: '',
+                    message: msg.message,
+                    position: 'topRight',
+                    timeout: 5000,
+                    closeOnClick: true,
+                    pauseOnHover: true
+                });
+            });
+        } catch (error) {
+            console.error('Error al procesar mensajes:', error);
+        }
+    });
+</script>
+
+{% if cargos %}
+    {% for cargo in cargos %}
+    <!-- Modal Editar -->
+    <div class="modal fade" id="editarCargoModal{{ cargo.id }}" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar Cargo: {{ cargo.nombre_cargo }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{% url 'editar_cargo' cargo.id %}" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="nombre_cargo">NOMBRE DEL CARGO*</label>
+                            <input type="text" class="form-control rounded-pill" name="nombre_cargo" value="{{ cargo.nombre_cargo }}" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="periodo">PERÍODO*</label>
+                            <select class="form-control rounded-pill" name="periodo" required>
+                                {% for periodo in periodos %}
+                                    <option value="{{ periodo.id }}" {% if periodo.id == cargo.periodo.id %}selected{% endif %}>{{ periodo.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="descripcion">DESCRIPCIÓN</label>
+                            <textarea class="form-control rounded-pill" name="descripcion" placeholder="Opcional">{{ cargo.descripcion|default:'' }}</textarea>
+                        </div>
+
+                        <div class="form-group text-center mt-4">
+                            <button type="submit" class="btn btn-primary rounded-pill px-4 mr-2">
+                                <i class="la la-save"></i> GUARDAR
+                            </button>
+                            <button type="button" class="btn btn-secondary rounded-pill px-4" data-dismiss="modal">
+                                <i class="la la-times"></i> CANCELAR
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+{% endif %}
+
+
+{% endblock %}

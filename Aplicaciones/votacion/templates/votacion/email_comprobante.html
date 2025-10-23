@@ -1,0 +1,298 @@
+[media pointer="file-service://file-H5etKiu4ZbhCtzYhTpXEEn"]
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Comprobante de Votación - {{ carnet.proceso_electoral }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 650px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background-color: #0d6efd;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .content {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+        }
+
+        .carnet-container {
+            width: 100%;
+            max-width: 400px;
+            margin: 20px auto;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .carnet-header {
+            background-color: #0d6efd;
+            color: white;
+            padding: 8px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .carnet-body {
+            padding: 8px;
+            background: white;
+            display: flex;
+            position: relative;
+        }
+
+        .carnet-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+            opacity: 0.08;
+        }
+
+        .carnet-background img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
+
+        .carnet-left {
+            width: 40%;
+            border-right: 1px dashed #ddd;
+            padding: 8px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .carnet-logo {
+            width: 100px;
+            height: 100px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            overflow: hidden;
+            border: 2px solid #0d6efd;
+            padding: 5px;
+        }
+
+        .carnet-qr {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto;
+        }
+
+        .carnet-code {
+            font-size: 9px;
+            text-align: center;
+            word-break: break-all;
+            margin-top: 5px;
+            color: #666;
+        }
+
+        .carnet-right {
+            width: 60%;
+            padding: 8px 10px;
+            font-size: 11px;
+            overflow: hidden;
+        }
+
+        .carnet-field {
+            margin-bottom: 4px;
+        }
+
+        .carnet-label {
+            font-weight: bold;
+            font-size: 10px;
+            margin-bottom: 1px;
+            color: #555;
+        }
+
+        .carnet-value {
+            font-size: 10px;
+            margin-bottom: 5px;
+            word-break: break-word;
+        }
+
+        .carnet-footer {
+            background-color: #f8f9fa;
+            text-align: center;
+            font-size: 8px;
+            padding: 4px;
+            border-top: 1px solid #ddd;
+            color: #666;
+        }
+
+        .footer {
+            margin-top: 25px;
+            font-size: 12px;
+            color: #6c757d;
+            text-align: center;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+
+        .info-box {
+            background-color: #f8f9fa;
+            border-left: 4px solid #0d6efd;
+            padding: 12px 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #0d6efd;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin: 5px;
+            font-size: 14px;
+        }
+
+        .btn:hover {
+            background-color: #0b5ed7;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h2 style="margin: 0; font-size: 20px;">COMPROBANTE DE VOTACIÓN</h2>
+        <h3 style="margin: 5px 0 0; font-size: 16px;">UNIDAD EDUCATIVA DEL MILENIO 11 DE NOVIEMBRE</h3>
+        <p style="margin: 5px 0 0; font-size: 14px;">Sistema de Votación Electrónica</p>
+    </div>
+
+    <div class="content">
+        <p>Estimado/a {{ carnet.nombre_completo|upper }},</p>
+
+        <p>Su voto ha sido registrado exitosamente en el sistema de votación electrónica. A continuación encontrará su
+            carnet de votación digital:</p>
+
+        <!-- Carnet de Votación -->
+        <div class="carnet-container">
+            <div class="carnet-header">
+                UNIDAD EDUCATIVA DEL MILENIO 11 DE NOVIEMBRE - CARNET DE VOTACIÓN
+            </div>
+
+            <div class="carnet-body">
+                <!-- Sección izquierda con QR -->
+                <div class="carnet-left"
+                    style="position: relative; z-index: 2; width: 40%; border-right: 1px dashed #ddd; padding: 8px 0; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                    <!-- Código QR -->
+                    <div
+                        style="width: 100px; height: 100px; margin: 10px auto; display: flex; align-items: center; justify-content: center;">
+                        <img src="cid:logo_embebido" alt="LOGO UE" style="width: 100px; height: 100px;">
+                    </div>
+                    <!--
+                    <div style="font-size: 8px; text-align: center; color: #555;">
+                        Escanea para verificar
+                    </div>
+                    
+                    -->
+                </div>
+
+                <!-- Logo institucional debajo de los datos 
+                {% if logo_config and logo_config.logo_1 %}
+                <div style="margin-top: 10px; display: flex; justify-content: center;">
+                    <img src="cid:logo_institucional" alt="Logo Institucional" style="height: 60px; object-fit: contain;">
+                </div>
+                {% endif %}
+                -->
+                <!-- Sección derecha con información -->
+                <div class="carnet-right" style="width: 60%; padding: 8px 10px; font-size: 11px; display: block;">
+                    <div class="carnet-field">
+                        <div class="carnet-label">NOMBRE:</div>
+                        <div class="carnet-value">
+                            {{ carnet.nombre_completo|upper|truncatechars:25 }}
+                        </div>
+                    </div>
+
+                    <div class="carnet-field">
+                        <div class="carnet-label">CÉDULA:</div>
+                        <div class="carnet-value">
+                            {{ carnet.cedula }}
+                        </div>
+                    </div>
+
+                    <div class="carnet-field">
+                        <div class="carnet-label">PROCESO:</div>
+                        <div class="carnet-value">
+                            {{ carnet.proceso_electoral|truncatechars:30|upper }}
+                        </div>
+                    </div>
+
+                    <div class="carnet-field">
+                        <div class="carnet-label">FECHA:</div>
+                        <div class="carnet-value">
+                            {{ carnet.fecha_votacion|date:"d/m/Y H:i" }}
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+            <div class="carnet-footer">
+                {{ fecha_emision|date:"d/m/Y H:i" }} | Sistema de Votación Electrónica
+            </div>
+        </div>
+        <!--
+        <div class="info-box">
+            <p style="margin: 0;"><strong>Nota importante:</strong> Este carnet digital es su comprobante de participación en el proceso electoral. Puede descargar el carnet en formato PDF para futuras referencias.</p>
+        </div>
+        
+        <div class="text-center mt-4">
+            <p class="mb-3">Puede descargar su carnet de votación en formato PDF:</p>
+            <a href="{% url 'votacion:descargar_carnet' carnet.id %}" class="btn btn-primary btn-lg" style="background-color: #0d6efd; border: none; padding: 10px 25px; font-size: 16px;">
+                <i class="fas fa-file-pdf me-2"></i>Descargar PDF
+            </a>
+            <div class="mt-2 small text-muted">
+                <i class="fas fa-info-circle"></i> El PDF incluirá su carnet con código QR de verificación
+            </div>
+        </div>
+         -->
+        <p>Gracias por participar en nuestro proceso democrático.</p>
+
+        <p>Atentamente,<br>
+            <strong>Comisión Electoral</strong><br>
+            UNIDAD EDUCATIVA DEL MILENIO 11 DE NOVIEMBRE
+        </p>
+    </div>
+
+    <div class="footer">
+        <p>Este es un mensaje automático, por favor no responda a este correo.</p>
+        <p>© {% now "Y" %} UNIVERSIDAD TÉCNICA DE COTOPAZI - Todos los derechos reservados</p>
+    </div>
+</body>
+
+</html>

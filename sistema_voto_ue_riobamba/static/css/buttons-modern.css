@@ -1,0 +1,228 @@
+/* Estilos modernos para botones */
+.btn-modern {
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    border: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-modern:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn-modern i {
+    margin-right: 0.5rem;
+    font-size: 0.9em;
+}
+
+/* Botón de inicio de sesión específico */
+.btn-login {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+    border: none;
+    box-shadow: 0 8px 16px rgba(52, 152, 219, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-login:hover {
+    background: linear-gradient(135deg, #2980b9, #21618c);
+    box-shadow: 0 12px 24px rgba(52, 152, 219, 0.4);
+    transform: translateY(-2px);
+}
+
+.btn-login i {
+    color: white;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 1.5rem;
+}
+
+.btn-login:hover i {
+    transform: scale(1.2) rotate(10deg);
+}
+
+/* Efecto de onda al hacer click */
+.btn-login::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+    border-radius: 50%;
+    transform: scale(0);
+}
+
+.btn-login:active::after {
+    opacity: 1;
+    transform: scale(2);
+    transition: 0s;
+}
+
+/* Efecto de brillo */
+.btn-login::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transform: rotate(45deg);
+    transition: transform 1s ease-in-out;
+}
+
+.btn-login:hover::before {
+    transform: rotate(45deg) translateX(100%);
+}
+
+/* Botón principal (azul) */
+.btn-primary-modern {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+}
+
+.btn-primary-modern:hover {
+    background: linear-gradient(135deg, #2980b9, #21618c);
+}
+
+/* Botón secundario (gris) */
+.btn-secondary-modern {
+    background: linear-gradient(135deg, #6c757d, #5a6268);
+    color: white;
+}
+
+.btn-secondary-modern:hover {
+    background: linear-gradient(135deg, #5a6268, #495057);
+}
+
+/* Botón de éxito (verde) */
+.btn-success-modern {
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+    color: white;
+}
+
+.btn-success-modern:hover {
+    background: linear-gradient(135deg, #27ae60, #219653);
+}
+
+/* Botón de advertencia (amarillo) */
+.btn-warning-modern {
+    background: linear-gradient(135deg, #f1c40f, #f39c12);
+    color: white;
+}
+
+.btn-warning-modern:hover {
+    background: linear-gradient(135deg, #f39c12, #d35400);
+}
+
+/* Botón de peligro (rojo) */
+.btn-danger-modern {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    color: white;
+}
+
+.btn-danger-modern:hover {
+    background: linear-gradient(135deg, #c0392b, #95271a);
+}
+
+/* Efecto de hover con animación */
+.btn-modern::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    transition: 0.5s;
+}
+
+.btn-modern:hover::before {
+    left: 100%;
+}
+
+/* Botón fijo inferior derecho */
+.btn-fixed-bottom {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    z-index: 1000;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Botón en el banner principal */
+.main-button a {
+    display: inline-block;
+    padding: 0.75rem 2rem;
+    border-radius: 25px;
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.main-button a:hover {
+    background: linear-gradient(135deg, #2980b9, #21618c);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Botones en el menú de navegación */
+.main-menu a {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.main-menu a:hover {
+    background: rgba(52, 152, 219, 0.1);
+    color: #3498db;
+    transform: translateY(-2px);
+}
+
+/* Botón del menú móvil */
+.menu-link {
+    display: none; /* Ocultar por defecto */
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1001;
+    background: none;
+    color: #1e3c72; /* Color del tema principal */
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    height: auto;
+    padding: 10px;
+}
+
+.menu-link:hover {
+    color: #2a5298; /* Color más oscuro al pasar el mouse */
+    transform: scale(1.1);
+    background: none;
+}
+
+/* Mostrar solo en móviles */
+@media (max-width: 768px) {
+    .menu-link {
+        display: flex;
+    }
+}

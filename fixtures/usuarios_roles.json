@@ -1,0 +1,18 @@
+[
+{
+  "model": "usuarios.roles",
+  "pk": 2,
+  "fields": {
+    "nombre_rol": "Secretaria del consejo ",
+    "descripcion": ""
+  }
+},
+{
+  "model": "usuarios.roles",
+  "pk": 8,
+  "fields": {
+    "nombre_rol": "RECTOR",
+    "descripcion": ""
+  }
+}
+]

@@ -1,0 +1,398 @@
+{% extends "plantilla.html" %}
+
+{# 
+    VARIABLES DE CONTEXTO NECESARIAS DESDE LA VISTA DJANGO:
+    - total_usuarios: int - Total de usuarios registrados
+    - total_estudiantes: int - Total de estudiantes en el padrón
+    - total_votantes: int - Total de estudiantes que han votado
+    - grados_labels: str (JSON) - Lista de nombres de grados/cursos ['1ro BGU', '2do BGU', etc.]
+    - estudiantes_por_grado: str (JSON) - Lista de números de estudiantes por grado [25, 30, 28, etc.]
+    
+    Ejemplo en la vista:
+    context = {
+        'total_usuarios': User.objects.count(),
+        'total_estudiantes': Estudiante.objects.count(),
+        'total_votantes': Voto.objects.values('estudiante').distinct().count(),
+        'grados_labels': json.dumps([grado.nombre for grado in Grado.objects.all()]),
+        'estudiantes_por_grado': json.dumps([grado.estudiantes.count() for grado in Grado.objects.all()])
+    }
+#}
+
+{% load static %}
+
+{% block scripts %}
+{{ block.super }}
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block contenido %}
+{{ block.super }}
+
+<div class="container-fluid py-4">
+    <!-- Fila de KPIs con Gráficos -->
+    <div class="row">
+
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header pb-0">
+                    <h6>Total Usuarios</h6>
+                </div>
+                <div class="card-body p-3">
+                    <div class="chart" style="position: relative; height: 200px;">
+                        <canvas id="totalUsuariosChart"></canvas>
+                    </div>
+                    <div class="mt-3 text-center">
+                        <h3 class="mb-0">{{ total_usuarios|default:0 }}</h3>
+                        <p class="text-sm mb-0">Usuarios registrados</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header pb-0">
+                    <h6>Total Estudiantes</h6>
+                </div>
+                <div class="card-body p-3">
+                    <div class="chart" style="position: relative; height: 200px;">
+                        <canvas id="totalEstudiantesChart"></canvas>
+                    </div>
+                    <div class="mt-3 text-center">
+                        <h3 class="mb-0">{{ total_estudiantes|default:0 }}</h3>
+                        <p class="text-sm mb-0">En padrón electoral</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header pb-0">
+                    <h6>Total Votantes</h6>
+                </div>
+                <div class="card-body p-3">
+                    <div class="chart" style="position: relative; height: 200px;">
+                        <canvas id="totalVotantesChart"></canvas>
+                    </div>
+                    <div class="mt-3 text-center">
+                        <h3 class="mb-0">{{ total_votantes|default:0 }}</h3>
+                        <p class="text-sm mb-0">Han votado</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gráficos adicionales -->
+    <div class="row mt-4">
+
+        <div class="col-lg-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header pb-0">
+                    <h6>Estudiantes por Grado</h6>
+                </div>
+                <div class="card-body p-3">
+                    <div class="chart-container">
+                        <canvas id="estudiantesPorGradoChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header pb-0">
+                    <h6>Estado de Votación</h6>
+                </div>
+                <div class="card-body p-3">
+                    <div class="chart-container">
+                        <canvas id="estadoVotacionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CSS para el dashboard -->
+<style>
+    .chart-container {
+        position: relative;
+        height: 300px;
+        width: 100%;
+    }
+</style>
+
+<!-- JavaScript para los gráficos -->
+<script>
+    // Función para crear gráficos de indicador (gauge)
+    function crearGraficoIndicador(id, valor, max, colorFondo, colorBorde) {
+        const ctx = document.getElementById(id);
+        if (!ctx) {
+            console.error('No se encontró el elemento: ' + id);
+            return null;
+        }
+
+        try {
+            const porcentaje = Math.min(100, Math.max(0, (valor / max) * 100));
+
+            return new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: [porcentaje, 100 - porcentaje],
+                        backgroundColor: [colorFondo, '#f8f9fa'],
+                        borderColor: [colorBorde, '#dee2e6'],
+                        borderWidth: 1,
+                        cutout: '80%',
+                        circumference: 180,
+                        rotation: 270
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            enabled: true,
+                            callbacks: {
+                                label: function () {
+                                    return valor.toLocaleString('es-ES') + (id.includes('participacion') ? '%' : '');
+                                }
+                            }
+                        }
+                    },
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true
+                    }
+                }
+            });
+        } catch (error) {
+            console.error('Error al inicializar el indicador ' + id + ':', error);
+            return null;
+        }
+    }
+
+    // Función para inicializar gráficos de barras y dona
+    function inicializarGrafico(chartId, chartType, chartTitle) {
+        console.log(`Inicializando gráfico: ${chartId} (${chartType})`);
+        const ctx = document.getElementById(chartId);
+
+        if (!ctx) {
+            console.error('No se encontró el elemento: ' + chartId);
+            return null;
+        }
+
+        try {
+            // Datos de ejemplo para el sistema electoral
+            let labels, data;
+
+            if (chartId === 'estudiantesPorGradoChart') {
+                // Obtener datos reales de estudiantes por grado desde Django
+                try {
+                    labels = JSON.parse('{{ grados_labels|escapejs }}') || ['Sin datos'];
+                    data = JSON.parse('{{ estudiantes_por_grado|escapejs }}') || [0];
+                } catch (e) {
+                    console.log('Usando datos por defecto para estudiantes por grado');
+                    labels = ['Sin datos'];
+                    data = [0];
+                }
+            } else if (chartId === 'estadoVotacionChart') {
+                labels = ['Han Votado', 'No Han Votado'];
+                const totalEstudiantes = parseInt('{{ total_estudiantes|default:0 }}');
+                const totalVotantes = parseInt('{{ total_votantes|default:0 }}');
+                data = [totalVotantes, totalEstudiantes - totalVotantes];
+            }
+
+            if (!Array.isArray(data) || data.length === 0) {
+                console.warn('No hay datos para el gráfico: ' + chartId);
+                return null;
+            }
+
+            const backgroundColors = [
+                'rgba(94, 114, 228, 0.8)',   // Azul
+                'rgba(43, 203, 186, 0.8)',   // Verde agua
+                'rgba(253, 57, 122, 0.8)',   // Rosa
+                'rgba(255, 193, 7, 0.8)',    // Amarillo
+                'rgba(111, 66, 193, 0.8)'    // Morado
+            ];
+
+            const chartConfig = {
+                type: chartType,
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: chartTitle,
+                        data: data,
+                        backgroundColor: backgroundColors.slice(0, data.length),
+                        borderColor: backgroundColors.map(c => c.replace('0.8', '1')).slice(0, data.length),
+                        borderWidth: 1,
+                        borderRadius: 4,
+                        borderSkipped: false,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                font: {
+                                    size: 14
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    const value = context.raw || 0;
+                                    return `${context.label}: ${value} estudiantes`;
+                                }
+                            }
+                        }
+                    },
+                    scales: chartType === 'bar' ? {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function (value) {
+                                    return value + ' estudiantes';
+                                },
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        }
+                    } : {}
+                }
+            };
+
+            // Configuraciones específicas para gráficos de tipo doughnut
+            if (chartType === 'doughnut') {
+                chartConfig.options.cutout = '70%';
+                chartConfig.options.plugins.legend = {
+                    position: 'right',
+                    labels: {
+                        padding: 20,
+                        usePointStyle: true,
+                        pointStyle: 'circle',
+                        font: {
+                            size: 12
+                        }
+                    }
+                };
+                chartConfig.options.plugins.tooltip = {
+                    callbacks: {
+                        label: function (context) {
+                            const value = context.raw || 0;
+                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                            const percentage = Math.round((value / total) * 100);
+                            return `${context.label}: ${value} estudiantes (${percentage}%)`;
+                        }
+                    }
+                };
+            }
+
+            return new Chart(ctx, chartConfig);
+
+        } catch (error) {
+            console.error('Error al inicializar el gráfico ' + chartId + ':', error);
+            return null;
+        }
+    }
+
+    // Inicialización cuando el DOM esté listo
+    document.addEventListener('DOMContentLoaded', function () {
+        console.log('=== INICIALIZANDO GRÁFICOS ===');
+        console.log('Chart.js disponible:', typeof Chart !== 'undefined');
+
+        try {
+            // Obtener valores de Django para el sistema electoral
+            const totalUsuarios = parseInt('{{ total_usuarios|default:0 }}');
+            const totalEstudiantes = parseInt('{{ total_estudiantes|default:0 }}');
+            const totalVotantes = parseInt('{{ total_votantes|default:0 }}');
+
+            console.log('Valores iniciales:', { totalUsuarios, totalEstudiantes, totalVotantes });
+
+            // Inicializar gráficos gauge
+            try {
+                // Gráfico de Total Usuarios (Azul)
+                crearGraficoIndicador('totalUsuariosChart', totalUsuarios, Math.max(totalUsuarios * 1.2, 50), 'rgba(94, 114, 228, 0.8)', 'rgba(94, 114, 228, 1)');
+
+                // Gráfico de Total Estudiantes (Verde agua)
+                crearGraficoIndicador('totalEstudiantesChart', totalEstudiantes, Math.max(totalEstudiantes * 1.2, 100), 'rgba(43, 203, 186, 0.8)', 'rgba(43, 203, 186, 1)');
+
+                // Gráfico de Total Votantes (Rosa)
+                crearGraficoIndicador('totalVotantesChart', totalVotantes, Math.max(totalEstudiantes, 100), 'rgba(253, 57, 122, 0.8)', 'rgba(253, 57, 122, 1)');
+            } catch (error) {
+                console.error('Error en gráficos de indicadores:', error);
+            }
+
+            // Inicializar gráficos de datos
+            try {
+                setTimeout(() => {
+                    // Gráfico de Barras - Estudiantes por Grado
+                    const gradoChart = inicializarGrafico('estudiantesPorGradoChart', 'bar', 'Estudiantes por Grado');
+                    if (!gradoChart) {
+                        console.warn('No se pudo inicializar el gráfico de estudiantes por grado');
+                    }
+
+                    // Gráfico de Dona - Estado de Votación
+                    const votacionChart = inicializarGrafico('estadoVotacionChart', 'doughnut', 'Estado de Votación');
+                    if (!votacionChart) {
+                        console.warn('No se pudo inicializar el gráfico de estado de votación');
+                    }
+
+                    console.log('Gráficos inicializados correctamente');
+                }, 100);
+
+            } catch (error) {
+                console.error('Error al inicializar gráficos de datos:', error);
+            }
+
+        } catch (error) {
+            console.error('Error en la inicialización de gráficos:', error);
+        }
+    });
+</script>
+
+<!-- Redirección automática para cambio de contraseña con mensaje -->
+{% if mostrar_modal %}
+<!-- Incluir SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Mostrar mensaje con SweetAlert2
+    Swal.fire({
+      title: '¡Bienvenido!',
+      text: 'Por seguridad, debes cambiar tu contraseña antes de continuar.',
+      icon: 'info',
+      confirmButtonText: 'Entendido',
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      allowEnterKey: true,
+      backdrop: true
+    }).then((result) => {
+      // Redirigir después de hacer clic en el botón
+      if (result.isConfirmed) {
+        console.log('Redirigiendo a la página de cambio de contraseña...');
+        window.location.href = '{% url "cambiar_contrasena" %}';
+      }
+    });
+  });
+</script>
+{% endif %}
+
+{% endblock %}

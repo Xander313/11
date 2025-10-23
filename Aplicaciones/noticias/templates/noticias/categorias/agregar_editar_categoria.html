@@ -1,0 +1,100 @@
+{% extends 'plantilla.html' %}
+{% load static %}
+
+{% block titulo %}{% if categoria %}Editar{% else %}Agregar{% endif %} Categoría - Noticias{% endblock %}
+
+{% block contenido %}
+<div class="container-fluid">
+    <!-- Incluir barra de navegación -->
+    {% include 'noticias/partials/_navegacion_noticias.html' %}
+    
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">{% if categoria %}Editar{% else %}Agregar{% endif %} Categoría</h4>
+                </div>
+                <div class="card-body">
+                    
+                    <form method="post" id="form-categoria">
+                        {% csrf_token %}
+                        
+                        <div class="row justify-content-center">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label for="nombre">Nombre <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="nombre" name="nombre" 
+                                           value="{{ categoria.nombre|default:'' }}" required
+                                           placeholder="Ingrese el nombre de la categoría">
+                                    <small class="form-text text-muted">El nombre debe ser único y descriptivo.</small>
+                                </div>
+                                
+                                <div class="form-group mt-4">
+                                    <label for="descripcion">Descripción</label>
+                                    <textarea class="form-control" id="descripcion" name="descripcion" 
+                                              rows="4" placeholder="Ingrese una descripción opcional">{{ categoria.descripcion|default:'' }}</textarea>
+                                </div>
+                                
+                                <div class="form-group form-check mt-4">
+                                    <input type="checkbox" class="form-check-input" id="activo" name="activo" 
+                                           {% if categoria.activo or not categoria %}checked{% endif %}>
+                                    <label class="form-check-label" for="activo">Categoría activa</label>
+                                    <small class="form-text text-muted d-block">Las categorías inactivas no se mostrarán en los filtros.</small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group text-center mt-5 pt-3 border-top">
+                            <button type="button" class="btn btn-light mr-2" 
+                                    data-url="{% url 'noticias:listar_categorias' %}">
+                                <i class="la la-arrow-left"></i> Volver al listado
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="la la-save"></i> {% if categoria %}Actualizar Categoría{% else %}Guardar Categoría{% endif %}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+<script>
+    $(document).ready(function() {
+        // Manejador para el botón de cancelar/volver
+        $('.btn-light[data-url]').on('click', function() {
+            window.location.href = $(this).data('url');
+        });
+        
+        // Validar formulario antes de enviar
+        $('#form-categoria').on('submit', function(e) {
+            let isValid = true;
+            const nombre = $('#nombre').val().trim();
+            const $submitButton = $('button[type="submit"]');
+            const originalButtonText = $submitButton.html();
+            
+            // Validar nombre
+            if (nombre === '') {
+                $('#nombre').addClass('is-invalid');
+                isValid = false;
+            } else {
+                $('#nombre').removeClass('is-invalid');
+            }
+            
+            if (isValid) {
+                // Mostrar indicador de carga solo si la validación es exitosa
+                $submitButton.html('<i class="la la-spinner fa-spin"></i> Guardando...').prop('disabled', true);
+            } else {
+                e.preventDefault();
+                toastr.error('Por favor complete los campos requeridos correctamente.');
+                // Restaurar el botón en caso de error de validación
+                $submitButton.html(originalButtonText).prop('disabled', false);
+            }
+        });
+    });
+</script>
+{% endblock %}

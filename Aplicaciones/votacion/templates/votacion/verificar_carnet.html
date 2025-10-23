@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Verificación de Carnet de Votación{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0 text-center">Verificación de Carnet de Votación</h3>
+                </div>
+
+                <div class="card-body">
+                    {% if verificado %}
+                    <div class="alert alert-success text-center">
+                        <i class="fas fa-check-circle fa-3x mb-3"></i>
+                        <h4>¡Carnet Verificado con Éxito!</h4>
+                        {% if carnet.utilizado %}
+                        <p class="mb-0">Este carnet ya había sido verificado anteriormente.</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <div class="card mb-4">
+                                <div class="card-header bg-light">
+                                    <h5 class="mb-0">Información del Votante</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p><strong>Nombre:</strong> {{ carnet.nombre_completo }}</p>
+                                    <p><strong>Cédula:</strong> {{ carnet.cedula }}</p>
+                                    <p><strong>Proceso Electoral:</strong> {{ carnet.proceso_electoral }}</p>
+                                    <p><strong>Fecha de Votación:</strong> {{ carnet.fecha_votacion|date:"d/m/Y H:i" }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header bg-light">
+                                    <h5 class="mb-0">Código QR</h5>
+                                </div>
+                                <div class="card-body text-center">
+                                    <img src="{{ carnet.codigo_qr }}" alt="Código QR" class="img-fluid"
+                                        style="max-width: 200px;">
+                                    <p class="mt-2 text-muted">Código: {{ carnet.codigo_verificacion|slice:":8" }}...{{
+                                        carnet.codigo_verificacion|slice:"-8:" }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <a href="{% url 'votacion:descargar_carnet' carnet.id %}" class="btn btn-primary">
+                            <i class="fas fa-download me-2"></i>Descargar Carnet en PDF
+                        </a>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-danger text-center">
+                        <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
+                        <h4>Error al Verificar el Carnet</h4>
+                        <p class="mb-0">{{ error|default:"No se pudo verificar el carnet. Por favor, intente
+                            nuevamente." }}</p>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <a href="{% url 'administracion:index' %}" class="btn btn-primary">
+                            <i class="fas fa-home me-2"></i>Volver al Inicio
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="card-footer text-muted text-center">
+                    <small>Sistema de Votación Electrónica - UNIDAD EDUCATIVA DEL MILENIO 11 DE NOVIEMBRE</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .card {
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        border: none;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .card-header {
+        border-bottom: none;
+    }
+
+    .alert {
+        border: none;
+        border-radius: 10px;
+    }
+
+    .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+    }
+
+    .alert-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+
+    .btn-primary {
+        background-color: #0d6efd;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+    }
+
+    .btn-primary:hover {
+        background-color: #0b5ed7;
+    }
+
+    .fa-check-circle,
+    .fa-exclamation-triangle {
+        margin-bottom: 15px;
+    }
+</style>
+{% endblock %}

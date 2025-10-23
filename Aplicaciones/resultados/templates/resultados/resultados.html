@@ -1,0 +1,673 @@
+{% extends "plantilla.html" %}
+{% load static %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Inicializar botón de descarga
+        const btnDescargar = document.getElementById('btnDescargarResultados');
+        if (btnDescargar) {
+            btnDescargar.addEventListener('click', descargarResultados);
+        }
+        
+        // Animación de barras de progreso
+        const progressBars = document.querySelectorAll('.progress-bar');
+        if (progressBars.length > 0) {
+            setTimeout(() => {
+                progressBars.forEach(bar => {
+                    const width = bar.getAttribute('data-width') || '0';
+                    bar.style.width = width + '%';
+                });
+            }, 100);
+        }
+        
+        // Inicializar botón de volver a lista
+        const btnVolverLista = document.getElementById('btnVolverLista');
+        if (btnVolverLista) {
+            btnVolverLista.addEventListener('click', function() {
+                window.location.href = "{% url 'lista_resultados' %}";
+            });
+        }
+    });
+
+    // Función para descargar resultados en CSV
+    async function descargarResultados() {
+        const boton = document.getElementById('btnDescargarResultados');
+        if (!boton) return;
+        
+        const textoOriginal = boton.innerHTML;
+        boton.disabled = true;
+        boton.innerHTML = '<i class="la la-spinner la-spin"></i> Generando archivo...';
+        
+        try {
+            // Obtener datos del proceso
+            const nombreProceso = document.querySelector('.card-title')?.textContent.trim() || 'Proceso Electoral';
+            const fechaElement = document.querySelector('.text-muted');
+            const fechaProceso = fechaElement ? 
+                fechaElement.textContent.replace('Fecha: ', '').trim() : 
+                new Date().toLocaleDateString();
+            
+            // Crear contenido CSV
+            let csvContent = [
+                'RESULTADOS ELECTORALES',
+                `Proceso Electoral,${nombreProceso}`,
+                `Fecha,${fechaProceso}`,
+                'Institución,Escuela de Educación Básica Riobamba',
+                '',
+                'RESULTADOS DETALLADOS',
+                'Lista,Votos,Porcentaje'
+            ];
+            
+            // Obtener datos de la tabla
+            const filas = document.querySelectorAll('.table tbody tr');
+            filas.forEach(fila => {
+                const celdas = fila.querySelectorAll('td');
+                if (celdas.length >= 3) {
+                    const lista = celdas[0]?.textContent.trim() || '';
+                    const votos = celdas[1]?.textContent.trim().replace(/\./g, '') || '0';
+                    const porcentaje = celdas[2]?.textContent.trim().replace('%', '') || '0';
+                    csvContent.push(`"${lista}",${votos},${porcentaje}%`);
+                }
+            });
+            
+            // Añadir resumen
+            const resumenItems = document.querySelectorAll('.summary-item');
+            if (resumenItems.length > 0) {
+                csvContent.push('', 'RESUMEN DE PARTICIPACIÓN');
+                resumenItems.forEach(item => {
+                    const titulo = item.querySelector('.summary-label')?.textContent.trim() || '';
+                    const valor = item.querySelector('.summary-value')?.textContent.trim().replace(/\./g, '') || '';
+                    if (titulo && valor) {
+                        csvContent.push(`"${titulo}",${valor}`);
+                    }
+                });
+            }
+            
+            // Crear y descargar archivo
+            const blob = new Blob(["\uFEFF" + csvContent.join('\n')], { 
+                type: 'text/csv;charset=utf-8;' 
+            });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            const nombreArchivo = `Resultados_${nombreProceso.replace(/[^\w\s]/gi, '').replace(/\s+/g, '_')}_${new Date().toISOString().slice(0,10)}.csv`;
+            
+            link.href = url;
+            link.download = nombreArchivo;
+            link.style.display = 'none';
+            document.body.appendChild(link);
+            link.click();
+            
+            // Limpieza
+            setTimeout(() => {
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+            }, 100);
+            
+            // Mostrar notificación de éxito
+            Swal.fire({
+                title: '¡Descarga completada!',
+                text: `El archivo se ha descargado correctamente.`,
+                icon: 'success',
+                confirmButtonText: 'Aceptar',
+                confirmButtonColor: '#3b82f6',
+                timer: 3000
+            });
+            
+        } catch (error) {
+            console.error('Error al descargar resultados:', error);
+            Swal.fire({
+                title: 'Error',
+                text: 'Ocurrió un error al generar el archivo.',
+                icon: 'error',
+                confirmButtonText: 'Aceptar'
+            });
+        } finally {
+            boton.disabled = false;
+            boton.innerHTML = textoOriginal;
+        }
+    }
+</script>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Estilos generales */
+    .results-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 15px;
+    }
+    
+    /* Tarjetas */
+    .card {
+        border-radius: 10px;
+        box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
+        margin-bottom: 24px;
+        border: none;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        background-color: #ffffff;
+    }
+    
+    .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 24px 0 rgba(0, 0, 0, 0.1);
+    }
+    
+    .card-header {
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        color: white;
+        padding: 1.25rem 1.5rem;
+        border-bottom: none;
+        border-radius: 10px 10px 0 0 !important;
+    }
+    
+    .card-header h4 {
+        margin: 0;
+        font-weight: 600;
+        font-size: 1.25rem;
+        color: white;
+    }
+    
+    .card-body {
+        padding: 1.5rem;
+    }
+    
+    /* Sección del ganador */
+    .winner-card {
+        background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+        border-left: 4px solid #3b82f6;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .winner-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100px;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), transparent);
+    }
+    
+    .winner-trophy {
+        font-size: 3rem;
+        color: #ffc107;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 1rem;
+    }
+    
+    /* Barras de progreso */
+    .progress {
+        height: 10px;
+        border-radius: 5px;
+        overflow: hidden;
+        background-color: #f1f5f9;
+        margin-bottom: 15px;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+    
+    .progress-bar {
+        transition: width 1.5s ease;
+        background: linear-gradient(90deg, #3b82f6, #60a5fa);
+    }
+    
+    .progress-thick {
+        height: 20px;
+        border-radius: 10px;
+    }
+    
+    .progress-label {
+        margin-top: 5px;
+        font-size: 0.8rem;
+        color: #64748b;
+        font-weight: 500;
+    }
+    
+    /* Resumen de resultados */
+    .results-summary {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 -10px 1.5rem;
+        background: #f8fafc;
+        border-radius: 8px;
+        padding: 15px 0;
+    }
+    
+    .summary-item {
+        padding: 1rem 1.5rem;
+        flex: 1 0 30%;
+        min-width: 220px;
+        position: relative;
+    }
+    
+    .summary-item:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 60%;
+        width: 1px;
+        background-color: #e2e8f0;
+    }
+    
+    .summary-value {
+        font-size: 1.75rem;
+        font-weight: 700;
+        margin-bottom: 0.25rem;
+        color: #1e293b;
+    }
+    
+    .summary-label {
+        font-size: 0.875rem;
+        color: #64748b;
+        font-weight: 500;
+    }
+    
+    /* Tabla de resultados */
+    .table {
+        width: 100%;
+        margin-bottom: 1rem;
+        color: #334155;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+    
+    .table thead th {
+        background-color: #f1f5f9;
+        color: #475569;
+        font-weight: 600;
+        padding: 1rem;
+        border: none;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 0.5px;
+    }
+    
+    .table tbody td {
+        padding: 1rem;
+        vertical-align: middle;
+        border-top: 1px solid #f1f5f9;
+    }
+    
+    .table tbody tr:first-child td {
+        border-top: none;
+    }
+    
+    .table tbody tr:hover {
+        background-color: #f8fafc;
+    }
+    
+    .winner-row {
+        background-color: rgba(59, 130, 246, 0.05) !important;
+        position: relative;
+    }
+    
+    .winner-row::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background-color: #3b82f6;
+    }
+    
+    /* Botones de acción */
+    .action-buttons {
+        display: flex;
+        gap: 0.75rem;
+        margin: 1.5rem 0;
+        justify-content: flex-end;
+    }
+    
+    .action-buttons .btn {
+        min-width: 140px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        border-radius: 6px;
+        padding: 0.625rem 1.5rem;
+        font-size: 0.9375rem;
+    }
+    
+    .action-buttons .btn i {
+        font-size: 1.1em;
+    }
+    
+    .action-buttons .btn-primary {
+        background: linear-gradient(135deg, #3b82f6, #2563eb);
+        border: none;
+        box-shadow: 0 2px 4px rgba(37, 99, 235, 0.3);
+    }
+    
+    .action-buttons .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(37, 99, 235, 0.4);
+    }
+    
+    /* Estilos para impresión */
+    @media print {
+        body * {
+            visibility: hidden;
+        }
+        #seccion-resultados-pdf, #seccion-resultados-pdf * {
+            visibility: visible;
+        }
+        #seccion-resultados-pdf {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+        }
+        .no-print {
+            display: none !important;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block contenido %}
+<br>
+<div class="card mb-3">
+    <div class="card-body bg-light text-center">
+        <h5 class="card-title mb-3"><strong>Resultados Electorales</strong></h5>
+        <p class="card-text mb-4">
+            Visualiza los resultados detallados del proceso electoral seleccionado.
+        </p>
+    </div>
+    <nav class="navbar navbar-light bg-light border rounded shadow-sm">
+        <div class="container-fluid justify-content-around">
+            <a href="{% url 'lista_resultados' %}" class="text-decoration-none text-center">
+                <i class="la la-list text-muted fs-2 d-block"></i>
+                <div>
+                    <strong class="d-block">Lista</strong>
+                    <small class="text-muted">Ver todos los procesos</small>
+                </div>
+            </a>
+            <a href="#" class="text-decoration-none text-center position-relative">
+                <div class="position-relative">
+                    <i class="la la-chart-bar text-primary fs-2 d-block"></i>
+                    <span class="position-absolute" style="top: -15px; right: 70%; z-index: 1000;">
+                        <i class="fas fa-hand-point-left" style="font-size: 2rem; transform: scaleX(1) rotate(-30deg); color: #1cbed3e6;"></i>
+                    </span>
+                </div>
+                <div>
+                    <strong class="d-block">Resultados</strong>
+                    <small class="text-muted">Ver detalles</small>
+                </div>
+            </a>
+            <!-- 
+            <a href="#" class="text-decoration-none text-center">
+                <i class="la la-download text-muted fs-2 d-block"></i>
+                <div>
+                    <strong class="d-block">Exportar</strong>
+                    <small class="text-muted">Descargar PDF</small>
+                </div>
+            </a>
+            -->
+        </div>
+    </nav>
+</div>
+
+<!-- Sección principal con estilo profesional -->
+<section id="resultados-detalle" class="row match-height">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+                <h4 class="card-title mb-2 mb-md-0">{{ proceso.nombre }}</h4>
+                <div class="d-flex flex-column flex-md-row align-items-stretch justify-content-md-end">
+                    <!-- Botón de descarga -->
+                    <div class="btn-group" role="group">
+                        <a href="{% url 'descargar_backup' %}" class="btn btn-success btn-sm" role="button">
+                            <i class="la la-download"></i> Descargar Backup
+                        </a>
+                        <!-- Botón: Generar Reporte (descarga PDF) -->
+                        <a href="{% url 'generar_reporte_pdf' proceso.id %}" class="btn btn-sm" style="background-color: #bfffcf; color: #0b3b1a; border: 1px solid #9fe6b8; margin-left: 6px;" role="button">
+                            <i class="fas fa-file-alt"></i> Generar Reporte
+                        </a>
+                        <a href="{% url 'lista_resultados' %}" class="btn btn-outline-primary btn-sm">
+                            <i class="la la-arrow-left"></i> Volver a Lista
+                        </a>
+                        
+                    </div>
+                </div>
+            </div>
+  
+    <!-- Resumen de participación -->
+    
+
+    <!-- Tabla de resultados por lista -->  
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="mb-0"><i class="la la-list text-success"></i> Resultados por Lista</h5>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover results-table mb-0">
+                    <thead>
+                        <tr>
+                            <th style="width: 50%">Lista</th>
+                            <th class="text-center" style="width: 25%">Votos</th>
+                            <th class="text-center" style="width: 25%">Porcentaje</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for resultado in resultados_por_lista %}
+                        <tr class="{% if resultado.es_ganador %}winner-row{% endif %}">
+                            <td>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="fw-bold">{{ resultado.lista.nombre_lista }}</div>
+                                        {% if resultado.es_ganador %}
+                                        <span class="badge bg-warning text-dark">Ganador</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                {% if not resultado.es_blanco and not resultado.es_nulo %}
+                                <div class="mt-2">
+                                    <div class="progress">
+                                        <div class="progress-bar {% if resultado.es_ganador %}bg-success{% else %}bg-primary{% endif %}" data-width="{{ resultado.porcentaje }}" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </td>
+                            <td class="text-center align-middle">{{ resultado.votos }}</td>
+                            <td class="text-center align-middle fw-bold">{{ resultado.porcentaje|floatformat:2 }}%</td>
+                        </tr>
+                        {% endfor %}
+
+                        <!-- Votos en blanco -->
+                        <tr>
+                            <td>Votos en Blanco</td>
+                            <td class="text-center">{{ votos_blancos }}</td>
+                            <td class="text-center">{{ porcentaje_blancos|floatformat:2 }}%</td>
+                        </tr>
+
+                        <!-- Votos nulos -->
+                        <tr>
+                            <td>Votos Nulos</td>
+                            <td class="text-center">{{ votos_nulos }}</td>
+                            <td class="text-center">{{ porcentaje_nulos|floatformat:2 }}%</td>
+                        </tr>
+                    </tbody>
+                    <tfoot class="table-light">
+                        <tr class="fw-bold">
+                            <td>Total</td>
+                            <td class="text-center">{{ total_votos }}</td>
+                            <td class="text-center">100.00%</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Información adicional -->
+    <div class="row">
+        <!-- Detalles del proceso -->
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="la la-info-circle text-primary"></i> Detalles del Proceso</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <div class="d-flex justify-content-between">
+                                <span><i class="la la-calendar-alt me-2"></i> Fecha</span>
+                                <span>{{ proceso.fecha|date:"d/m/Y" }}</span>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="d-flex justify-content-between">
+                                <span><i class="la la-clock me-2"></i> Hora Inicio</span>
+                                <span>{{ proceso.hora_inicio|time:"H:i" }}</span>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="d-flex justify-content-between">
+                                <span><i class="la la-clock me-2"></i> Hora Fin</span>
+                                <span>{{ proceso.hora_fin|time:"H:i" }}</span>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="d-flex justify-content-between">
+                                <span><i class="la la-calendar-check me-2"></i> Periodo</span>
+                                <span>{{ proceso.periodo.nombre }}</span>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="d-flex justify-content-between">
+                                <span><i class="la la-flag me-2"></i> Estado</span>
+                                <span class="badge bg-{{ proceso.estado|yesno:'success,primary,secondary' }}">{{ proceso.get_estado_display }}</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resumen de votación -->
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="la la-chart-bar text-success"></i> Resumen de Votación</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>Votantes Habilitados</span>
+                            <span class="badge bg-primary rounded-pill">{{ total_votantes }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>Votos Emitidos</span>
+                            <span class="badge bg-success rounded-pill">{{ total_votos }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>No Votaron</span>
+                            <span class="badge bg-secondary rounded-pill">{{ faltan_votar }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>Votos en Blanco</span>
+                            <span class="badge bg-light text-dark rounded-pill">{{ votos_blancos }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>Votos Nulos</span>
+                            <span class="badge bg-danger rounded-pill">{{ votos_nulos }}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pie de página -->
+    <div class="text-center text-muted small py-3">
+        <p>Reporte generado el {{ proceso.fecha|date:"d/m/Y" }} | Sistema de Votación Electrónica</p>
+        <p>Escuela de Educación Básica Riobamba</p>
+    </div>
+    
+    <!-- Sección oculta para PDF minimalista estilo POS -->
+    <div id="seccion-resultados-pos" style="display:none; width: 76mm; padding: 10px; font-family: monospace; background-color: white;">
+        <div style="text-align: center; margin-bottom: 10px;">
+            <div style="font-weight: bold; font-size: 12px;">ESCUELA DE EDUCACIÓN BÁSICA RIOBAMBA</div>
+            <div style="margin: 5px 0; font-size: 14px; font-weight: bold;">RESULTADOS ELECTORALES</div>
+            <div style="font-size: 12px;">{{ proceso.nombre }}</div>
+            <div style="font-size: 10px;">Fecha: {{ proceso.fecha|date:"d/m/Y" }}</div>
+        </div>
+        <hr style="border-top: 1px dashed #000; margin: 10px 0;">
+        
+        {% if ganador %}
+        <div style="margin-bottom: 10px;">
+            <div style="text-align: center; font-weight: bold; margin-bottom: 5px;">LISTA GANADORA</div>
+            <div style="text-align: center; font-size: 14px;">{{ ganador.nombre_lista }}</div>
+            <div style="text-align: center;">{{ ganador.votos }} votos ({{ ganador.porcentaje|floatformat:1 }}%)</div>
+        </div>
+        <hr style="border-top: 1px dashed #000; margin: 10px 0;">
+        {% endif %}
+        
+        <div style="margin-bottom: 10px;">
+            <div style="font-weight: bold; text-align: center; margin-bottom: 5px;">RESULTADOS POR LISTA</div>
+            <table style="width: 100%; font-size: 10px; border-collapse: collapse;">
+                {% for resultado in resultados_por_lista %}
+                <tr>
+                    <td style="padding: 3px 0;">{{ resultado.lista.nombre_lista }}</td>
+                    <td style="text-align: right; padding: 3px 0;">{{ resultado.votos }}</td>
+                    <td style="text-align: right; padding: 3px 0;">{{ resultado.porcentaje|floatformat:1 }}%</td>
+                </tr>
+                {% endfor %}
+                <tr style="border-top: 1px solid #000;">
+                    <td style="padding: 3px 0;">Votos en Blanco</td>
+                    <td style="text-align: right; padding: 3px 0;">{{ votos_blancos }}</td>
+                    <td style="text-align: right; padding: 3px 0;">{{ porcentaje_blancos|floatformat:1 }}%</td>
+                </tr>
+                <tr>
+                    <td style="padding: 3px 0;">Votos Nulos</td>
+                    <td style="text-align: right; padding: 3px 0;">{{ votos_nulos }}</td>
+                    <td style="text-align: right; padding: 3px 0;">{{ porcentaje_nulos|floatformat:1 }}%</td>
+                </tr>
+                <tr style="border-top: 1px solid #000; font-weight: bold;">
+                    <td style="padding: 3px 0;">TOTAL</td>
+                    <td style="text-align: right; padding: 3px 0;">{{ total_votos }}</td>
+                    <td style="text-align: right; padding: 3px 0;">100%</td>
+                </tr>
+            </table>
+        </div>
+        
+        <hr style="border-top: 1px dashed #000; margin: 10px 0;">
+        
+        <div style="margin-bottom: 10px;">
+            <div style="font-weight: bold; text-align: center; margin-bottom: 5px;">PARTICIPACIÓN</div>
+            <div style="display: flex; justify-content: space-between; font-size: 10px;">
+                <div>Habilitados:</div>
+                <div>{{ total_votantes }}</div>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 10px;">
+                <div>Participaron:</div>
+                <div>{{ total_votos }}</div>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 10px;">
+                <div>Porcentaje:</div>
+                <div>{{ porcentaje_participacion|floatformat:1 }}%</div>
+            </div>
+        </div>
+        
+        <hr style="border-top: 1px dashed #000; margin: 10px 0;">
+        
+        <div style="text-align: center; font-size: 8px;">
+            <div>ELECCIONES {{ proceso.periodo.nombre }}</div>
+            <div>SISTEMA DE VOTACIÓN ELECTRÓNICA</div>
+            <div>ESCUELA DE EDUCACIÓN BÁSICA RIOBAMBA</div>
+            <div>{{ proceso.fecha|date:"d/m/Y" }}</div>
+        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

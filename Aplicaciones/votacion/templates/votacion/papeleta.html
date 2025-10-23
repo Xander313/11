@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Papeleta de Votación - {{ proceso.nombre }}</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+    <style>
+        .papeleta-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .papeleta-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .papeleta-title {
+            font-size: 2.2rem;
+            color: #1e3a8a;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .papeleta-subtitle {
+            font-size: 1.2rem;
+            color: #4b5563;
+        }
+
+        .votante-info {
+            margin-top: 1rem;
+            padding: 0.6rem 1.2rem;
+            background-color: #e1effe;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        .votante-nombre {
+            font-size: 1rem;
+            color: #1e3a8a;
+            margin: 0;
+        }
+
+        .candidatos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .candidato-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+
+        .candidato-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .candidato-card.selected {
+            border-color: #1e40af;
+            border-width: 3px;
+            background: linear-gradient(145deg, #ffffff, #dbeafe);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .candidato-imagen {
+            width: auto;
+            max-width: 100%;
+            max-height: 180px;
+            object-fit: contain;
+            margin: 0 auto;
+            display: block;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 10px 0;
+        }
+
+        .candidato-info {
+            padding: 1.5rem;
+        }
+
+        .candidato-nombre {
+            font-size: 1.4rem;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .candidato-partido {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background: #dbeafe;
+            color: #1e40af;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .candidato-lema {
+            font-style: italic;
+            color: #4b5563;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .candidato-descripcion {
+            color: #4b5563;
+            line-height: 1.6;
+        }
+
+        .btn-votar-container {
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .btn-votar {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            border: none;
+            padding: 1rem 3rem;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-votar:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.6);
+        }
+
+        .btn-votar:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .seleccion-indicador {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border: 2px solid #9ca3af;
+            border-radius: 50%;
+            margin-right: 10px;
+            position: relative;
+            vertical-align: middle;
+        }
+
+        .selected .seleccion-indicador {
+            border-color: #3b82f6;
+            background-color: #3b82f6;
+        }
+
+        .selected .seleccion-indicador::after {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            width: 10px;
+            height: 10px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        /* Opciones de voto blanco/nulo */
+        .opcion-voto {
+            background: #f9fafb;
+            border: 2px dashed #d1d5db;
+        }
+
+        .opcion-voto.selected {
+            border-color: #1e40af;
+            border-width: 3px;
+            background: linear-gradient(145deg, #f9fafb, #dbeafe);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .opcion-voto .candidato-imagen {
+            background: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .opcion-voto .candidato-imagen i {
+            font-size: 3rem;
+            color: #6b7280;
+        }
+
+        .selected.opcion-voto .candidato-imagen i {
+            color: #3b82f6;
+        }
+
+        @media (max-width: 768px) {
+            .candidatos-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .papeleta-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Mensajes de confirmación -->
+    {% if messages %}
+    <div class="container mt-3">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="papeleta-container">
+        <div class="papeleta-header">
+            <h1 class="papeleta-title">Papeleta de Votación</h1>
+            <p class="papeleta-subtitle">{{ proceso.nombre }}</p>
+            <div class="votante-info">
+                <p class="votante-nombre">Votante: <strong>{{ nombre_votante }}</strong></p>
+            </div>
+        </div>
+
+        <form method="POST" action="{% url 'votacion:registrar_voto' proceso.id %}" id="votingForm">
+            {% csrf_token %}
+            <input type="hidden" name="lista" id="lista_seleccionada">
+            <input type="hidden" name="tipo_voto" id="tipo_voto">
+
+            <div class="candidatos-grid">
+                <!-- Listas de Candidatos -->
+                {% if listas_con_candidatos %}
+                {% for item in listas_con_candidatos %}
+                <div class="candidato-card" data-lista-id="{{ item.lista.id }}" data-action="select-lista">
+                    <div class="candidato-imagen-container">
+                        {% if item.lista.imagen %}
+                        <img src="{{ item.lista.imagen.url }}" alt="{{ item.lista.nombre_lista }}"
+                            class="candidato-imagen">
+                        {% else %}
+                        <div class="candidato-imagen"
+                            style="background: #e5e7eb; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-landmark" style="font-size: 3rem; color: #6b7280;"></i>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="candidato-info">
+                        <span class="seleccion-indicador"></span>
+                        <h3 class="candidato-nombre">{{ item.lista.nombre_lista }}</h3>
+                        <div class="candidato-partido">Lista {{ item.lista.numero }}</div>
+                        {% if item.lista.frase %}
+                        <div class="candidato-lema">"{{ item.lista.frase }}"</div>
+                        {% endif %}
+                        <div class="candidato-descripcion">
+                            <strong>Candidatos:</strong>
+                            <ul>
+                                {% for candidato in item.candidatos %}
+                                <li>{{ candidato.cargo.nombre_cargo }}: {{ candidato.nombre_candidato }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% endif %}
+
+                <!-- Opción Voto Blanco -->
+                <div class="candidato-card opcion-voto" data-tipo-voto="blanco" data-action="select-voto">
+                    <div class="candidato-imagen">
+                        <i class="far fa-square"></i>
+                    </div>
+                    <div class="candidato-info">
+                        <span class="seleccion-indicador"></span>
+                        <h3 class="candidato-nombre">Voto en Blanco</h3>
+                        <p class="candidato-descripcion">No apoyo a ninguna de las listas presentadas</p>
+                    </div>
+                </div>
+
+                <!-- Opción Voto Nulo -->
+                <div class="candidato-card opcion-voto" data-tipo-voto="nulo" data-action="select-voto">
+                    <div class="candidato-imagen">
+                        <i class="fas fa-ban"></i>
+                    </div>
+                    <div class="candidato-info">
+                        <span class="seleccion-indicador"></span>
+                        <h3 class="candidato-nombre">Voto Nulo</h3>
+                        <p class="candidato-descripcion">Anular mi voto intencionalmente</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="btn-votar-container">
+                <button id="btnVotar" class="btn-votar" disabled>CONFIRMAR MI VOTO</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        let selectedOption = null;
+
+        function selectLista(listaId) {
+            // Deseleccionar todo
+            document.querySelectorAll('.candidato-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+
+            // Seleccionar la lista
+            const listaCard = document.querySelector(`.candidato-card[data-lista-id="${listaId}"]`);
+            listaCard.classList.add('selected');
+
+            // Obtener el nombre de la lista
+            const nombreLista = listaCard.querySelector('.candidato-nombre').textContent.trim();
+
+            // Actualizar valores del formulario
+            document.getElementById('lista_seleccionada').value = listaId;
+            document.getElementById('tipo_voto').value = '';  // Limpiar tipo_voto cuando se selecciona una lista
+            selectedOption = nombreLista;
+
+            // Habilitar botón de votar
+            document.getElementById('btnVotar').disabled = false;
+        }
+
+        function selectVoto(tipo) {
+            // Deseleccionar todo
+            document.querySelectorAll('.candidato-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+
+            // Seleccionar la opción
+            const opcionCard = document.querySelector(`.candidato-card[data-tipo-voto="${tipo}"]`);
+            opcionCard.classList.add('selected');
+
+            // Actualizar valores del formulario
+            document.getElementById('lista_seleccionada').value = '';
+            document.getElementById('tipo_voto').value = tipo;  // Establecer el tipo de voto
+            selectedOption = tipo === 'blanco' ? 'Voto en Blanco' : 'Voto Nulo';
+
+            // Habilitar botón de votar
+            document.getElementById('btnVotar').disabled = false;
+        }
+
+        // Agregar eventos de clic a las tarjetas de candidatos
+        document.querySelectorAll('[data-action="select-lista"]').forEach(card => {
+            card.addEventListener('click', function () {
+                selectLista(this.dataset.listaId);
+            });
+        });
+
+        document.querySelectorAll('[data-action="select-voto"]').forEach(card => {
+            card.addEventListener('click', function () {
+                selectVoto(this.dataset.tipoVoto);
+            });
+        });
+
+        // Validación del formulario
+        document.getElementById('votingForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            if (!selectedOption) {
+                Swal.fire({
+                    title: 'Selección requerida',
+                    text: 'Por favor, selecciona una opción de voto antes de continuar.',
+                    icon: 'warning',
+                    confirmButtonText: 'Entendido',
+                    confirmButtonColor: '#3b82f6'
+                });
+                return false;
+            }
+
+            Swal.fire({
+                title: '¿Estás seguro?',
+                html: `Vas a emitir tu voto por <strong>${selectedOption}</strong>.<br>¿Deseas continuar?`,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3b82f6',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Sí, confirmar voto',
+                cancelButtonText: 'Cancelar',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const btn = document.getElementById('btnVotar');
+                    btn.disabled = true;
+                    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Procesando...';
+
+                    setTimeout(() => {
+                        document.getElementById('votingForm').submit();
+                    }, 500);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

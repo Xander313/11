@@ -1,0 +1,36 @@
+[
+{
+  "model": "noticias.noticia",
+  "pk": 7,
+  "fields": {
+    "titulo": "CAMPEONATO ESCUELA RIOBAMBA",
+    "contenido": "ESTE CAMPEONATO LA INAUGURACION SE REALIZARA EL DIA VIERNES 4 DE JULIO A LAS 9 AM",
+    "resumen": "NOTA IMPORTANTE MADRINA Y SU MASCOTA",
+    "imagen": "noticias/campeonato.jpg",
+    "destacada": false,
+    "estado": "publicado",
+    "fecha_publicacion": "2025-07-11T04:25:27.745Z",
+    "fecha_creacion": "2025-07-05T01:47:46.154Z",
+    "fecha_actualizacion": "2025-07-11T04:25:27.745Z",
+    "categoria": 2,
+    "visitas": 0
+  }
+},
+{
+  "model": "noticias.noticia",
+  "pk": 12,
+  "fields": {
+    "titulo": "RESULTADO DE LAS VOTACIONES",
+    "contenido": "ESTE ES EL RESULTADO FINA DE LAS ELECIONES ESTUDINATES ESCUELA RIOBAMBA COMO GANADOR TAL LISTA CON TANTOS RESULTADOS",
+    "resumen": "FELICIDADES A LA LISTA GANADORA",
+    "imagen": "noticias/EXPO.jpg",
+    "destacada": false,
+    "estado": "borrador",
+    "fecha_publicacion": "2025-10-09T22:33:43.068Z",
+    "fecha_creacion": "2025-07-25T20:17:24.014Z",
+    "fecha_actualizacion": "2025-10-14T14:55:27.541Z",
+    "categoria": 3,
+    "visitas": 0
+  }
+}
+]

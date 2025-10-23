@@ -1,0 +1,289 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<!-- Ruta del archivo CSS: {{ STATIC_URL }}css/docentes-nuevo.css -->
+<link rel="stylesheet" href="{% static 'css/docentes-nuevo.css' %}">
+{% endblock %}
+
+{% block content %}
+<br><br><br>
+<div class="docentes-page">
+    <div class="docentes-container">
+        <!-- Encabezado -->
+        <header class="docentes-header">
+            <h1>Nuestro Cuerpo Docente</h1>
+            <p>Conoce a nuestro equipo de docentes altamente calificados y comprometidos con la excelencia educativa.</p>
+        </header>
+
+        <!-- Filtros -->
+        <div class="docentes-filters">
+            <button class="filter-btn active" data-filter="todos">Todos</button>
+            <button class="filter-btn" data-filter="matematicas">Matemáticas</button>
+            <button class="filter-btn" data-filter="lenguaje">Lenguaje</button>
+            <button class="filter-btn" data-filter="ciencias">Ciencias</button>
+            <button class="filter-btn" data-filter="sociales">Sociales</button>
+            <button class="filter-btn" data-filter="idiomas">Idiomas</button>
+        </div>
+
+        <!-- Grid de docentes -->
+        <div class="docentes-grid">
+            <!-- Docente 1 -->
+            <div class="docente-card" data-category="matematicas" data-bs-toggle="modal" data-bs-target="#docenteModal1">
+                <div class="docente-avatar">JL</div>
+                <div class="docente-info">
+                    <h3 class="docente-name">Juan López</h3>
+                    <p class="docente-title">Profesor de Matemáticas</p>
+                    <span class="docente-area">Matemáticas</span>
+                </div>
+            </div>
+
+            <!-- Docente 2 -->
+            <div class="docente-card" data-category="lenguaje" data-bs-toggle="modal" data-bs-target="#docenteModal2">
+                <div class="docente-avatar">ML</div>
+                <div class="docente-info">
+                    <h3 class="docente-name">María López</h3>
+                    <p class="docente-title">Profesora de Lengua</p>
+                    <span class="docente-area">Lenguaje</span>
+                </div>
+            </div>
+
+            <!-- Docente 3 -->
+            <div class="docente-card" data-category="ciencias">
+                <div class="docente-avatar">CP</div>
+                <div class="docente-info">
+                    <h3 class="docente-name">Carlos Pérez</h3>
+                    <p class="docente-title">Profesor de Física</p>
+                    <span class="docente-area">Ciencias</span>
+                </div>
+            </div>
+
+            <!-- Docente 4 -->
+            <div class="docente-card" data-category="matematicas">
+                <div class="docente-avatar">AM</div>
+                <div class="docente-info">
+                    <h3 class="docente-name">Ana Martínez</h3>
+                    <p class="docente-title">Profesora de Álgebra</p>
+                    <span class="docente-area">Matemáticas</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Script para el filtrado -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const docenteCards = document.querySelectorAll('.docente-card');
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Remover clase active de todos los botones
+            filterBtns.forEach(b => b.classList.remove('active'));
+            // Agregar clase active al botón clickeado
+            btn.classList.add('active');
+            
+            const filter = btn.getAttribute('data-filter');
+            
+            // Filtrar tarjetas
+            docenteCards.forEach(card => {
+                const category = card.getAttribute('data-category');
+                if (filter === 'todos' || category === filter) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+});
+</script>
+
+<!-- Modal para Docente 1 -->
+<div class="modal fade" id="docenteModal1" tabindex="-1" aria-labelledby="docenteModal1Label" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="docenteModal1Label">Perfil Docente</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4 text-center">
+                        <div class="docente-avatar-modal">JL</div>
+                        <h4 class="mt-3">Juan López</h4>
+                        <p class="text-muted">Profesor de Matemáticas</p>
+                       
+                    </div>
+                    <div class="col-md-8">
+                        <h5>Perfil Profesional</h5>
+                        <p>Profesor con más de 10 años de experiencia en la enseñanza de matemáticas a nivel secundario. Especializado en álgebra y cálculo.</p>
+                        <hr>
+                        <h5>Formación Académica</h5>
+                        <ul>
+                            <li>Licenciado en Matemáticas - Universidad Central</li>
+                            <li>Magíster en Educación - Universidad Andina</li>
+                        </ul>
+                        <h5>Experiencia Laboral</h5>
+                        <ul>
+                            <li>Profesor de Matemáticas - Colegio Nacional (2015-2023)</li>
+                            <li>Asesor Pedagógico - Ministerio de Educación (2012-2015)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para Docente 2 -->
+<div class="modal fade" id="docenteModal2" tabindex="-1" aria-labelledby="docenteModal2Label" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="docenteModal2Label">Perfil Docente</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4 text-center">
+                        <div class="docente-avatar-modal">ML</div>
+                        <h4 class="mt-3">María López</h4>
+                        <p class="text-muted">Profesora de Lengua</p>
+                        
+                    </div>
+                    <div class="col-md-8">
+                        <h5>Perfil Profesional</h5>
+                        <p>Profesora de Lengua y Literatura con amplia experiencia en la enseñanza de la gramática y la redacción. Especializada en literatura hispanoamericana.</p>
+                        <hr>
+                        <h5>Formación Académica</h5>
+                        <ul>
+                            <li>Licenciada en Lengua y Literatura - Universidad Católica</li>
+                            <li>Magíster en Educación - Universidad de Cuenca</li>
+                        </ul>
+                        <h5>Experiencia Laboral</h5>
+                        <ul>
+                            <li>Profesora de Lengua - Colegio San José (2016-2023)</li>
+                            <li>Correctora de Estilo - Editorial Santillana (2014-2016)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Hacer que las tarjetas sean clickeables
+document.addEventListener('DOMContentLoaded', function() {
+    // Agregar evento click a las tarjetas de docentes
+    document.querySelectorAll('.docente-card').forEach(card => {
+        card.style.cursor = 'pointer';
+        card.addEventListener('click', function() {
+            const modalId = this.getAttribute('data-bs-target');
+            if (modalId) {
+                const modal = new bootstrap.Modal(document.querySelector(modalId));
+                modal.show();
+            }
+        });
+    });
+    
+    // Agregar estilos para la sección de Misión y Visión
+    const style = document.createElement('style');
+    style.textContent = `
+        .mision-vision-section {
+            padding: 40px 0;
+        }
+        .mision-vision-section .card {
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        .mision-vision-section .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+        }
+        .icon-box {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #4a90e2, #5a9cec);
+            border-radius: 50%;
+            color: white;
+            box-shadow: 0 4px 10px rgba(74, 144, 226, 0.3);
+        }
+        .mision-vision-section h3 {
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        .section-title {
+            color: #2c3e50;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        .section-divider {
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(to right, #4a90e2, #5a9cec);
+            margin: 0 auto 25px;
+            border-radius: 3px;
+        }
+    `;
+    document.head.appendChild(style);
+});
+</script>
+
+<!-- Sección Misión y Visión -->
+<div class="mision-vision-section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Nuestra Institución</h2>
+            <div class="section-divider"></div>
+        </div>
+        <div class="row g-4">
+            <!-- Misión -->
+            <div class="col-md-6">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="icon-box mb-3">
+                            <i class="fas fa-bullseye fa-3x text-primary"></i>
+                        </div>
+                        <h3 class="h4 mb-3">Misión</h3>
+                        <p class="mb-0">Formar ciudadanos íntegros, críticos y comprometidos con el desarrollo de la sociedad, a través de una educación de calidad que fomente valores, conocimientos y habilidades para la vida.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Visión -->
+            <div class="col-md-6">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="icon-box mb-3">
+                            <i class="fas fa-eye fa-3x text-primary"></i>
+                        </div>
+                        <h3 class="h4 mb-3">Visión</h3>
+                        <p class="mb-0">Ser reconocidos como una institución educativa líder en formación integral, innovación pedagógica y compromiso social, formando a las futuras generaciones de líderes del país.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

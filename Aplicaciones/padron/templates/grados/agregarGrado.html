@@ -1,0 +1,371 @@
+{% extends 'plantilla.html' %}
+
+{% block contenido %}
+<br>
+<div class="card mb-3">
+  <div class="card-body bg-light text-center">
+    <h5 class="card-title mb-3"><strong>Gestión Académica</strong></h5>
+    <p class="card-text mb-4">
+      Administra los grados, paralelos y el padrón electoral del sistema.
+    </p>
+  </div>
+  <nav class="navbar navbar-light bg-light border rounded shadow-sm">
+    <div class="container-fluid justify-content-around">
+      <a href="{% url 'listar_grados' %}" class="text-decoration-none text-center position-relative">
+        <div class="position-relative">
+          <i class="la la-graduation-cap text-primary fs-2 d-block"></i>
+          <span class="position-absolute" style="top: -15px; right: 70%; z-index: 1000;">
+            <i class="fas fa-hand-point-left" style="font-size: 2rem; transform: scaleX(1) rotate(-30deg); color: #1cbed3e6;"></i>
+          </span>
+        </div>
+        <div>
+          <strong class="d-block">Grados</strong>
+          <small class="text-muted">Crear, editar, eliminar</small>
+        </div>
+      </a>
+      <a href="{% url 'listar_paralelos' %}" class="text-decoration-none text-center">
+        <i class="la la-sitemap text-muted fs-2 d-block"></i>
+        <div>
+          <strong class="d-block">Paralelos</strong>
+          <small class="text-muted">Gestionar paralelos</small>
+        </div>
+      </a>
+      <a href="{% url 'gestion_padron' %}" class="text-decoration-none text-center">
+        <i class="la la-users text-muted fs-2 d-block"></i>
+        <div>
+          <strong class="d-block">Padrón</strong>
+          <small class="text-muted">Estudiantes</small>
+        </div>
+      </a>
+    </div>
+  </nav>
+</div>
+
+
+
+<section id="listar-grados" class="row match-height">
+  <div class="col-sm-12">
+    <div class="card">
+      <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+        <h4 class="card-title mb-2 mb-md-0">Lista de Grados</h4>
+        <div class="d-flex flex-column flex-md-row align-items-stretch justify-content-md-end">
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAgregarGrado">
+            <i class="la la-plus"></i> Nuevo 
+          </button>
+        </div>
+      </div>
+
+      <div class="card-content">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered" id="tablaGrados">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Nombre</th>
+                  <th>Período</th>
+                  <th>Paralelos</th>
+                  <th>Estudiantes</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for grado in grados %}
+                  <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ grado.nombre }}</td>
+                    <td>{{ grado.periodo.nombre|default:"-" }}</td>
+                    <td>
+                      {% if grado.paralelos.count > 0 %}
+                        <div class="dropdown">
+                          <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                            {{ grado.paralelos.count }} paralelo(s)
+                          </button>
+                          <div class="dropdown-menu">
+                            {% for paralelo in grado.paralelos.all %}
+                              <a class="dropdown-item" href="#">
+                                {{ paralelo.nombre }} ({{ paralelo.padronelectoral_set.count }} estudiantes)
+                              </a>
+                            {% endfor %}
+                          </div>
+                        </div>
+                      {% else %}
+                        <span class="badge badge-warning">Sin paralelos</span>
+                      {% endif %}
+                    </td>
+                    <td>
+                      <span class="badge badge-info">{{ grado.padronelectoral_set.count }}</span>
+                    </td>
+                    <td class="text-center" style="white-space: nowrap;">
+                      <!-- Editar -->
+                      <button class="btn btn-sm btn-outline-primary btn-editar mx-1" 
+                              data-toggle="modal" 
+                              data-target="#editarGradoModal{{ grado.id }}"
+                              title="Editar"
+                              data-toggle-tooltip="tooltip"
+                              data-placement="top">
+                        <i class="la la-edit"></i>
+                      </button>
+                      <!-- Eliminar -->
+                      <button type="button" class="btn btn-sm btn-outline-danger mx-1" 
+                              data-toggle="modal"
+                              data-target="#eliminarGradoModal{{ grado.id }}"
+                              title="Eliminar"
+                              data-toggle-tooltip="tooltip"
+                              data-placement="top"
+                              {% if grado.padronelectoral_set.count > 0 %}disabled{% endif %}>
+                        <i class="la la-trash"></i>
+                      </button>
+                    </td>
+
+                      <!-- Modal Eliminar -->
+                      <div class="modal fade" id="eliminarGradoModal{{ grado.id }}" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title">Confirmar Eliminación</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              ¿Estás seguro de eliminar el grado <strong>{{ grado.nombre }}</strong>?
+                              {% if grado.paralelos.count > 0 %}
+                                <div class="alert alert-warning mt-2">
+                                  <i class="la la-exclamation-triangle"></i> Se eliminarán también {{ grado.paralelos.count }} paralelos asociados.
+                                </div>
+                              {% endif %}
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                              <a href="{% url 'eliminar_grado' grado.id %}" class="btn btn-danger">Eliminar</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Modal Editar -->
+                      <div class="modal fade" id="editarGradoModal{{ grado.id }}" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                          <div class="modal-content p-4">
+                            <div class="modal-header border-0">
+                              <h5 class="modal-title w-100 text-center font-weight-bold">EDITAR GRADO</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              <form method="POST" action="{% url 'editar_grado' grado.id %}">
+                                {% csrf_token %}
+                                <div class="form-row">
+                                  <div class="form-group col-md-8">
+                                    <label for="nombre">NOMBRE DEL GRADO</label>
+                                    <input type="text" class="form-control rounded-pill" name="nombre" value="{{ grado.nombre }}" required>
+                                  </div>
+                                  <div class="form-group col-md-4">
+                                    <label for="periodo">PERÍODO</label>
+                                    <input type="text" class="form-control rounded-pill" name="periodo" value="{{ periodo_actual.nombre }}" readonly>
+                                    <input type="hidden" name="periodo_id" value="{{ periodo_actual.id }}">
+                                  </div>
+                                </div>
+
+                                <div class="form-group text-center mt-4">
+                                  <button type="submit" class="btn btn-primary rounded-pill px-4 mr-2">
+                                    <i class="la la-save"></i> GUARDAR
+                                  </button>
+                                  <button type="button" class="btn btn-secondary rounded-pill px-4" data-dismiss="modal">
+                                    <i class="la la-times"></i> CANCELAR
+                                  </button>
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                {% empty %}
+                  <tr>
+                    <td colspan="6" class="text-center py-4">
+                      <i class="la la-folder-open" style="font-size: 2rem;"></i>
+                      <p class="mt-2">No hay grados registrados</p>
+                      <button class="btn btn-primary mt-2" data-toggle="modal" data-target="#modalAgregarGrado">
+                        <i class="la la-plus"></i> Crear primer grado
+                      </button>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Modal Agregar Grado -->
+<div class="modal fade" id="modalAgregarGrado" tabindex="-1" role="dialog" aria-labelledby="modalAgregarGradoLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content p-4">
+      <div class="modal-header border-0">
+        <h5 class="modal-title w-100 text-center font-weight-bold" id="modalAgregarGradoLabel">AGREGAR NUEVO GRADO</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" action="{% url 'agregar_grado' %}">
+          {% csrf_token %}
+          <div class="form-row">
+            <div class="form-group col-md-8">
+              <label for="nombre">NOMBRE DEL GRADO*</label>
+              <input type="text" class="form-control rounded-pill" name="nombre" required placeholder="Ej: 1ro Básica, 10mo, etc.">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="periodo">PERÍODO</label>
+              <input type="text" class="form-control rounded-pill" name="periodo" value="{{ periodo_actual.nombre }}" readonly>
+              <input type="hidden" name="periodo_id" value="{{ periodo_actual.id }}">
+            </div>
+          </div>
+
+          <div class="alert alert-info mt-3">
+            <i class="la la-info-circle"></i> Los paralelos se agregarán posteriormente en la edición del grado.
+          </div>
+
+          <div class="form-group text-center mt-4">
+            <button type="submit" class="btn btn-primary rounded-pill px-4 mr-2">
+              <i class="la la-save"></i> GUARDAR
+            </button>
+            <button type="button" class="btn btn-secondary rounded-pill px-4" data-dismiss="modal">
+              <i class="la la-times"></i> CANCELAR
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  // Búsqueda en tiempo real
+  document.getElementById('buscarGrado').addEventListener('input', function() {
+    const searchTerm = this.value.toLowerCase();
+    const rows = document.querySelectorAll('#tablaGrados tbody tr');
+    
+    });
+</script>
+
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+<script>
+// Función para mostrar mensajes con iziToast
+function showMessage(type, message) {
+    iziToast[type]({
+        title: '',
+        message: message,
+        position: 'topRight',
+        timeout: 5000,
+        closeOnClick: true,
+        pauseOnHover: true
+    });
+}
+
+// Verificar si hay mensajes de Django para mostrar
+document.addEventListener('DOMContentLoaded', function() {
+    try {
+        var messagesJson = '{{ messages_json|default:"[]"|escapejs }}';
+        console.log('Mensajes recibidos:', messagesJson);
+        
+        var messages = messagesJson ? JSON.parse(messagesJson) : [];
+        
+        messages.forEach(function(msg) {
+            var toastType = msg.tags || 'info';
+            
+            // Mapear tags de Django a tipos de iziToast
+            var toastMapping = {
+                'success': 'success',
+                'error': 'error',
+                'warning': 'warning',
+                'info': 'info'
+            };
+            
+            var finalType = toastMapping[toastType] || 'info';
+            
+            showMessage(finalType, msg.message);
+        });
+    } catch (error) {
+        console.error('Error al procesar mensajes:', error);
+    }
+
+    // Inicializar DataTables
+    function initDataTables() {
+        var $table = $('#tablaGrados');
+        
+        // Verificar si la tabla existe
+        if ($table.length === 0) {
+            console.error('No se encontró la tabla con ID tablaGrados');
+            return;
+        }
+        
+        // Verificar si ya está inicializada
+        if ($.fn.DataTable.isDataTable($table)) {
+            return; // Ya está inicializada, no hacer nada
+        }
+
+        // Inicializar DataTable con configuración
+        try {
+            $table.DataTable({
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                },
+                responsive: true,
+                pageLength: 10,
+                lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, 'Todos']],
+                columnDefs: [
+                    { orderable: false, targets: [3, 4, 5] },
+                    { searchable: false, targets: [3, 4, 5] }
+                ],
+                order: [[1, 'asc']],
+                scrollX: true,
+                initComplete: function() {
+                    console.log('DataTable inicializada correctamente');
+                }
+            });
+        } catch (error) {
+            console.error('Error al inicializar DataTable:', error);
+        }
+    }
+    
+    // Inicializar DataTables cuando el DOM esté listo
+    $(document).ready(function() {
+        // Inicializar tooltips
+        $('[data-toggle-tooltip="tooltip"]').tooltip({
+            trigger: 'hover',
+            placement: 'top'
+        });
+
+        if (typeof $.fn.DataTable === 'function') {
+            initDataTables();
+        } else {
+            console.error('DataTables no está cargado correctamente');
+        }
+    });
+
+    // Búsqueda en tiempo real
+    var buscarGrado = document.getElementById('buscarGrado');
+    if (buscarGrado) {
+        buscarGrado.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const rows = document.querySelectorAll('#tablaGrados tbody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        });
+    }
+});
+</script>
+{% endblock %}

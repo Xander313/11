@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- ***** Misión y Visión Start ***** -->
+<section class="section mision-vision" data-section="section-mision">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center mb-5">
+                <div class="section-heading">
+                    <h2 class="gradient-text">Nuestra Identidad</h2>
+                    <div class="line-dec"></div>
+                    <p class="subtitle">Conoce los pilares que fundamentan nuestro compromiso educativo</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <div class="flip-card" tabindex="0" onclick="flipCard(this)">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front mision-card">
+                            <div class="card-icon">
+                                <i class="fa fa-rocket"></i>
+                            </div>
+                            <h3>Misión</h3>
+                            <div class="hover-instruction">Haz clic para ver</div>
+                        </div>
+                        <div class="flip-card-back">
+                            <h3>Nuestra Misión</h3>
+                            <p>La Unidad Educativa del Milenio 11 de Noviembre ofrece a la comunidad una educación integral e inclusiva a niños, niñas y jóvenes; tomando en cuenta la plurinacionalidad, interculturalidad y equidad de género mediante el trabajo cooperativo, holístico y participativo utilizando los recursos del entorno y las Tics, generando proyectos innovadores para la transformación social, fundamentada en una educación de calidad y calidez.</p>
+
+                            <div class="mission-values">
+                                <span class="value-tag">Excelencia</span>
+                                <span class="value-tag">Innovación</span>
+                                <span class="value-tag">Integridad</span>
+                            </div>
+                            <button class="back-button" onclick="flipBack(this, event)">
+                                <i class="fa fa-arrow-left"></i> Volver
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="flip-card" tabindex="0" onclick="flipCard(this)">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front vision-card">
+                            <div class="card-icon">
+                                <i class="fa fa-eye"></i>
+                            </div>
+                            <h3>Visión</h3>
+                            <div class="hover-instruction">Haz clic para ver</div>
+                        </div>
+                        <div class="flip-card-back">
+                            <h3>Nuestra Visión</h3>
+                            <p>La Escuela de Educación Básica Fiscal “Riobamba” en 5 años brindará una educación de calidad, calidez y crítica; centrada en el sujeto de la educación, tomando en cuenta la plurinacionalidad, interculturalidad, equidad de género e inclusión; basada en propuestas pedagógicas innovadoras y políticas institucionales, que promuevan el desarrollo integral con la participación de la comunidad educativa; fortaleciendo nuestra identidad.</p>
+                            <div class="vision-timeline">
+                                <div class="timeline-item">
+                                    <span class="year">2025</span>
+                                    <span class="achievement">Excelencia Digital</span>
+                                </div>
+                                <div class="timeline-item">
+                                    <span class="year">2030</span>
+                                    <span class="achievement">Referente Nacional</span>
+                                </div>
+                            </div>
+                            <button class="back-button" onclick="flipBack(this, event)">
+                                <i class="fa fa-arrow-left"></i> Volver
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-md-12">
+                <div class="values-banner">
+                    <div class="values-content">
+                        <h3>Nuestros Valores</h3>
+                        <div class="values-container">
+                            <div class="value-item">
+                                <div class="value-icon"><i class="fa fa-heart"></i></div>
+                                <div class="value-name">Respeto</div>
+                            </div>
+                            <div class="value-item">
+                                <div class="value-icon"><i class="fa fa-users"></i></div>
+                                <div class="value-name">Solidaridad</div>
+                            </div>
+                            <div class="value-item">
+                                <div class="value-icon"><i class="fa fa-gavel"></i></div>
+                                <div class="value-name">Justicia</div>
+                            </div>
+                            <div class="value-item">
+                                <div class="value-icon"><i class="fa fa-lightbulb-o"></i></div>
+                                <div class="value-name">Innovación</div>
+                            </div>
+                            <div class="value-item">
+                                <div class="value-icon"><i class="fa fa-check-circle"></i></div>
+                                <div class="value-name">Compromiso</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ***** Misión y Visión End ***** -->
+
+<!-- Scripts específicos para la página de Misión y Visión -->
+<script>
+    // Función para voltear las tarjetas
+    function flipCard(card) {
+        card.classList.toggle('flipped');
+    }
+    
+    // Función para volver al frente de la tarjeta
+    function flipBack(button, event) {
+        event.stopPropagation();
+        const card = button.closest('.flip-card');
+        card.classList.remove('flipped');
+    }
+
+    // Inicialización de tooltips
+    document.addEventListener('DOMContentLoaded', function() {
+        // Inicializar tooltips de Bootstrap si es necesario
+        if (typeof $ !== 'undefined' && $.fn.tooltip) {
+            $('[data-toggle="tooltip"]').tooltip();
+        }
+    });
+</script>
+{% endblock %}

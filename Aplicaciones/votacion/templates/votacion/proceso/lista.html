@@ -1,0 +1,117 @@
+{% extends "plantilla.html" %}
+{% load static %}
+{% block titulo %}{{ titulo }}{% endblock %}
+{% block contenido %}
+<div class="container mt-3">
+    <div class="card">
+        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">Procesos Electorales</h4>
+            <a href="{% url 'votacion:iniciar_proceso' %}" class="btn btn-primary rounded-pill">
+                <i class="la la-plus"></i> Nuevo Proceso
+            </a>
+        </div>
+        <div class="card-body">
+            {% if procesos %}
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Período</th>
+                            <th>Inicio</th>
+                            <th>Fin</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for proceso in procesos %}
+                        <tr>
+                            <td>{{ proceso.nombre }}</td>
+                            <td>{{ proceso.periodo.nombre }}</td>
+                            <td>{{ proceso.fecha|date:'d/m/Y' }} {{ proceso.hora_inicio|time:'H:i' }}</td>
+                            <td>{{ proceso.fecha|date:'d/m/Y' }} {{ proceso.hora_fin|time:'H:i' }}</td>
+                            <td>
+                                <span class="badge {% if proceso.estado == 'activo' %}badge-success{% elif proceso.estado == 'pendiente' %}badge-warning{% else %}badge-secondary{% endif %}">
+                                    {{ proceso.get_estado_display }}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="d-flex justify-content-center">
+                                    <!-- Botón Editar -->
+                                    <a href="{% url 'votacion:editar_proceso' proceso.id %}" 
+                                       class="btn btn-sm btn-outline-primary mx-1"
+                                       title="Editar"
+                                       data-toggle-tooltip="tooltip"
+                                       data-placement="top">
+                                        <i class="la la-edit"></i>
+                                    </a>
+                                    <!-- Botón Eliminar con Modal -->
+                                    <button type="button" 
+                                            class="btn btn-sm btn-outline-danger mx-1"
+                                            data-toggle="modal" 
+                                            data-target="#eliminarProcesoModal{{ proceso.id }}"
+                                            title="Eliminar"
+                                            data-toggle-tooltip="tooltip"
+                                            data-placement="top">
+                                        <i class="la la-trash"></i>
+                                    </button>
+
+                                    <!-- Modal de Confirmación de Eliminación -->
+                                    <div class="modal fade" id="eliminarProcesoModal{{ proceso.id }}" tabindex="-1" role="dialog" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">
+                                                        <i class="la la-exclamation-triangle text-danger"></i>
+                                                        Confirmar Eliminación
+                                                    </h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body text-center">
+                                                    <i class="la la-exclamation-triangle text-warning" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                                                    <h5 class="mb-3">¿Eliminar proceso <span class="text-primary">{{ proceso.nombre }}</span>?</h5>
+                                                    <p class="text-muted">Este proceso electoral será eliminado permanentemente del sistema.</p>
+                                                    <p class="text-danger font-weight-bold"><i class="la la-exclamation-triangle"></i> Esta acción no se puede deshacer.</p>
+                                                </div>
+                                                <div class="form-group text-center mt-2 mb-4">
+                                                    <form method="POST" action="{% url 'votacion:eliminar_proceso' proceso.id %}" style="display: inline-block;">
+                                                        {% csrf_token %}
+                                                        <button type="submit" class="btn btn-danger rounded-pill px-4 mr-2">
+                                                            <i class="la la-trash"></i> ELIMINAR
+                                                        </button>
+                                                    </form>
+                                                    <button type="button" class="btn btn-secondary rounded-pill px-4" data-dismiss="modal">
+                                                        <i class="la la-times"></i> CANCELAR
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="text-center py-4">
+                <p class="text-muted">No hay procesos electorales registrados</p>
+                <a href="{% url 'votacion:iniciar_proceso' %}" class="btn btn-primary rounded-pill">
+                    <i class="la la-plus"></i> Crear Proceso Electoral
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+
+
+
+

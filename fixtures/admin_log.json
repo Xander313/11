@@ -1,0 +1,15 @@
+[
+{
+  "model": "admin.logentry",
+  "pk": 40,
+  "fields": {
+    "action_time": "2025-10-14T15:45:20.773Z",
+    "user": 62,
+    "content_type": 8,
+    "object_id": "0",
+    "object_repr": "Todos los registros del padrón electoral",
+    "action_flag": 2,
+    "change_message": "Se eliminaron 19 estudiantes del padrón electoral.\nSe eliminaron 2 paralelos y 2 grados.\nSe eliminaron todos los candidatos pero se conservaron las listas."
+  }
+}
+]

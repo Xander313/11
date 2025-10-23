@@ -1,0 +1,60 @@
+<!-- Barra de navegación para el módulo de noticias -->
+<div class="card mb-3">
+    <div class="card-body bg-light text-center">
+        <h5 class="card-title mb-3"><strong>Gestión de Noticias</strong></h5>
+        <p class="card-text mb-4">
+            Administración de noticias y artículos del sistema.
+        </p>
+    </div>
+    <nav class="navbar navbar-light bg-light border rounded shadow-sm">
+        <div class="container-fluid justify-content-around">
+            <!-- Categorías -->
+            <a href="{% url 'noticias:listar_categorias' %}" class="text-decoration-none text-center position-relative {% if request.resolver_match.url_name == 'listar_categorias' or request.resolver_match.url_name == 'agregar_categoria' or request.resolver_match.url_name == 'editar_categoria' %}{% else %}text-muted{% endif %}">
+                <div>
+                    <i class="la la-tags {% if request.resolver_match.url_name == 'listar_categorias' or request.resolver_match.url_name == 'agregar_categoria' or request.resolver_match.url_name == 'editar_categoria' %}text-primary{% endif %} fs-2 d-block"></i>
+                    {% if request.resolver_match.url_name == 'listar_categorias' or request.resolver_match.url_name == 'agregar_categoria' or request.resolver_match.url_name == 'editar_categoria' %}
+                    <span class="position-absolute" style="top: -15px; right: 70%; z-index: 1000;">
+                        <i class="fas fa-hand-point-left" style="font-size: 2rem; transform: scaleX(1) rotate(-30deg); color: #1cbed3e6;"></i>
+                    </span>
+                    {% endif %}
+                    <div>
+                        <strong class="d-block">Categorías</strong>
+                        <small class="text-muted">Gestionar categorías</small>
+                    </div>
+                </div>
+            </a>
+            
+            <!-- Noticias -->
+            <a href="{% url 'noticias:listar_noticias' %}" class="text-decoration-none text-center position-relative {% if request.resolver_match.url_name == 'listar_noticias' or request.resolver_match.url_name == 'ver_noticia' or request.resolver_match.url_name == 'editar_noticia' %}{% else %}text-muted{% endif %}">
+                <div>
+                    <i class="la la-newspaper {% if request.resolver_match.url_name == 'listar_noticias' or request.resolver_match.url_name == 'ver_noticia' or request.resolver_match.url_name == 'editar_noticia' %}text-primary{% endif %} fs-2 d-block"></i>
+                    {% if request.resolver_match.url_name == 'listar_noticias' or request.resolver_match.url_name == 'ver_noticia' or request.resolver_match.url_name == 'editar_noticia' %}
+                    <span class="position-absolute" style="top: -15px; right: 70%; z-index: 1000;">
+                        <i class="fas fa-hand-point-left" style="font-size: 2rem; transform: scaleX(1) rotate(-30deg); color: #1cbed3e6;"></i>
+                    </span>
+                    {% endif %}
+                    <div>
+                        <strong class="d-block">Noticias</strong>
+                        <small class="text-muted">Listar noticias</small>
+                    </div>
+                </div>
+            </a>
+            
+            <!-- Agregar -->
+            <a href="{% url 'noticias:agregar_noticia' %}" class="text-decoration-none text-center position-relative {% if request.resolver_match.url_name == 'agregar_noticia' %}{% else %}text-muted{% endif %}">
+                <div>
+                    <i class="la la-plus-circle {% if request.resolver_match.url_name == 'agregar_noticia' %}text-primary{% endif %} fs-2 d-block"></i>
+                    {% if request.resolver_match.url_name == 'agregar_noticia' %}
+                    <span class="position-absolute" style="top: -15px; right: 70%; z-index: 1000;">
+                        <i class="fas fa-hand-point-left" style="font-size: 2rem; transform: scaleX(1) rotate(-30deg); color: #1cbed3e6;"></i>
+                    </span>
+                    {% endif %}
+                    <div>
+                        <strong class="d-block">Agregar</strong>
+                        <small class="text-muted">Nueva noticia</small>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </nav>
+</div>

@@ -1,0 +1,121 @@
+/* Estilos simples para el contenido oculto */
+.content-hide {
+  display: none;
+}
+
+/* Asegurarse de que el título siempre sea visible */
+.content-show {
+  display: block !important;
+}
+
+/* Estilos responsivos para características */
+@media (max-width: 768px) {
+  .features-post {
+    margin-bottom: 30px;
+  }
+  
+  .features-content {
+    padding: 20px;
+  }
+  
+  .features-content h4 {
+    font-size: 1.2rem;
+  }
+}
+
+/* Estilos para autoridades en móvil */
+@media (max-width: 992px) {
+  .authority-container {
+    margin-bottom: 30px;
+  }
+  
+  .authority-image-container {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .authority-name {
+    font-size: 1.2rem;
+  }
+  
+  .authority-title {
+    font-size: 1rem;
+  }
+}
+
+/* Estilos para el cuadro de honor en móvil */
+@media (max-width: 768px) {
+  .honor-timeline-container {
+    padding: 20px;
+  }
+  
+  .honor-timeline-item {
+    margin-bottom: 20px;
+  }
+  
+  .honor-position {
+    font-size: 1.5rem;
+  }
+  
+  .honor-student-info {
+    padding: 15px;
+  }
+}
+
+/* Estilos para el menú móvil */
+@media (max-width: 768px) {
+  .main-menu {
+    display: none;
+    position: fixed;
+    top: 70px;
+    right: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 1000;
+    padding: 10px 0;
+    min-width: 200px;
+  }
+  
+  .main-menu.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+  }
+  
+  .main-menu li {
+    width: 100%;
+    text-align: left;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .main-menu a {
+    display: block;
+    padding: 12px 20px;
+    color: #333 !important;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  
+  .main-menu a:hover,
+  .main-menu a:focus {
+    background: #f8f9fa;
+    color: #3498db !important;
+  }
+  
+  .menu-link {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .menu-link i {
+    font-size: 1.5rem;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

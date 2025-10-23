@@ -1,0 +1,68 @@
+{% extends "plantilla.html" %}
+{% load static %}
+{% block contenido %}
+<div class="container mt-3">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Resultados - {{ proceso.nombre }}</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-8">
+                    <h5>Votos por Lista</h5>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Lista</th>
+                                    <th>Votos</th>
+                                    <th>Porcentaje</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for resultado in resultados_por_lista %}
+                                <tr>
+                                    <td>{{ resultado.lista.nombre_lista }}</td>
+                                    <td>{{ resultado.votos }}</td>
+                                    <td>{{ resultado.porcentaje|floatformat:2 }}%</td>
+                                </tr>
+                                {% endfor %}
+                                <tr>
+                                    <td>Votos en Blanco</td>
+                                    <td>{{ votos_blancos }}</td>
+                                    <td>{{ porcentaje_blancos|floatformat:2 }}%</td>
+                                </tr>
+                                <tr>
+                                    <td>Votos Nulos</td>
+                                    <td>{{ votos_nulos }}</td>
+                                    <td>{{ porcentaje_nulos|floatformat:2 }}%</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr class="table-primary">
+                                    <th>Total</th>
+                                    <th>{{ total_votos }}</th>
+                                    <th>100%</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5>Resumen</h5>
+                            <ul class="list-unstyled">
+                                <li><strong>Total Votantes:</strong> {{ total_votantes }}</li>
+                                <li><strong>Han Votado:</strong> {{ total_votos }}</li>
+                                <li><strong>Faltan por Votar:</strong> {{ faltan_votar }}</li>
+                                <li><strong>Participación:</strong> {{ porcentaje_participacion|floatformat:2 }}%</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,432 @@
+{% extends 'plantilla.html' %}
+
+{% block contenido %}
+{% load static %}
+
+<style>
+  /* Estilos para los botones de acción */
+  .btn-action {
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    margin: 0 2px;
+    font-size: 0.75rem;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .btn-action i {
+    transition: transform 0.3s ease;
+  }
+  
+  .btn-action:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  }
+  
+  .btn-action:hover i {
+    transform: scale(1.2);
+  }
+  
+  .btn-action:active {
+    transform: translateY(0);
+  }
+  
+  .btn-edit {
+    background-color: #6b0cd7; /* Color morado */
+  }
+  
+  .btn-edit:hover {
+    background-color: #5a0bb8; /* Morado oscuro */
+  }
+  
+  .btn-add {
+    background-color: #28a745; /* Verde */
+  }
+  
+  .btn-add:hover {
+    background-color: #218838; /* Verde oscuro */
+  }
+  
+  .btn-delete {
+    background-color: #dc3545; /* Rojo */
+  }
+  
+  .btn-delete:hover {
+    background-color: #c82333; /* Rojo oscuro */
+  }
+  
+  .btn-delete:disabled,
+  .btn-edit:disabled,
+  .btn-add:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  /* Efecto de ondas al hacer clic */
+  .btn-action:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(161, 20, 20, 0.5);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1, 1) translate(-50%, -50%);
+    transform-origin: 50% 50%;
+  }
+  
+  .btn-action:focus:not(:active)::after {
+    animation: ripple 0.6s ease-out;
+  }
+  
+  @keyframes ripple {
+    0% {
+      transform: scale(0, 0);
+      opacity: 0.5;
+    }
+    100% {
+      transform: scale(20, 20);
+      opacity: 0;
+    }
+  }
+  
+  /* Mejora en las tarjetas de lista */
+  .card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  }
+</style>
+<br>
+<div class="card mb-3">
+  <div class="card-body bg-light text-center">
+    <h5 class="card-title mb-3"><strong>Gestión Electoral</strong></h5>
+    <p class="card-text mb-4">
+      Administración de listas y cargos para elecciones estudiantiles.
+    </p>
+  </div>
+  <nav class="navbar navbar-light bg-light border rounded shadow-sm">
+    <div class="container-fluid justify-content-around">
+      <a href="{% url 'listar_listas' %}" class="text-decoration-none text-center position-relative">
+        <div>
+          <i class="la la-list-ol text-primary fs-2 d-block"></i>
+          <span class="position-absolute" style="top: -15px; right: 70%; z-index: 1000;">
+            <i class="fas fa-hand-point-left" style="font-size: 2rem; transform: scaleX(1) rotate(-30deg); color: #1cbed3e6;"></i>
+          </span>
+          <div>
+            <strong class="d-block">Listas</strong>
+            <small class="text-muted">Gestionar listas</small>
+          </div>
+        </div>
+      </a>
+      <a href="{% url 'listar_cargos' %}" class="text-decoration-none text-center">
+        <i class="la la-briefcase text-muted fs-2 d-block"></i>
+        <div>
+          <strong class="d-block">Cargos</strong>
+          <small class="text-muted">Gestionar cargos</small>
+        </div>
+      </a>
+      <a href="{% url 'listar_candidatos' %}" class="text-decoration-none text-center">
+        <i class="la la-users text-muted fs-2 d-block"></i>
+        <div>
+          <strong class="d-block">Candidatos</strong>
+          <small class="text-muted">Gestionar candidatos</small>
+        </div>
+      </a>
+    </div>
+  </nav>
+</div>
+  
+
+  <!-- Sección de Listas -->
+  <section id="listar-listas" class="row match-height">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+          <h4 class="card-title mb-2 mb-md-0">Listas Electorales</h4>
+          <div class="d-flex flex-column flex-md-row align-items-stretch justify-content-md-end">
+            <input type="text" class="form-control mb-2 mb-md-0 mr-md-2" placeholder="Buscar lista..." id="buscarLista">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAgregarLista">
+              <i class="la la-plus"></i> Nueva Lista
+            </button>
+          </div>
+        </div>
+
+        <div class="card-content">
+          <div class="card-body">
+            <div class="d-flex flex-wrap" id="listasTarjetas">
+              {% if listas %}
+                {% for lista in listas %}
+                  <div class="mr-3 mb-3" style="width: 300px;">
+                    <div class="card h-100 border-{{ lista.lista.color|default:'primary' }}">
+                      <div class="card-header border-bottom-{{ lista.lista.color|default:'primary' }}">
+                        <h5 class="card-title mb-2 text-center">{{ lista.lista.nombre_lista }}</h5>
+                        <div class="d-flex justify-content-center" style="gap: 8px;">
+                          <!-- Editar -->
+                          <button type="button" class="btn-action btn-edit" data-toggle="modal" data-target="#editarListaModal{{ lista.lista.id }}" title="Editar lista">
+                            <i class="la la-edit"></i>
+                          </button>
+                          <!-- Eliminar -->
+                          <button type="button" class="btn-action btn-delete btn-eliminar-lista" data-lista-id="{{ lista.lista.id }}" title="Eliminar lista">
+                            <i class="la la-trash"></i>
+                          </button>
+                          <!-- Agregar Candidato -->
+                          <a href="{% url 'agregar_candidato' %}?lista={{ lista.lista.id }}" class="btn-action btn-add" title="Agregar candidato">
+                            <i class="la la-user-plus"></i>
+                          </a>
+                        </div>
+                      </div>
+                      <div class="card-body text-center">
+                        {% if lista.lista.imagen %}
+                          <img src="{{ lista.lista.imagen.url }}" alt="Logo de {{ lista.lista.nombre_lista }}" class="img-fluid mb-3" style="max-height: 200px;">
+                        {% else %}
+                          <div class="bg-light p-3 mb-3">
+                            <i class="la la-image" style="font-size: 3rem; color: #6c757d;"></i>
+                            <p class="text-muted mt-2">Sin imagen</p>
+                          </div>
+                        {% endif %}
+                        <p class="card-text">
+                          <strong>Frase:</strong> {{ lista.lista.frase|default:"Sin frase" }}
+                        </p>
+                        <p class="card-text">
+                          <strong>Período:</strong> {{ lista.lista.periodo.nombre }}
+                        </p>
+                        <p class="card-text">
+                          <strong>Color:</strong> {{ lista.lista.color|default:"Sin color" }}
+                        </p>
+                        <div class="d-flex flex-wrap justify-content-center gap-2 mb-3">
+                          {% for candidato in lista.candidatos %}
+                            <div class="text-center" style="width: 60px;">
+                              {% if candidato.imagen %}
+                                <img src="{{ candidato.imagen.url }}" 
+                                     alt="{{ candidato.nombre_candidato }}" 
+                                     class="img-fluid rounded-circle mb-1" 
+                                     style="width: 40px; height: 40px; object-fit: cover;"
+                                     title="{{ candidato.cargo.nombre_cargo }}: {{ candidato.nombre_candidato }}">
+                              {% else %}
+                                <div class="rounded-circle bg-light d-flex align-items-center justify-content-center mb-1" 
+                                     style="width: 40px; height: 40px; margin: 0 auto;">
+                                  <i class="la la-user" style="font-size: 1.5rem; color: #6c757d;"></i>
+                                </div>
+                              {% endif %}
+                              <small class="d-block text-truncate" style="font-size: 0.7rem;" title="{{ candidato.cargo.nombre_cargo }}">
+                                {{ candidato.cargo.nombre_cargo }}
+                              </small>
+                            </div>
+                          {% endfor %}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+              {% else %}
+                <div class="col-12 text-center py-5">
+                  <i class="la la-folder-open" style="font-size: 3rem; color: #6c757d;"></i>
+                  <p class="mt-3 text-muted">No hay listas registradas</p>
+                  <button class="btn btn-primary mt-3" data-toggle="modal" data-target="#modalAgregarLista">
+                    <i class="la la-plus"></i> Crear primera lista
+                  </button>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {% if listas %}
+    {% for lista in listas %}
+      <!-- Modal Editar -->
+      <div class="modal fade" id="editarListaModal{{ lista.lista.id }}" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Editar Lista: {{ lista.lista.nombre_lista }}</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form action="{% url 'editar_lista' lista.lista.id %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label for="nombre_lista">NOMBRE DE LA LISTA*</label>
+                  <input type="text" class="form-control rounded-pill" name="nombre_lista" value="{{ lista.lista.nombre_lista }}" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="periodo">PERÍODO*</label>
+                  <select class="form-control rounded-pill" name="periodo" required>
+                    {% for periodo in periodos %}
+                      <option value="{{ periodo.id }}" {% if periodo.id == lista.lista.periodo.id %}selected{% endif %}>{{ periodo.nombre }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="frase">FRASE O LEMA</label>
+                  <input type="text" class="form-control rounded-pill" name="frase" value="{{ lista.lista.frase|default:'' }}" placeholder="Opcional">
+                </div>
+
+                <div class="form-group">
+                  <label for="imagen">IMAGEN (Logo o símbolo)</label>
+                  <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="imagen{{ lista.lista.id }}" name="imagen" accept="image/jpeg,image/png,image/gif">
+                    <label class="custom-file-label" for="imagen{{ lista.lista.id }}">{% if lista.lista.imagen %}Cambiar imagen{% else %}Seleccionar imagen{% endif %}</label>
+                  </div>
+                  {% if lista.lista.imagen %}
+                    <small class="form-text text-muted">Imagen actual: <a href="{{ lista.lista.imagen.url }}" target="_blank">{{ lista.lista.imagen.name }}</a></small>
+                  {% endif %}
+                </div>
+
+                <div class="form-group">
+                  <label for="color">COLOR REPRESENTATIVO</label>
+                  <input type="text" class="form-control rounded-pill" id="color{{ lista.lista.id }}" name="color" value="{{ lista.lista.color }}" placeholder="Ej: azul, rojo, #007bff">
+                  <small class="form-text text-muted">Color actual: {{ lista.lista.color|default:"Sin color" }}</small>
+                </div>
+
+                <div class="form-group text-center mt-4">
+                  <button type="submit" class="btn btn-primary rounded-pill px-4 mr-2">
+                    <i class="la la-save"></i> GUARDAR
+                  </button>
+                  <button type="button" class="btn btn-secondary rounded-pill px-4" data-dismiss="modal">
+                    <i class="la la-times"></i> CANCELAR
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  {% block scripts %}
+  <script>
+  $(document).ready(function() {
+    // Manejar el clic en el botón eliminar - SWEETALERT2 ELEGANTE
+    $('.btn-eliminar-lista').on('click', function(e) {
+      e.preventDefault();
+      const listaId = $(this).data('lista-id');
+      const $card = $(this).closest('.card');
+      const nombreLista = $card.find('.card-title').text().trim();
+      
+      // Mostrar SweetAlert2 elegante
+      Swal.fire({
+        title: '¿Eliminar Lista?',
+        text: `¿Desea eliminar la lista "${nombreLista}"?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar',
+        customClass: {
+          confirmButton: 'btn btn-danger me-2',
+          cancelButton: 'btn btn-secondary'
+        },
+        buttonsStyling: false
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Crear formulario dinámico
+          const form = document.createElement('form');
+          form.method = 'POST';
+          form.action = `{% url 'eliminar_lista' 0 %}`.replace('0', listaId);
+          
+          // Agregar token CSRF
+          const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+          const csrfInput = document.createElement('input');
+          csrfInput.type = 'hidden';
+          csrfInput.name = 'csrfmiddlewaretoken';
+          csrfInput.value = csrfToken;
+          form.appendChild(csrfInput);
+          
+          // Agregar al DOM y enviar
+          document.body.appendChild(form);
+          form.submit();
+        }
+      });
+    });
+  });
+  </script>
+  {% endblock %}
+
+  <!-- Modal Agregar Lista -->
+  <div class="modal fade" id="modalAgregarLista" tabindex="-1" role="dialog" aria-labelledby="modalAgregarListaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content p-4">
+        <div class="modal-header border-0">
+          <h5 class="modal-title w-100 text-center font-weight-bold" id="modalAgregarListaLabel">AGREGAR NUEVA LISTA</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="{% url 'nueva_lista' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+              <div class="form-group col-md-6">
+                <label for="nombre_lista">NOMBRE DE LA LISTA*</label>
+                <input type="text" class="form-control rounded-pill" name="nombre_lista" required placeholder="Ej: Lista A, Futuro Estudiantil, etc.">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="periodo">PERÍODO*</label>
+                <select class="form-control rounded-pill" name="periodo" required>
+                  {% for periodo in periodos %}
+                    <option value="{{ periodo.id }}" {% if periodo.id == periodo_actual.id %}selected{% endif %}>{{ periodo.nombre }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+  
+            <div class="form-group">
+              <label for="frase">FRASE O LEMA</label>
+              <input type="text" class="form-control rounded-pill" name="frase" placeholder="Opcional">
+            </div>
+  
+            <div class="form-group">
+              <label for="imagen">IMAGEN (Logo o símbolo)</label>
+              <div class="form-group">
+                <input type="file" class="form-control" id="evidencia" name="imagen" accept="image/jpeg,image/png,image/gif">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="color">COLOR REPRESENTATIVO</label>
+              <input type="text" class="form-control rounded-pill" id="color" name="color" value="azul" placeholder="Ej: azul, rojo, #007bff">
+            </div>
+  
+            <div class="form-group text-center mt-4">
+              <button type="submit" class="btn btn-primary rounded-pill px-4 mr-2">
+                <i class="la la-save"></i> GUARDAR
+              </button>
+              <button type="button" class="btn btn-secondary rounded-pill px-4" data-dismiss="modal">
+                <i class="la la-times"></i> CANCELAR
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock contenido %}
+
+{% block extra_js %}
+{{ block.super }}
+<!-- Script para manejar la eliminación de listas -->
+<script src="{% static 'elecciones/js/lista.js' %}"></script>
+{% endblock %}

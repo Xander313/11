@@ -1,0 +1,54 @@
+[
+{
+  "model": "usuarios.usuarios",
+  "pk": 62,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$SdDC2698sYt2mARDEAUH7r$TE55KkKokayk9JgrbIi3Ty93sTL8vNxaL8+BoyMthvI=",
+    "last_login": "2025-10-14T15:51:38.145Z",
+    "is_superuser": false,
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-10-14T15:08:11.259Z",
+    "username": "1754298626",
+    "nombre": "jhonn",
+    "apellido": "roldan",
+    "email": "alex.31roldan@gmail.com",
+    "id_rol": 2,
+    "activo": true,
+    "imagen": "",
+    "periodo": null,
+    "plain_password": "kDYxcJO9",
+    "primer_inicio": false,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "usuarios.usuarios",
+  "pk": 65,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$TBnkBwkbSBLobIjGfKAWoF$2dEr8/1pAqaygzmE2L9Dl66IRg78SlMcO367zbj6OH0=",
+    "last_login": "2025-10-21T17:45:48.429Z",
+    "is_superuser": false,
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-10-14T15:56:02.084Z",
+    "username": "0550214019",
+    "nombre": "Alex",
+    "apellido": "Iza",
+    "email": "axel.iza2003@gmail.com",
+    "id_rol": 8,
+    "activo": true,
+    "imagen": "",
+    "periodo": null,
+    "plain_password": "0v7PPJb5",
+    "primer_inicio": false,
+    "groups": [],
+    "user_permissions": []
+  }
+}
+]

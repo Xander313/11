@@ -1,0 +1,35 @@
+[
+{
+  "model": "elecciones.lista",
+  "pk": 67,
+  "fields": {
+    "nombre_lista": "LOS LEONES",
+    "frase": "LOS MEJORES",
+    "imagen": "listas/leon_2hGXtlO.jpeg",
+    "periodo": 26,
+    "color": "azul"
+  }
+},
+{
+  "model": "elecciones.lista",
+  "pk": 68,
+  "fields": {
+    "nombre_lista": "LAS TORTUGAS",
+    "frase": "A PASO LENTO",
+    "imagen": "listas/tortuga_fEf8fMx.jpeg",
+    "periodo": 26,
+    "color": "azul"
+  }
+},
+{
+  "model": "elecciones.lista",
+  "pk": 69,
+  "fields": {
+    "nombre_lista": "LOS CAPIBARAS",
+    "frase": "POR QUIEN VAN A BOTAR",
+    "imagen": "listas/capi_evQgnq1.jpeg",
+    "periodo": 26,
+    "color": "ROJO"
+  }
+}
+]

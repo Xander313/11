@@ -1,0 +1,12 @@
+[
+{
+  "model": "periodo.periodo",
+  "pk": 26,
+  "fields": {
+    "nombre": "PERIODO ACADÉMICO SIERRA",
+    "fecha_inicio": "2025-05-05",
+    "fecha_fin": "2026-02-26",
+    "estado": "Activo"
+  }
+}
+]

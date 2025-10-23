@@ -1,0 +1,300 @@
+{% extends 'plantilla.html' %}
+
+{% block contenido %}
+
+<br>
+<div class="card mb-3">
+    <div class="card-body bg-light text-center">
+        <h5 class="card-title mb-3"><strong>Gestión de Roles y Usuarios</strong></h5>
+        <p class="card-text mb-4">
+            Administra los roles y usuarios del sistema. Puedes agregar, editar o eliminar roles (máximo 4) y gestionar
+            los usuarios asociados a cada uno.
+            <br>Los roles permiten definir los permisos y accesos dentro del sistema.
+        </p>
+    </div>
+    <nav class="navbar navbar-light bg-light border rounded shadow-sm">
+        <div class="container-fluid justify-content-around">
+            <a href="{% url 'agregarrol' %}" class="text-decoration-none text-center position-relative">
+                <div class="position-relative">
+                    <i class="la la-user-shield text-primary fs-2 d-block"></i>
+                    <span class="position-absolute" style="top: -15px; left: 70%; z-index: 1000;">
+                        <i class="fas fa-hand-point-left"
+                            style="font-size: 2rem; transform: scaleX(-1) rotate(-30deg); color: #1cbed3e6;"></i>
+                    </span>
+                </div>
+                <div>
+                    <strong class="d-block">Roles</strong>
+                    <small class="text-muted">Crear, editar, eliminar</small>
+                </div>
+            </a>
+
+            <a href="{% url 'agregarUsuario' %}" class="text-decoration-none text-center">
+                <i class="la la-users-cog text-muted fs-2 d-block"></i>
+                <div>
+                    <strong class="d-block">Usuarios</strong>
+                    <small class="text-muted">Asignar roles y accesos</small>
+                </div>
+            </a>
+        </div>
+    </nav>
+</div>
+
+
+<!-- Listar Roles -->
+<section id="listar-roles" class="row match-height">
+    <div class="col-sm-12">
+        <div class="card">
+
+            <div class="card-header">
+                <div class="row w-100">
+                    <div class="col-12 col-md-6 d-flex align-items-center mb-2 mb-md-0">
+                        <h4 class="card-title mb-0">Lista de Roles</h4>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="d-flex flex-column flex-md-row align-items-stretch justify-content-md-end">
+                            <button type="button" class="btn btn-primary rounded-pill px-4" data-toggle="modal"
+                                data-target="#modalAgregarRol">
+                                <i class="la la-plus"></i> NUEVO ROL
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-content">
+                <div class="card-body">
+                    <!-- Tabla de roles -->
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Nombre del Rol</th>
+                                    <th>Descripción</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for rol in roles %}
+                                <tr>
+                                    <td>{{ rol.nombre_rol }}</td>
+                                    <td>{{ rol.descripcion|default:"Sin descripción" }}</td>
+
+                                    <td>
+                                        <div class="d-flex gap-1">
+                                            <button type="button" class="btn btn-sm btn-outline-primary"
+                                                data-toggle="modal" data-target="#editarRolModal{{ rol.id }}"
+                                                title="Editar" data-toggle-tooltip="tooltip" data-placement="top">
+                                                <i class="la la-edit"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-outline-danger"
+                                                data-toggle="modal" data-target="#eliminarRolModal{{ rol.id }}"
+                                                title="Eliminar" data-toggle-tooltip="tooltip" data-placement="top">
+                                                <i class="la la-trash"></i>
+                                            </button>
+                                        </div>
+
+                                        <!-- Modal de Confirmación -->
+                                        <div class="modal fade" id="eliminarRolModal{{ rol.id }}" tabindex="-1"
+                                            role="dialog" aria-labelledby="eliminarRolModalLabel{{ rol.id }}"
+                                            aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title"><i
+                                                                class="la la-exclamation-triangle text-danger"></i>
+                                                            Confirmar Eliminación</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Cerrar">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body text-center">
+                                                        <i class="la la-exclamation-triangle text-warning" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                                                        <h5 class="mb-2">¿Eliminar rol <strong>{{ rol.nombre_rol|default:'sin nombre' }}</strong>?</h5>
+                                                        <p class="text-danger mb-2">Esta acción no se puede deshacer.</p>
+                                                    </div>
+                                                    <div class="form-group text-center mt-4 mb-3">
+                                                        <form method="POST" action="{% url 'eliminarrol' rol.id %}"
+                                                            style="display: inline-block;">
+                                                            {% csrf_token %}
+                                                            <button type="submit"
+                                                                class="btn btn-danger rounded-pill px-4 mr-2">
+                                                                <i class="la la-trash"></i> ELIMINAR
+                                                            </button>
+                                                        </form>
+                                                        <button type="button"
+                                                            class="btn btn-secondary rounded-pill px-4"
+                                                            data-dismiss="modal">
+                                                            <i class="la la-times"></i> CANCELAR
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <!-- Modal Editar Rol (Debe ir dentro del bucle for) -->
+                                <div class="modal fade" id="editarRolModal{{ rol.id }}" tabindex="-1" role="dialog"
+                                    aria-labelledby="editarRolModalLabel{{ rol.id }}" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content p-4">
+                                            <div class="modal-header border-0">
+                                                <h5 class="modal-title w-100 text-center font-weight-bold"
+                                                    id="editarRolModalLabel{{ rol.id }}">EDITAR ROL</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Cerrar">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form method="POST" action="{% url 'editar_rol' rol.id %}">
+                                                    {% csrf_token %}
+                                                    <div class="form-group">
+                                                        <label for="nombre_rol" class="font-weight-bold">NOMBRE DEL
+                                                            ROL</label>
+                                                        <input type="text" class="form-control rounded-pill"
+                                                            name="nombre_rol" value="{{ rol.nombre_rol }}" required>
+                                                        <small class="form-text text-muted">El nombre del rol debe ser
+                                                            único (máximo 50 caracteres).</small>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="descripcion" class="font-weight-bold">DESCRIPCIÓN
+                                                            (Opcional)</label>
+                                                        <textarea class="form-control" name="descripcion" rows="3"
+                                                            placeholder="Proporcione una descripción del rol, si lo desea.">{{ rol.descripcion }}</textarea>
+                                                    </div>
+                                                    <div class="d-flex justify-content-center gap-3 my-4">
+                                                        <button type="submit" class="btn btn-primary rounded-pill px-4">
+                                                            <i class="la la-save"></i> GUARDAR
+                                                        </button>
+                                                        &nbsp;&nbsp;
+                                                        <button type="button"
+                                                            class="btn btn-secondary rounded-pill px-4"
+                                                            data-dismiss="modal">
+                                                            <i class="la la-times"></i> CANCELAR
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Fin del Modal Editar Rol -->
+                                {% empty %}
+                                <tr>
+                                    <td colspan="3" class="text-center">No hay roles registrados.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Modal Agregar Rol -->
+<div class="modal fade" id="modalAgregarRol" tabindex="-1" role="dialog" aria-labelledby="modalAgregarRolLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content p-4">
+            <div class="modal-header border-0">
+                <h5 class="modal-title w-100 text-center font-weight-bold">NUEVO ROL</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{% url 'guardarrol' %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="nombre_rol" class="font-weight-bold">NOMBRE DEL ROL <span
+                                class="text-danger">*</span></label>
+                        <input type="text" class="form-control rounded-pill" id="nombre_rol" name="nombre_rol" required>
+                        <small class="form-text text-muted">El nombre del rol debe ser único (máximo 50
+                            caracteres).</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="descripcion" class="font-weight-bold">DESCRIPCIÓN (Opcional)</label>
+                        <textarea class="form-control" id="descripcion" name="descripcion" rows="3"
+                            placeholder="Proporcione una descripción del rol, si lo desea."></textarea>
+                    </div>
+                    <div class="d-flex justify-content-center gap-3 my-4">
+                        <button type="submit" class="btn btn-primary rounded-pill px-4">
+                            <i class="la la-save"></i> GUARDAR
+                        </button>
+                        &nbsp;&nbsp;
+                        <button type="button" class="btn btn-secondary rounded-pill px-4" data-dismiss="modal">
+                            <i class="la la-times"></i> CANCELAR
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Si la cantidad de roles es 4 o más, deshabilita el botón de agregar rol
+    var cantidadRoles = "{{ cantidad_roles|escapejs }}";
+    if (cantidadRoles >= 4) {
+        document.getElementById('btnAgregarRol').disabled = true;
+    }
+</script>
+
+<script>
+    // Función para inicializar DataTables de manera segura
+    function initDataTables() {
+        // Verificar si jQuery está disponible
+        if (typeof jQuery === 'undefined') {
+            console.error('jQuery no está cargado');
+            return;
+        }
+
+        // Usar jQuery.ready para asegurar que el DOM esté completamente cargado
+        jQuery(function ($) {
+            console.log('jQuery version:', $.fn.jquery);
+            console.log('DataTables available:', !!$.fn.DataTable);
+
+            var $table = $('table');
+            console.log('Table exists:', $table.length > 0);
+
+            if ($table.length && $.fn.DataTable) {
+                try {
+                    $table.DataTable({
+                        language: {
+                            url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                        },
+                        responsive: true,
+                        pageLength: 10,
+                        lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, 'Todos']],
+                        columnDefs: [
+                            { orderable: false, targets: 2 }, // Deshabilitar ordenación en columna de acciones
+                            { width: '10%', targets: 2 } // Ajustar ancho de columna de acciones
+                        ],
+                        order: [[0, 'asc']], // Ordenar por nombre de rol por defecto
+                        scrollX: true // Habilitar scroll horizontal
+                    });
+                    console.log('DataTables initialized successfully');
+                } catch (error) {
+                    console.error('Error initializing DataTables:', error);
+                }
+            } else {
+                console.warn('DataTables initialization failed');
+                console.warn('$ type:', typeof $);
+                console.warn('$.fn.DataTable:', $.fn.DataTable);
+                console.warn('Table length:', $table.length);
+            }
+        });
+    }
+
+    // Intentar inicializar DataTables
+    initDataTables();
+
+    // Si falla la primera vez, intentar de nuevo después de un breve retraso
+    setTimeout(initDataTables, 500);
+</script>
+
+<!--/ Modal Agregar Rol -->
+{% endblock %}

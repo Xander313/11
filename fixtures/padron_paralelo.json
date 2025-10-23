@@ -1,0 +1,42 @@
+[
+{
+  "model": "padron.paralelo",
+  "pk": 142,
+  "fields": {
+    "nombre": "A",
+    "grado": 117
+  }
+},
+{
+  "model": "padron.paralelo",
+  "pk": 143,
+  "fields": {
+    "nombre": "B",
+    "grado": 117
+  }
+},
+{
+  "model": "padron.paralelo",
+  "pk": 144,
+  "fields": {
+    "nombre": "A",
+    "grado": 118
+  }
+},
+{
+  "model": "padron.paralelo",
+  "pk": 145,
+  "fields": {
+    "nombre": "B",
+    "grado": 118
+  }
+},
+{
+  "model": "padron.paralelo",
+  "pk": 146,
+  "fields": {
+    "nombre": "A",
+    "grado": 119
+  }
+}
+]
